@@ -14,12 +14,28 @@ import java.awt.event.MouseMotionListener;
  */
 public class GameState {
 
+    public boolean gameOver ;
+
+    private boolean keyUP , keyDOWN , keyRIGHT , keyLEFT ;
+    private boolean mousePress ;
+    private int mouseX , mouseY ;
     private KeyHandler keyHandler;
     private MouseHandler mouseHandler;
 
     public GameState() {
         //
         // Initialize the game state and all elements ...
+        //
+        gameOver = false ;
+        //
+        keyDOWN = false ;
+        keyLEFT = false ;
+        keyRIGHT = false ;
+        keyUP = false ;
+        //
+        mousePress = false ;
+        mouseX = 0 ;
+        mouseY = 0 ;
         //
         keyHandler = new KeyHandler();
         mouseHandler = new MouseHandler();
@@ -59,10 +75,46 @@ public class GameState {
 
         @Override
         public void keyPressed(KeyEvent e) {
+            switch (e.getKeyCode())
+            {
+                case KeyEvent.VK_LEFT :
+                    keyLEFT = true ;
+                    break;
+
+                case KeyEvent.VK_RIGHT :
+                    keyRIGHT = true ;
+                    break;
+
+                case KeyEvent.VK_DOWN :
+                    keyDOWN = true ;
+                    break;
+
+                case KeyEvent.VK_UP :
+                    keyUP = true ;
+                    break;
+            }
         }
 
         @Override
         public void keyReleased(KeyEvent e) {
+            switch (e.getKeyCode())
+            {
+                case KeyEvent.VK_LEFT :
+                    keyLEFT = false ;
+                    break;
+
+                case KeyEvent.VK_RIGHT :
+                    keyRIGHT = false ;
+                    break;
+
+                case KeyEvent.VK_DOWN :
+                    keyDOWN = false ;
+                    break;
+
+                case KeyEvent.VK_UP :
+                    keyUP = false ;
+                    break;
+            }
         }
 
     }
@@ -78,10 +130,12 @@ public class GameState {
 
         @Override
         public void mousePressed(MouseEvent e) {
+            mousePress = true ;
         }
 
         @Override
         public void mouseReleased(MouseEvent e) {
+            mousePress = false ;
         }
 
         @Override
@@ -98,6 +152,8 @@ public class GameState {
 
         @Override
         public void mouseMoved(MouseEvent e) {
+            mouseX = e.getX() ;
+            mouseY = e.getY() ;
         }
     }
 }

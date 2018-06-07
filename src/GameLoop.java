@@ -49,6 +49,7 @@ public class GameLoop implements Runnable {
                 //
                 state.update();
                 canvas.render(state);
+                gameOver = state.gameOver ;
                 //
                 long delay = (1000 / FPS) - (System.currentTimeMillis() - start);
                 if (delay > 0)
@@ -56,5 +57,6 @@ public class GameLoop implements Runnable {
             } catch (InterruptedException ex) {
             }
         }
+        canvas.render(state);
     }
 }
