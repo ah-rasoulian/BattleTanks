@@ -55,6 +55,7 @@ public class GameLoop implements Runnable {
                 if (delay > 0)
                     Thread.sleep(delay);
             } catch (InterruptedException ex) {
+                System.out.println(ex);
             }
         }
         canvas.render(state);

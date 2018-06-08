@@ -22,7 +22,7 @@ public class Main {
             public void run() {
                 GameFrame frame = new GameFrame("Battle Tanks");
                 frame.setLocationRelativeTo(null); // put frame at center of screen
-                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.setVisible(true);
                 frame.initBufferStrategy();
                 // Create and execute the game-loop

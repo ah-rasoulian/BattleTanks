@@ -26,16 +26,24 @@ public class GameFrame extends JFrame {
     private BufferStrategy bufferStrategy;
 
     private BufferedImage menuImage ;
+    private BufferedImage tank ;
+    private BufferedImage tanksGun ;
 
     public GameFrame(String title) {
         super(title);
         setResizable(false);
         setSize(GAME_WIDTH, GAME_HEIGHT);
         //
+        // play the menu music
+        //
+
+        //
         // Initialize the JFrame ...
         //
         try {
             menuImage = ImageIO.read(new File("menu.png")) ;
+            tank = ImageIO.read(new File("tank.png"));
+            tanksGun = ImageIO.read(new File("tankGun.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -105,6 +113,9 @@ public class GameFrame extends JFrame {
             //
             g2d.setColor(Color.GRAY);
             g2d.fillRect(0 , 0 , GAME_WIDTH , GAME_HEIGHT);
+
+            g2d.drawImage(tank , state.tankLocationX , state.tankLocationY , null);
+            g2d.drawImage(tanksGun , state.tankLocationX + 20 , state.tankLocationY + 15 , null);
         }
     }
 

@@ -24,12 +24,16 @@ public class GameState {
     private KeyHandler keyHandler;
     private MouseHandler mouseHandler;
 
+    public int tankLocationX;
+    public int tankLocationY;
+
     public GameState() {
         //
         // Initialize the game state and all elements ...
         //
         menuIsFinished = false ;
-        savingIsAvailable = true ;
+        savingIsAvailable = false ;
+        // in the beginning of menu , it begins with new game suggestion
         menuChooserPlace = 2 ;
         menuYPosition = 485 ;
         menuKeyDOWN = false ;
@@ -46,6 +50,9 @@ public class GameState {
         mouseX = 0 ;
         mouseY = 0 ;
         //
+        tankLocationX = 100 ;
+        tankLocationY = 100 ;
+        //
         keyHandler = new KeyHandler();
         mouseHandler = new MouseHandler();
     }
@@ -58,7 +65,8 @@ public class GameState {
         if (!menuIsFinished) {
             if (menuKeyUP) {
                 if (menuChooserPlace > 1)
-                    menuChooserPlace--;
+                    if ( ! (menuChooserPlace == 2 & !savingIsAvailable))
+                        menuChooserPlace--;
                 menuKeyUP = false;
             }
             if (menuKeyDOWN) {
@@ -79,11 +87,19 @@ public class GameState {
         }
         else {
 
+            if (keyUP)
+                tankLocationY -= 8 ;
+            if (keyDOWN)
+                tankLocationY += 8 ;
+            if (keyRIGHT)
+                tankLocationX += 8 ;
+            if (keyLEFT)
+                tankLocationX -= 8 ;
+            //
+            // Update the state of all game elements
+            //  based on user input and elapsed time ...
+            //
         }
-        //
-        // Update the state of all game elements
-        //  based on user input and elapsed time ...
-        //
     }
 
 
@@ -106,6 +122,7 @@ public class GameState {
         @Override
         public void keyPressed(KeyEvent e) {
             if (!menuIsFinished) {
+                // handling the keys pressed in menu
                 switch (e.getKeyCode()) {
                     case KeyEvent.VK_ENTER :
                         menuKeyENTER = true ;
@@ -119,6 +136,7 @@ public class GameState {
                 }
             }
             else {
+                // handling the keys pressed in game
                 switch (e.getKeyCode()) {
                     case KeyEvent.VK_LEFT:
                         keyLEFT = true;
@@ -142,6 +160,7 @@ public class GameState {
         @Override
         public void keyReleased(KeyEvent e) {
             if (menuIsFinished) {
+                // just handles the release of keys in game structure
                 switch (e.getKeyCode()) {
                     case KeyEvent.VK_LEFT:
                         keyLEFT = false;
