@@ -1,6 +1,8 @@
 /*** In The Name of Allah ***/
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -115,7 +117,25 @@ public class GameFrame extends JFrame {
             g2d.fillRect(0 , 0 , GAME_WIDTH , GAME_HEIGHT);
 
             g2d.drawImage(tank , state.tankLocationX , state.tankLocationY , null);
-            g2d.drawImage(tanksGun , state.tankLocationX + 20 , state.tankLocationY + 15 , null);
+
+            //calculating the rotation required for the tank's gun base on where the mouse is
+            double rotationRequired ;
+            if ( state.getMouseX() - state.tankLocationX > 0 )
+                rotationRequired = Math.atan( ( (double)(state.getMouseY() - state.tankLocationY) ) / ( (double)(state.getMouseX() - state.tankLocationX) ) );
+            else if ( state.getMouseX() - state.tankLocationX < 0 )
+                rotationRequired = 135 + Math.atan( ( (double)(state.getMouseY() - state.tankLocationY) ) / ( (double)(state.getMouseX() - state.tankLocationX) ) );
+            else
+            {
+                if (state.getMouseY() - state.tankLocationY > 0)
+                    rotationRequired = Math.toRadians(90);
+                else
+                    rotationRequired = Math.toRadians(-90);
+
+            }
+            // handle the tank's gun and rotate it and then draw it
+            AffineTransform tx = AffineTransform.getRotateInstance( rotationRequired ,tanksGun.getWidth()/2 - 15 , tanksGun.getHeight()/2 );
+            AffineTransformOp op = new AffineTransformOp (tx , AffineTransformOp.TYPE_BILINEAR);
+            g2d.drawImage( op.filter(tanksGun , null) , state.tankLocationX + 20 , state.tankLocationY + 15 , null);
         }
     }
 

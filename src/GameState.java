@@ -113,6 +113,13 @@ public class GameState {
         return mouseHandler;
     }
 
+    public int getMouseY() {
+        return mouseY;
+    }
+
+    public int getMouseX() {
+        return mouseX;
+    }
 
 
     /**
