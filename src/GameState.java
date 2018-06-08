@@ -1,10 +1,6 @@
 /*** In The Name of Allah ***/
 
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
+import java.awt.event.*;
 
 /**
  * This class holds the state of the game and all of its elements.
@@ -16,7 +12,13 @@ public class GameState {
 
     public boolean gameOver ;
 
+    public boolean menuIsFinished ;
+    public boolean savingIsAvailable ;
+    public int menuChooserPlace ;
+    public int menuYPosition ;
+
     private boolean keyUP , keyDOWN , keyRIGHT , keyLEFT ;
+    private boolean menuKeyUP , menuKeyDOWN , menuKeyENTER;
     private boolean mousePress ;
     private int mouseX , mouseY ;
     private KeyHandler keyHandler;
@@ -25,6 +27,13 @@ public class GameState {
     public GameState() {
         //
         // Initialize the game state and all elements ...
+        //
+        menuIsFinished = false ;
+        savingIsAvailable = true ;
+        menuChooserPlace = 2 ;
+        menuYPosition = 485 ;
+        menuKeyDOWN = false ;
+        menuKeyUP = false ;
         //
         gameOver = false ;
         //
@@ -45,6 +54,32 @@ public class GameState {
      * The method which updates the game state.
      */
     public void update() {
+        // update the menu
+        if (!menuIsFinished) {
+            if (menuKeyUP) {
+                if (menuChooserPlace > 1)
+                    menuChooserPlace--;
+                menuKeyUP = false;
+            }
+            if (menuKeyDOWN) {
+                if (menuChooserPlace < 3)
+                    menuChooserPlace++;
+                menuKeyDOWN = false;
+            }
+            if (menuKeyENTER)
+                menuIsFinished = true ;
+
+            // y positions : exit 530 , play new 485 , play previous 440
+            if (menuChooserPlace == 1)
+                menuYPosition = 440 ;
+            if (menuChooserPlace == 2)
+                menuYPosition = 485 ;
+            if (menuChooserPlace == 3)
+                menuYPosition = 530 ;
+        }
+        else {
+
+        }
         //
         // Update the state of all game elements
         //  based on user input and elapsed time ...
@@ -67,53 +102,63 @@ public class GameState {
     /**
      * The keyboard handler.
      */
-    class KeyHandler implements KeyListener {
-
-        @Override
-        public void keyTyped(KeyEvent e) {
-        }
-
+    class KeyHandler extends KeyAdapter {
         @Override
         public void keyPressed(KeyEvent e) {
-            switch (e.getKeyCode())
-            {
-                case KeyEvent.VK_LEFT :
-                    keyLEFT = true ;
-                    break;
+            if (!menuIsFinished) {
+                switch (e.getKeyCode()) {
+                    case KeyEvent.VK_ENTER :
+                        menuKeyENTER = true ;
+                        break;
+                    case KeyEvent.VK_DOWN :
+                        menuKeyDOWN = true ;
+                        break;
+                    case KeyEvent.VK_UP :
+                        menuKeyUP = true ;
+                        break;
+                }
+            }
+            else {
+                switch (e.getKeyCode()) {
+                    case KeyEvent.VK_LEFT:
+                        keyLEFT = true;
+                        break;
 
-                case KeyEvent.VK_RIGHT :
-                    keyRIGHT = true ;
-                    break;
+                    case KeyEvent.VK_RIGHT:
+                        keyRIGHT = true;
+                        break;
 
-                case KeyEvent.VK_DOWN :
-                    keyDOWN = true ;
-                    break;
+                    case KeyEvent.VK_DOWN:
+                        keyDOWN = true;
+                        break;
 
-                case KeyEvent.VK_UP :
-                    keyUP = true ;
-                    break;
+                    case KeyEvent.VK_UP:
+                        keyUP = true;
+                        break;
+                }
             }
         }
 
         @Override
         public void keyReleased(KeyEvent e) {
-            switch (e.getKeyCode())
-            {
-                case KeyEvent.VK_LEFT :
-                    keyLEFT = false ;
-                    break;
+            if (menuIsFinished) {
+                switch (e.getKeyCode()) {
+                    case KeyEvent.VK_LEFT:
+                        keyLEFT = false;
+                        break;
 
-                case KeyEvent.VK_RIGHT :
-                    keyRIGHT = false ;
-                    break;
+                    case KeyEvent.VK_RIGHT:
+                        keyRIGHT = false;
+                        break;
 
-                case KeyEvent.VK_DOWN :
-                    keyDOWN = false ;
-                    break;
+                    case KeyEvent.VK_DOWN:
+                        keyDOWN = false;
+                        break;
 
-                case KeyEvent.VK_UP :
-                    keyUP = false ;
-                    break;
+                    case KeyEvent.VK_UP:
+                        keyUP = false;
+                        break;
+                }
             }
         }
 

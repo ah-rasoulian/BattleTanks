@@ -1,9 +1,12 @@
 /*** In The Name of Allah ***/
 
-import java.awt.Graphics2D;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.awt.image.BufferStrategy;
-import javax.swing.JFrame;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
+import javax.swing.*;
 
 /**
  * The window on which the rendering is performed.
@@ -22,6 +25,8 @@ public class GameFrame extends JFrame {
 
     private BufferStrategy bufferStrategy;
 
+    private BufferedImage menuImage ;
+
     public GameFrame(String title) {
         super(title);
         setResizable(false);
@@ -29,6 +34,11 @@ public class GameFrame extends JFrame {
         //
         // Initialize the JFrame ...
         //
+        try {
+            menuImage = ImageIO.read(new File("menu.png")) ;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -47,30 +57,55 @@ public class GameFrame extends JFrame {
      * Game rendering with triple-buffering using BufferStrategy.
      */
     public void render(GameState state) {
-        // Get a new graphics context to render the current frame
-        Graphics2D graphics = (Graphics2D) bufferStrategy.getDrawGraphics();
-        try {
-            // Do the rendering
-            doRendering(graphics, state);
-        } finally {
-            // Dispose the graphics, because it is no more needed
-            graphics.dispose();
-        }
-        // Display the buffer
-        bufferStrategy.show();
-        // Tell the system to do the drawing NOW;
-        // otherwise it can take a few extra ms and will feel jerky!
-        Toolkit.getDefaultToolkit().sync();
+        // Render single frame
+        do {
+            // The following loop ensures that the contents of the drawing buffer
+            // are consistent in case the underlying surface was recreated
+            do {
+                // Get a new graphics context every time through the loop
+                // to make sure the strategy is validated
+                Graphics2D graphics = (Graphics2D) bufferStrategy.getDrawGraphics();
+                try {
+                    doRendering(graphics, state);
+                } finally {
+                    // Dispose the graphics
+                    graphics.dispose();
+                }
+                // Repeat the rendering if the drawing buffer contents were restored
+            } while (bufferStrategy.contentsRestored());
+
+            // Display the buffer
+            bufferStrategy.show();
+            // Tell the system to do the drawing NOW;
+            // otherwise it can take a few extra ms and will feel jerky!
+            Toolkit.getDefaultToolkit().sync();
+
+            // Repeat the rendering if the drawing buffer was lost
+        } while (bufferStrategy.contentsLost());
     }
 
     /**
      * Rendering all game elements based on the game state.
      */
     private void doRendering(Graphics2D g2d, GameState state) {
-        //
-        // Draw all game elements according
-        //  to the game 'state' using 'g2d' ...
-        //
+        if (!state.menuIsFinished)
+        {
+            //Draw the menu image
+            g2d.drawImage(menuImage , 0 , 0 , null);
+            //Draw the chooser menu item
+            g2d.setColor(Color.red);
+            g2d.fillOval(30, state.menuYPosition, 30, 30);
+
+        }
+        else
+        {
+            //
+            // Draw all game elements according
+            //  to the game 'state' using 'g2d' ...
+            //
+            g2d.setColor(Color.GRAY);
+            g2d.fillRect(0 , 0 , GAME_WIDTH , GAME_HEIGHT);
+        }
     }
 
 }
