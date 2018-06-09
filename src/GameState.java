@@ -19,7 +19,7 @@ public class GameState {
 
     private boolean keyUP , keyDOWN , keyRIGHT , keyLEFT ;
     private boolean menuKeyUP , menuKeyDOWN , menuKeyENTER;
-    private boolean mousePress ;
+    private boolean mouseLeftPress , mouseRightPress ;
     private int mouseX , mouseY ;
     private KeyHandler keyHandler;
     private MouseHandler mouseHandler;
@@ -46,7 +46,8 @@ public class GameState {
         keyRIGHT = false ;
         keyUP = false ;
         //
-        mousePress = false ;
+        mouseLeftPress = false ;
+        mouseRightPress = false ;
         mouseX = 0 ;
         mouseY = 0 ;
         //
@@ -201,12 +202,12 @@ public class GameState {
 
         @Override
         public void mousePressed(MouseEvent e) {
-            mousePress = true ;
+            mouseLeftPress = true ;
         }
 
         @Override
         public void mouseReleased(MouseEvent e) {
-            mousePress = false ;
+            mouseLeftPress = false ;
         }
 
         @Override

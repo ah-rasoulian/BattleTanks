@@ -117,16 +117,17 @@ public class GameFrame extends JFrame {
             g2d.fillRect(0 , 0 , GAME_WIDTH , GAME_HEIGHT);
 
             g2d.drawImage(tank , state.tankLocationX , state.tankLocationY , null);
-
+            int tankCenterX = state.tankLocationX + tank.getWidth()/2 ;
+            int tankCenterY = state.tankLocationY + tank.getHeight()/2 ;
             //calculating the rotation required for the tank's gun base on where the mouse is
             double rotationRequired ;
-            if ( state.getMouseX() - state.tankLocationX > 0 )
-                rotationRequired = Math.atan( ( (double)(state.getMouseY() - state.tankLocationY) ) / ( (double)(state.getMouseX() - state.tankLocationX) ) );
-            else if ( state.getMouseX() - state.tankLocationX < 0 )
-                rotationRequired = 135 + Math.atan( ( (double)(state.getMouseY() - state.tankLocationY) ) / ( (double)(state.getMouseX() - state.tankLocationX) ) );
+            if ( state.getMouseX() - tankCenterX > 0 )
+                rotationRequired = Math.atan( ( (double)(state.getMouseY() - tankCenterY) ) / ( (double)(state.getMouseX() - tankCenterX) ) );
+            else if ( state.getMouseX() - tankCenterX < 0 )
+                rotationRequired = 135 + Math.atan( ( (double)(state.getMouseY() - tankCenterY) ) / ( (double)(state.getMouseX() - tankCenterX) ) );
             else
             {
-                if (state.getMouseY() - state.tankLocationY > 0)
+                if (state.getMouseY() - tankCenterY > 0)
                     rotationRequired = Math.toRadians(90);
                 else
                     rotationRequired = Math.toRadians(-90);
