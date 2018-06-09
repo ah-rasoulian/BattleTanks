@@ -1,26 +1,27 @@
 /*** In The Name of Allah ***/
 
+import javax.swing.*;
 import java.awt.event.*;
 
 /**
  * This class holds the state of the game and all of its elements.
  * This class also handles user inputs, which affect the game state.
  *
- * @author AmirHossein Rasulian and MohammadHossein Rashidi
+ * @author AmirHossein Rasulian and MohammadHasan Rashidi
  */
 public class GameState {
 
-    public boolean gameOver ;
+    public boolean gameOver;
 
-    public boolean menuIsFinished ;
-    public boolean savingIsAvailable ;
-    public int menuChooserPlace ;
-    public int menuYPosition ;
+    public boolean menuIsFinished;
+    public boolean savingIsAvailable;
+    public int menuChooserPlace;
+    public int menuYPosition;
 
-    private boolean keyUP , keyDOWN , keyRIGHT , keyLEFT ;
-    private boolean menuKeyUP , menuKeyDOWN , menuKeyENTER;
-    private boolean mouseLeftPress , mouseRightPress ;
-    private int mouseX , mouseY ;
+    private boolean keyUP, keyDOWN, keyRIGHT, keyLEFT;
+    private boolean menuKeyUP, menuKeyDOWN, menuKeyENTER;
+    private boolean mouseLeftPress, mouseRightPress;
+    private int mouseX, mouseY;
     private KeyHandler keyHandler;
     private MouseHandler mouseHandler;
 
@@ -31,28 +32,28 @@ public class GameState {
         //
         // Initialize the game state and all elements ...
         //
-        menuIsFinished = false ;
-        savingIsAvailable = false ;
+        menuIsFinished = false;
+        savingIsAvailable = false;
         // in the beginning of menu , it begins with new game suggestion
-        menuChooserPlace = 2 ;
-        menuYPosition = 485 ;
-        menuKeyDOWN = false ;
-        menuKeyUP = false ;
+        menuChooserPlace = 2;
+        menuYPosition = 485;
+        menuKeyDOWN = false;
+        menuKeyUP = false;
         //
-        gameOver = false ;
+        gameOver = false;
         //
-        keyDOWN = false ;
-        keyLEFT = false ;
-        keyRIGHT = false ;
-        keyUP = false ;
+        keyDOWN = false;
+        keyLEFT = false;
+        keyRIGHT = false;
+        keyUP = false;
         //
-        mouseLeftPress = false ;
-        mouseRightPress = false ;
-        mouseX = 0 ;
-        mouseY = 0 ;
+        mouseLeftPress = false;
+        mouseRightPress = false;
+        mouseX = 0;
+        mouseY = 0;
         //
-        tankLocationX = 100 ;
-        tankLocationY = 100 ;
+        tankLocationX = 100;
+        tankLocationY = 100;
         //
         keyHandler = new KeyHandler();
         mouseHandler = new MouseHandler();
@@ -66,7 +67,7 @@ public class GameState {
         if (!menuIsFinished) {
             if (menuKeyUP) {
                 if (menuChooserPlace > 1)
-                    if ( ! (menuChooserPlace == 2 & !savingIsAvailable))
+                    if (!(menuChooserPlace == 2 & !savingIsAvailable))
                         menuChooserPlace--;
                 menuKeyUP = false;
             }
@@ -75,27 +76,27 @@ public class GameState {
                     menuChooserPlace++;
                 menuKeyDOWN = false;
             }
-            if (menuKeyENTER)
-                menuIsFinished = true ;
-
+            if (menuKeyENTER && menuChooserPlace == 2)
+                menuIsFinished = true;
+            if (menuKeyENTER && menuChooserPlace == 3)
+                System.exit(0);
             // y positions : exit 530 , play new 485 , play previous 440
             if (menuChooserPlace == 1)
-                menuYPosition = 440 ;
+                menuYPosition = 440;
             if (menuChooserPlace == 2)
-                menuYPosition = 485 ;
+                menuYPosition = 485;
             if (menuChooserPlace == 3)
-                menuYPosition = 530 ;
-        }
-        else {
+                menuYPosition = 530;
+        } else {
 
             if (keyUP)
-                tankLocationY -= 8 ;
+                tankLocationY -= 8;
             if (keyDOWN)
-                tankLocationY += 8 ;
+                tankLocationY += 8;
             if (keyRIGHT)
-                tankLocationX += 8 ;
+                tankLocationX += 8;
             if (keyLEFT)
-                tankLocationX -= 8 ;
+                tankLocationX -= 8;
             //
             // Update the state of all game elements
             //  based on user input and elapsed time ...
@@ -107,9 +108,11 @@ public class GameState {
     public KeyListener getKeyListener() {
         return keyHandler;
     }
+
     public MouseListener getMouseListener() {
         return mouseHandler;
     }
+
     public MouseMotionListener getMouseMotionListener() {
         return mouseHandler;
     }
@@ -132,18 +135,17 @@ public class GameState {
             if (!menuIsFinished) {
                 // handling the keys pressed in menu
                 switch (e.getKeyCode()) {
-                    case KeyEvent.VK_ENTER :
-                        menuKeyENTER = true ;
+                    case KeyEvent.VK_ENTER:
+                        menuKeyENTER = true;
                         break;
-                    case KeyEvent.VK_DOWN :
-                        menuKeyDOWN = true ;
+                    case KeyEvent.VK_DOWN:
+                        menuKeyDOWN = true;
                         break;
-                    case KeyEvent.VK_UP :
-                        menuKeyUP = true ;
+                    case KeyEvent.VK_UP:
+                        menuKeyUP = true;
                         break;
                 }
-            }
-            else {
+            } else {
                 // handling the keys pressed in game
                 switch (e.getKeyCode()) {
                     case KeyEvent.VK_LEFT:
@@ -202,12 +204,24 @@ public class GameState {
 
         @Override
         public void mousePressed(MouseEvent e) {
-            mouseLeftPress = true ;
+            if (SwingUtilities.isRightMouseButton(e)) {
+                mouseRightPress = true;
+                System.out.println("rt");
+            } else {
+                mouseLeftPress = true;
+                System.out.println("lt");
+            }
         }
 
         @Override
         public void mouseReleased(MouseEvent e) {
-            mouseLeftPress = false ;
+            if (SwingUtilities.isRightMouseButton(e)) {
+                mouseRightPress = false;
+                System.out.println("rf");
+            } else {
+                mouseLeftPress = false;
+                System.out.println("lf");
+            }
         }
 
         @Override
@@ -224,8 +238,8 @@ public class GameState {
 
         @Override
         public void mouseMoved(MouseEvent e) {
-            mouseX = e.getX() ;
-            mouseY = e.getY() ;
+            mouseX = e.getX();
+            mouseY = e.getY();
         }
     }
 }

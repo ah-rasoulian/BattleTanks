@@ -12,7 +12,7 @@
  * patterns is available in the following link:
  *    http://gameprogrammingpatterns.com/game-loop.html
  *
- * @author AmirHossein Rasulian and MohammadHossein Rashidi
+ * @author AmirHossein Rasulian and MohammadHasan Rashidi
  */
 public class GameLoop implements Runnable {
 

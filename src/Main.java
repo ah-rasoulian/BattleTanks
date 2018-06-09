@@ -6,7 +6,7 @@ import javax.swing.JFrame;
 /**
  * Program start.
  *
- * @author AmirHossein Rasulian and MohammadHossein Rashidi
+ * @author AmirHossein Rasulian and MohammadHasan Rashidi
  */
 public class Main {
 
