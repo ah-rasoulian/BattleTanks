@@ -30,6 +30,7 @@ public class GameFrame extends JFrame {
     private BufferedImage menuImage ;
     private BufferedImage tank ;
     private BufferedImage tanksGun ;
+    private BufferedImage bullet ;
 
     public GameFrame(String title) {
         super(title);
@@ -46,6 +47,7 @@ public class GameFrame extends JFrame {
             menuImage = ImageIO.read(new File("menu.png")) ;
             tank = ImageIO.read(new File("tank.png"));
             tanksGun = ImageIO.read(new File("tankGun.png"));
+            bullet = ImageIO.read(new File("bullet.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -119,12 +121,13 @@ public class GameFrame extends JFrame {
             g2d.drawImage(tank , state.tankLocationX , state.tankLocationY , null);
             int tankCenterX = state.tankLocationX + tank.getWidth()/2 ;
             int tankCenterY = state.tankLocationY + tank.getHeight()/2 ;
+
             //calculating the rotation required for the tank's gun base on where the mouse is
             double rotationRequired ;
             if ( state.getMouseX() - tankCenterX > 0 )
                 rotationRequired = Math.atan( ( (double)(state.getMouseY() - tankCenterY) ) / ( (double)(state.getMouseX() - tankCenterX) ) );
             else if ( state.getMouseX() - tankCenterX < 0 )
-                rotationRequired = 135 + Math.atan( ( (double)(state.getMouseY() - tankCenterY) ) / ( (double)(state.getMouseX() - tankCenterX) ) );
+                rotationRequired = Math.toRadians(180) + Math.atan( ( (double)(state.getMouseY() - tankCenterY) ) / ( (double)(state.getMouseX() - tankCenterX) ) );
             else
             {
                 if (state.getMouseY() - tankCenterY > 0)
@@ -133,10 +136,25 @@ public class GameFrame extends JFrame {
                     rotationRequired = Math.toRadians(-90);
 
             }
+            state.setRotationRequired(rotationRequired);
             // handle the tank's gun and rotate it and then draw it
             AffineTransform tx = AffineTransform.getRotateInstance( rotationRequired ,tanksGun.getWidth()/2 - 15 , tanksGun.getHeight()/2 );
             AffineTransformOp op = new AffineTransformOp (tx , AffineTransformOp.TYPE_BILINEAR);
             g2d.drawImage( op.filter(tanksGun , null) , state.tankLocationX + 20 , state.tankLocationY + 15 , null);
+
+            // first removing invalid bullets then drawing the Bullets in the map
+            for (int i = 0 ; i < state.getBullets().size() ; i ++)
+            {
+                if (state.getBullets().get(i).getX() > GAME_WIDTH || state.getBullets().get(i).getX() < 0 || state.getBullets().get(i).getY() < 0 || state.getBullets().get(i).getY() > GAME_HEIGHT)
+                    state.getBullets().remove(i);
+            }
+            for (Bullet b :
+                    state.getBullets()) {
+                b.update();
+                tx = AffineTransform.getRotateInstance( b.getRotationRequired() ,bullet.getWidth()/2 , bullet.getHeight()/2 );
+                op = new AffineTransformOp (tx , AffineTransformOp.TYPE_BILINEAR);
+                g2d.drawImage( op.filter(bullet , null) , b.getX() , b.getY() , null);
+            }
         }
     }
 

@@ -1,7 +1,9 @@
 /*** In The Name of Allah ***/
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 
 /**
  * This class holds the state of the game and all of its elements.
@@ -27,6 +29,12 @@ public class GameState {
 
     public int tankLocationX;
     public int tankLocationY;
+
+    private double rotationRequired ;
+
+    private ArrayList<Bullet> bullets ;
+    private boolean gunIsReloaded ;
+    private long lastShutTime ;
 
     public GameState() {
         //
@@ -54,9 +62,13 @@ public class GameState {
         //
         tankLocationX = 100;
         tankLocationY = 100;
+        rotationRequired = 0 ;
         //
         keyHandler = new KeyHandler();
         mouseHandler = new MouseHandler();
+        //
+        bullets = new ArrayList<Bullet>();
+        gunIsReloaded = true ;
     }
 
     /**
@@ -97,6 +109,17 @@ public class GameState {
                 tankLocationX += 8;
             if (keyLEFT)
                 tankLocationX -= 8;
+
+            if (System.currentTimeMillis() - lastShutTime >= 1000)
+                gunIsReloaded = true ;
+            else
+                gunIsReloaded = false ;
+
+            if (mouseLeftPress && gunIsReloaded)
+            {
+                bullets.add( new Bullet(this ) ) ;
+                lastShutTime = System.currentTimeMillis() ;
+            }
             //
             // Update the state of all game elements
             //  based on user input and elapsed time ...
@@ -125,6 +148,17 @@ public class GameState {
         return mouseX;
     }
 
+    public void setRotationRequired(double rotationRequired) {
+        this.rotationRequired = rotationRequired;
+    }
+
+    public double getRotationRequired() {
+        return rotationRequired;
+    }
+
+    public ArrayList<Bullet> getBullets() {
+        return bullets;
+    }
 
     /**
      * The keyboard handler.
