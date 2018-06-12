@@ -1,7 +1,6 @@
 /*** In The Name of Allah ***/
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 
@@ -20,7 +19,7 @@ public class GameState {
     public int menuChooserPlace;
     public int menuYPosition;
 
-    private boolean keyUP, keyDOWN, keyRIGHT, keyLEFT;
+    private boolean keyUP, keyDOWN, keyRIGHT, keyLEFT, keyEsc;
     private boolean menuKeyUP, menuKeyDOWN, menuKeyENTER;
     private boolean mouseLeftPress, mouseRightPress;
     private int mouseX, mouseY;
@@ -30,11 +29,11 @@ public class GameState {
     public int tankLocationX;
     public int tankLocationY;
 
-    private double rotationRequired ;
+    private double rotationRequired;
 
-    private ArrayList<Bullet> bullets ;
-    private boolean gunIsReloaded ;
-    private long lastShutTime ;
+    private ArrayList<Bullet> bullets;
+    private boolean gunIsReloaded;
+    private long lastShutTime;
 
     public GameState() {
         //
@@ -54,6 +53,7 @@ public class GameState {
         keyLEFT = false;
         keyRIGHT = false;
         keyUP = false;
+        keyEsc = false;
         //
         mouseLeftPress = false;
         mouseRightPress = false;
@@ -62,13 +62,13 @@ public class GameState {
         //
         tankLocationX = 100;
         tankLocationY = 100;
-        rotationRequired = 0 ;
+        rotationRequired = 0;
         //
         keyHandler = new KeyHandler();
         mouseHandler = new MouseHandler();
         //
         bullets = new ArrayList<Bullet>();
-        gunIsReloaded = true ;
+        gunIsReloaded = true;
     }
 
     /**
@@ -109,16 +109,21 @@ public class GameState {
                 tankLocationX += 8;
             if (keyLEFT)
                 tankLocationX -= 8;
+            if (keyEsc)
+                menuIsFinished = false;
+            tankLocationX = Math.max(tankLocationX, 0);
+            tankLocationX = Math.min(tankLocationX, GameFrame.GAME_WIDTH - 30);
+            tankLocationY = Math.max(tankLocationY, 0);
+            tankLocationY = Math.min(tankLocationY, GameFrame.GAME_HEIGHT - 30);
 
             if (System.currentTimeMillis() - lastShutTime >= 1000)
-                gunIsReloaded = true ;
+                gunIsReloaded = true;
             else
-                gunIsReloaded = false ;
+                gunIsReloaded = false;
 
-            if (mouseLeftPress && gunIsReloaded)
-            {
-                bullets.add( new Bullet(this ) ) ;
-                lastShutTime = System.currentTimeMillis() ;
+            if (mouseLeftPress && gunIsReloaded) {
+                bullets.add(new Bullet(this));
+                lastShutTime = System.currentTimeMillis();
             }
             //
             // Update the state of all game elements
@@ -170,6 +175,7 @@ public class GameState {
                 // handling the keys pressed in menu
                 switch (e.getKeyCode()) {
                     case KeyEvent.VK_ENTER:
+                        keyEsc = false;
                         menuKeyENTER = true;
                         break;
                     case KeyEvent.VK_DOWN:
@@ -196,6 +202,11 @@ public class GameState {
 
                     case KeyEvent.VK_UP:
                         keyUP = true;
+                        break;
+
+                    case KeyEvent.VK_ESCAPE:
+                        menuKeyENTER = false;
+                        keyEsc = true;
                         break;
                 }
             }
