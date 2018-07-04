@@ -37,6 +37,8 @@ public class GameState {
     private long lastShutTime;
     private Point shootingPoint ;
 
+    private int numberOfBullets ;
+
     public GameState() {
         //
         // Initialize the game state and all elements ...
@@ -71,6 +73,7 @@ public class GameState {
         //
         bullets = new ArrayList<Bullet>();
         gunIsReloaded = true;
+        numberOfBullets = 50 ;
     }
 
     /**
@@ -124,8 +127,11 @@ public class GameState {
                 gunIsReloaded = false;
 
             if (mouseLeftPress && gunIsReloaded) {
-                bullets.add(new Bullet(this));
-                lastShutTime = System.currentTimeMillis();
+                if ( shootIsValid() ) {
+                    bullets.add(new Bullet(this));
+                    lastShutTime = System.currentTimeMillis();
+                    numberOfBullets -- ;
+                }
             }
             //
             // Update the state of all game elements
@@ -171,6 +177,14 @@ public class GameState {
         return shootingPoint;
     }
 
+    private boolean shootIsValid (){
+        if (numberOfBullets == 0)
+            return false ;
+        if (shootingPoint.x - tankLocationX > -38 && shootingPoint.x - tankLocationX < 150 && shootingPoint.y - tankLocationY > -50 && shootingPoint.y - tankLocationY < 130)
+            return false ;
+
+        return true ;
+    }
     /**
      * The keyboard handler.
      */
