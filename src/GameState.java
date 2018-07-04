@@ -1,6 +1,7 @@
 /*** In The Name of Allah ***/
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 
@@ -34,6 +35,7 @@ public class GameState {
     private ArrayList<Bullet> bullets;
     private boolean gunIsReloaded;
     private long lastShutTime;
+    private Point shootingPoint ;
 
     public GameState() {
         //
@@ -165,6 +167,10 @@ public class GameState {
         return bullets;
     }
 
+    public Point getShootingPoint() {
+        return shootingPoint;
+    }
+
     /**
      * The keyboard handler.
      */
@@ -254,6 +260,7 @@ public class GameState {
                 System.out.println("rt");
             } else {
                 mouseLeftPress = true;
+                shootingPoint = new Point(e.getX() , e.getY());
                 System.out.println("lt");
             }
         }
