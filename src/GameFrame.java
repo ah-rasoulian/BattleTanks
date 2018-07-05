@@ -66,6 +66,8 @@ public class GameFrame extends JFrame {
             tank = ImageIO.read(new File("./Resources/Images/tank.png"));
             tanksGun = ImageIO.read(new File("./Resources/Images/tankGun1.png"));
             tanksGun2 = ImageIO.read(new File("./Resources/Images/tankGun2.png"));
+            numOfHeavyBullet = ImageIO.read(new File ("./Resources/Images/NumberOfHeavyBullet.png"));
+            numOfMachinGun = ImageIO.read(new File ("./Resources/Images/NumberOfMachinGun.png"));
             bullet = ImageIO.read(new File("./Resources/Images/HeavyBullet.png"));
             area = ImageIO.read(new File("./Resources/Images/Area.png"));
             plant = ImageIO.read(new File("./Resources/Images/plant.png"));
@@ -258,8 +260,7 @@ public class GameFrame extends JFrame {
                     }
                 }
             }
-
-
+            // drawing the tank
             g2d.drawImage(tank, state.tankLocationX, state.tankLocationY, null);
             int tankCenterX = state.tankLocationX + tank.getWidth() / 2;
             int tankCenterY = state.tankLocationY + tank.getHeight() / 2;
@@ -303,7 +304,16 @@ public class GameFrame extends JFrame {
                 op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
                 g2d.drawImage(op.filter(bullet, null), b.getX(), b.getY(), null);
             }
+
+            //drawing the game info line number of Bullets
+            g2d.drawImage(numOfHeavyBullet , 3 , 30 , null);
+            g2d.drawImage(numOfMachinGun , 7 , 85 , null);
+            g2d.setColor(Color.red);
+            g2d.setFont(new Font("TimesRoman", Font.PLAIN, 50));
+            g2d.drawString("" + state.getNumberOfBullets() , 65 , 75);
+            g2d.drawString("" + state.getNumberOfBullets2() , 65 , 130);
         }
+
     }
 
     public ArrayList<Character> readMap(String fileName) {

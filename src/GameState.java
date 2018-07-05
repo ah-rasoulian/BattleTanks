@@ -38,6 +38,7 @@ public class GameState {
     private Point shootingPoint ;
 
     private int numberOfBullets ;
+    private int numberOfBullets2 ;
     private boolean tanksGun1Online ;
     private long lastChangeGunTime ;
 
@@ -76,6 +77,7 @@ public class GameState {
         bullets = new ArrayList<Bullet>();
         gunIsReloaded = true;
         numberOfBullets = 50 ;
+        numberOfBullets2 = 300 ;
         //
         tanksGun1Online = true ;
     }
@@ -180,7 +182,10 @@ public class GameState {
     public double getRotationRequired() {
         return rotationRequired;
     }
-
+    public int getNumberOfBullets ()
+    {
+        return numberOfBullets ;
+    }
     public ArrayList<Bullet> getBullets() {
         return bullets;
     }
@@ -200,6 +205,10 @@ public class GameState {
 
     public boolean isTanksGun1Online() {
         return tanksGun1Online;
+    }
+
+    public int getNumberOfBullets2() {
+        return numberOfBullets2;
     }
 
     /**
