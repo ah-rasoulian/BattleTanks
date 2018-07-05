@@ -38,6 +38,8 @@ public class GameState {
     private Point shootingPoint ;
 
     private int numberOfBullets ;
+    private boolean tanksGun1Online ;
+    private long lastChangeGunTime ;
 
     public GameState() {
         //
@@ -74,6 +76,8 @@ public class GameState {
         bullets = new ArrayList<Bullet>();
         gunIsReloaded = true;
         numberOfBullets = 50 ;
+        //
+        tanksGun1Online = true ;
     }
 
     /**
@@ -133,6 +137,14 @@ public class GameState {
                     numberOfBullets -- ;
                 }
             }
+            if (mouseRightPress && (System.currentTimeMillis() - lastChangeGunTime >= 2000))
+            {
+                if (tanksGun1Online)
+                    tanksGun1Online = false;
+                else
+                    tanksGun1Online = true ;
+                lastChangeGunTime = System.currentTimeMillis() ;
+            }
             //
             // Update the state of all game elements
             //  based on user input and elapsed time ...
@@ -185,6 +197,11 @@ public class GameState {
 
         return true ;
     }
+
+    public boolean isTanksGun1Online() {
+        return tanksGun1Online;
+    }
+
     /**
      * The keyboard handler.
      */

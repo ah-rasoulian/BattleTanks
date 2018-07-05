@@ -32,6 +32,7 @@ public class GameFrame extends JFrame {
     private BufferedImage menuImage;
     private BufferedImage tank;
     private BufferedImage tanksGun;
+    private BufferedImage tanksGun2 ;
     private BufferedImage bullet;
     private BufferedImage area;
     private BufferedImage plant;
@@ -62,8 +63,9 @@ public class GameFrame extends JFrame {
         //
         try {
             menuImage = ImageIO.read(new File("menu.png"));
-            tank = ImageIO.read(new File("tank.png"));
-            tanksGun = ImageIO.read(new File("tankGun.png"));
+            tank = ImageIO.read(new File("./Resources/Images/tank.png"));
+            tanksGun = ImageIO.read(new File("./Resources/Images/tankGun1.png"));
+            tanksGun2 = ImageIO.read(new File("./Resources/Images/tankGun2.png"));
             bullet = ImageIO.read(new File("./Resources/Images/HeavyBullet.png"));
             area = ImageIO.read(new File("./Resources/Images/Area.png"));
             plant = ImageIO.read(new File("./Resources/Images/plant.png"));
@@ -277,9 +279,17 @@ public class GameFrame extends JFrame {
             }
             state.setRotationRequired(rotationRequired);
             // handle the tank's gun and rotate it and then draw it
-            AffineTransform tx = AffineTransform.getRotateInstance(rotationRequired, tanksGun.getWidth() / 2 - 15, tanksGun.getHeight() / 2);
+            AffineTransform tx ;
+            if (state.isTanksGun1Online())
+                tx = AffineTransform.getRotateInstance(rotationRequired, tanksGun.getWidth() / 2 - 20, tanksGun.getHeight() / 2 - 20);
+            else
+                tx = AffineTransform.getRotateInstance(rotationRequired, tanksGun2.getWidth() / 2 - 20, tanksGun2.getHeight() / 2 - 25);
+
             AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
-            g2d.drawImage(op.filter(tanksGun, null), state.tankLocationX + 20, state.tankLocationY + 15, null);
+            if (state.isTanksGun1Online())
+                g2d.drawImage(op.filter(tanksGun, null), state.tankLocationX + 20, state.tankLocationY + 12, null);
+            else
+                g2d.drawImage(op.filter(tanksGun2, null), state.tankLocationX + 20, state.tankLocationY + 22, null);
 
             // first removing invalid bullets then drawing the Bullets in the map
             for (int i = 0; i < state.getBullets().size(); i++) {
