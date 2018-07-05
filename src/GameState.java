@@ -127,18 +127,19 @@ public class GameState {
             tankLocationY = Math.max(tankLocationY, 0);
             tankLocationY = Math.min(tankLocationY, GameFrame.GAME_HEIGHT - 30);
 
-            if (System.currentTimeMillis() - lastShutTime >= 1000)
-                gunIsReloaded = true;
-            else
-                gunIsReloaded = false;
-
-            if (mouseLeftPress && gunIsReloaded) {
-                if ( shootIsValid() ) {
-                    bullets.add(new Bullet(this));
+            if ( mouseLeftPress && shootIsValid() ) {
+                if (tanksGun1Online) {
+                    bullets.add(new HeavyBullet(this));
                     lastShutTime = System.currentTimeMillis();
                     numberOfBullets -- ;
+                    gunIsReloaded = false ;
+                }
+                else {
+                    bullets.add(new LightBullet(this));
+                    numberOfBullets2 -- ;
                 }
             }
+
             if (mouseRightPress && (System.currentTimeMillis() - lastChangeGunTime >= 2000))
             {
                 if (tanksGun1Online)
@@ -195,10 +196,14 @@ public class GameState {
     }
 
     private boolean shootIsValid (){
-        if (numberOfBullets == 0)
+        if (tanksGun1Online && ( numberOfBullets == 0) )
             return false ;
+        if (!tanksGun1Online && (numberOfBullets2 == 0))
+            return false;
         if (shootingPoint.x - tankLocationX > -38 && shootingPoint.x - tankLocationX < 150 && shootingPoint.y - tankLocationY > -50 && shootingPoint.y - tankLocationY < 130)
             return false ;
+        if (tanksGun1Online && (System.currentTimeMillis() - lastShutTime < 2000))
+            return false;
 
         return true ;
     }

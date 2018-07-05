@@ -33,7 +33,8 @@ public class GameFrame extends JFrame {
     private BufferedImage tank;
     private BufferedImage tanksGun;
     private BufferedImage tanksGun2 ;
-    private BufferedImage bullet;
+    private BufferedImage heavyBullet;
+    private BufferedImage lightBullet;
     private BufferedImage area;
     private BufferedImage plant;
     private BufferedImage wicket;
@@ -68,7 +69,8 @@ public class GameFrame extends JFrame {
             tanksGun2 = ImageIO.read(new File("./Resources/Images/tankGun2.png"));
             numOfHeavyBullet = ImageIO.read(new File ("./Resources/Images/NumberOfHeavyBullet.png"));
             numOfMachinGun = ImageIO.read(new File ("./Resources/Images/NumberOfMachinGun.png"));
-            bullet = ImageIO.read(new File("./Resources/Images/HeavyBullet.png"));
+            heavyBullet = ImageIO.read(new File("./Resources/Images/HeavyBullet.png"));
+            lightBullet = ImageIO.read(new File("./Resources/Images/LightBullet.png"));
             area = ImageIO.read(new File("./Resources/Images/Area.png"));
             plant = ImageIO.read(new File("./Resources/Images/plant.png"));
 //            plant = resizeImage(ImageIO.read(new File("./Resources/Images/plant.png")), area.getWidth(), area.getHeight());
@@ -288,7 +290,7 @@ public class GameFrame extends JFrame {
 
             AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
             if (state.isTanksGun1Online())
-                g2d.drawImage(op.filter(tanksGun, null), state.tankLocationX + 20, state.tankLocationY + 12, null);
+                g2d.drawImage(op.filter(tanksGun, null), state.tankLocationX + 20, state.tankLocationY + 15, null);
             else
                 g2d.drawImage(op.filter(tanksGun2, null), state.tankLocationX + 20, state.tankLocationY + 22, null);
 
@@ -300,9 +302,17 @@ public class GameFrame extends JFrame {
             for (Bullet b :
                     state.getBullets()) {
                 b.update();
-                tx = AffineTransform.getRotateInstance(b.getRotationRequired(), bullet.getWidth() / 2, bullet.getHeight() / 2);
-                op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
-                g2d.drawImage(op.filter(bullet, null), b.getX(), b.getY(), null);
+                if (b instanceof HeavyBullet) {
+                    tx = AffineTransform.getRotateInstance(b.getRotationRequired(), heavyBullet.getWidth() / 2, heavyBullet.getHeight() / 2);
+                    op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
+                    g2d.drawImage(op.filter(heavyBullet, null), b.getX(), b.getY(), null);
+                }
+                if (b instanceof LightBullet)
+                {
+                    tx = AffineTransform.getRotateInstance(b.getRotationRequired(), lightBullet.getWidth() / 2, lightBullet.getHeight() / 2);
+                    op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
+                    g2d.drawImage(op.filter(lightBullet, null), b.getX(), b.getY(), null);
+                }
             }
 
             //drawing the game info line number of Bullets

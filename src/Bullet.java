@@ -1,23 +1,21 @@
-
 import java.awt.*;
 
-public class Bullet {
+public abstract class Bullet
+{
+    protected Point pointOfShut ;
+    protected Point pointOfGun ;
+    protected double speed ;
+    protected double speedX ;
+    protected double speedY ;
+    protected int x ;
+    protected int y ;
+    protected double rotationRequired ; // -90 degree to 270 degree
+    protected double startTime ;
+    protected double distant ;
 
-    private Point pointOfShut ;
-    private Point pointOfGun ;
-    private double angle ; // angle of the line between gun and shutPoint by +x axis
-    private int x ;
-    private int y ;
-    private double rotationRequired ; // -90 degree to 270 degree
-
-    private double speed = 0.50 ;
-    private double speedX ;
-    private double speedY ;
-    private double startTime ;
-    private double distant ;
-
-    public Bullet (GameState state)
+    public Bullet (GameState state , double speed , int radius)
     {
+        this.speed = speed ;
         startTime = System.currentTimeMillis() ;
 
         pointOfShut = state.getShootingPoint() ;
@@ -25,7 +23,7 @@ public class Bullet {
 
         int centerOfTankX = state.tankLocationX + 42 ;
         int centerOfTankY = state.tankLocationY + 42 ;
-        int radius = 80 ;
+
         if ( Math.toDegrees(rotationRequired) >= 0 && Math.toDegrees(rotationRequired) < 90)
             pointOfGun = new Point(centerOfTankX + (int)(radius*Math.cos(rotationRequired)),centerOfTankY  + (int)(radius*Math.sin(rotationRequired))) ;
         else if (Math.toDegrees(rotationRequired) >= 90 && Math.toDegrees(rotationRequired) < 180)
@@ -35,8 +33,6 @@ public class Bullet {
         else
             pointOfGun = new Point(centerOfTankX + (int)(radius*Math.cos(-rotationRequired)) , centerOfTankY - (int)(radius*Math.sin(-rotationRequired))) ;
 
-            angle = Math.atan( ((double)( pointOfGun.y - pointOfShut.y )) / ((double)( pointOfShut.x - pointOfGun.y )) );
-
         x = pointOfGun.x ;
         y = pointOfGun.y ;
         distant = Math.sqrt((pointOfShut.x - pointOfGun.x)*(pointOfShut.x - pointOfGun.x) + (pointOfShut.y - pointOfGun.y)*(pointOfShut.y - pointOfGun.y));
@@ -44,35 +40,13 @@ public class Bullet {
         speedX = speed * ( (double)(pointOfShut.x - pointOfGun.x) ) / distant ;
         speedY = speed * ( (double)(pointOfShut.y - pointOfGun.y) ) / distant;
 
-        if ( pointOfGun.x - centerOfTankX > 0 )
-            rotationRequired = Math.atan( ( (double)(pointOfGun.y - centerOfTankY) ) / ( (double)(pointOfGun.x - centerOfTankX) ) );
-        else if ( state.getMouseX() - centerOfTankX < 0 )
-            rotationRequired = Math.toRadians(180) + Math.atan( ( (double)(pointOfGun.y - centerOfTankY) ) / ( (double)(pointOfGun.x - centerOfTankX) ) );
-        else
-        {
-            if (state.getMouseY() - centerOfTankY > 0)
-                rotationRequired = Math.toRadians(90);
-            else
-                rotationRequired = Math.toRadians(-90);
-        }
-
-    }
-    //updating the point that bullet must draw there by the speed and x = vt formula
-    public void update() {
-        x = pointOfGun.x + (int)( speedX * (System.currentTimeMillis() - startTime));
-
-        y = pointOfGun.y + (int)( speedY * (System.currentTimeMillis() - startTime));
     }
 
-    public int getX() {
-        return x;
-    }
+    public abstract void update();
 
-    public int getY() {
-        return y;
-    }
+    public abstract int getX();
 
-    public double getRotationRequired() {
-        return rotationRequired;
-    }
+    public abstract int getY();
+
+    public abstract double getRotationRequired();
 }
