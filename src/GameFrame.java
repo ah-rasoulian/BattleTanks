@@ -140,7 +140,6 @@ public class GameFrame extends JFrame {
      */
     private void doRendering(Graphics2D g2d, GameState state) {
         if (!state.menuIsFinished) {
-
             //Draw the menu image
             g2d.drawImage(menuImage, 0, 0, null);
             //Draw the chooser menu item

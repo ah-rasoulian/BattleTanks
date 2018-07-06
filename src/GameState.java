@@ -45,6 +45,8 @@ public class GameState {
     private long lastChangeGunTime;
     private AffineTransform affineTransform;
 
+    private boolean menuSoundFinished;
+
     public GameState() {
         //
         // Initialize the game state and all elements ...
@@ -84,6 +86,8 @@ public class GameState {
         //
         tanksGun1Online = true;
         affineTransform = new AffineTransform();
+        //
+        menuSoundFinished = false ;
     }
 
     /**
@@ -92,21 +96,36 @@ public class GameState {
     public void update() {
         // update the menu
         if (!menuIsFinished) {
+            if(!menuSoundFinished)
+            {
+                SoundPlayer.playSound("startUp");
+                menuSoundFinished = true ;
+            }
             if (menuKeyUP) {
                 if (menuChooserPlace > 1)
-                    if (!(menuChooserPlace == 2 & !savingIsAvailable))
+                    if (!(menuChooserPlace == 2 & !savingIsAvailable)) {
+                        SoundPlayer.playSound("select");
                         menuChooserPlace--;
+                    }
                 menuKeyUP = false;
             }
             if (menuKeyDOWN) {
-                if (menuChooserPlace < 3)
+                if (menuChooserPlace < 3) {
+                    SoundPlayer.playSound("select");
                     menuChooserPlace++;
+                }
                 menuKeyDOWN = false;
             }
-            if (menuKeyENTER && menuChooserPlace == 2)
+            if (menuKeyENTER && menuChooserPlace == 2) {
+                SoundPlayer.playSound("agree");
                 menuIsFinished = true;
-            if (menuKeyENTER && menuChooserPlace == 3)
+                SoundPlayer.getStartUp().close();
+                SoundPlayer.playSound("gameSound1");
+            }
+            if (menuKeyENTER && menuChooserPlace == 3) {
+                SoundPlayer.playSound("agree");
                 System.exit(0);
+            }
             // y positions : exit 530 , play new 485 , play previous 440
             if (menuChooserPlace == 1)
                 menuYPosition = 440;
@@ -135,11 +154,13 @@ public class GameState {
 
             if (mouseLeftPress && shootIsValid()) {
                 if (tanksGun1Online) {
+                    SoundPlayer.playSound("cannon");
                     bullets.add(new HeavyBullet(this));
                     lastShutTime = System.currentTimeMillis();
                     numberOfBullets--;
                     gunIsReloaded = false;
                 } else {
+                    SoundPlayer.playSound("machineGun");
                     bullets.add(new LightBullet(this));
                     numberOfBullets2--;
                 }
@@ -209,10 +230,14 @@ public class GameState {
     }
 
     private boolean shootIsValid() {
-        if (tanksGun1Online && (numberOfBullets == 0))
+        if (tanksGun1Online && (numberOfBullets == 0)) {
+            SoundPlayer.playSound("emptyGun");
             return false;
-        if (!tanksGun1Online && (numberOfBullets2 == 0))
+        }
+        if (!tanksGun1Online && (numberOfBullets2 == 0)) {
+            SoundPlayer.playSound("emptyGun");
             return false;
+        }
         if (shootingPoint.x - tankLocationX > -38 && shootingPoint.x - tankLocationX < 150 && shootingPoint.y - tankLocationY > -50 && shootingPoint.y - tankLocationY < 130)
             return false;
         if (tanksGun1Online && (System.currentTimeMillis() - lastShutTime < 2000))
