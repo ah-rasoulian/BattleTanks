@@ -25,7 +25,7 @@ import java.util.ArrayList;
 public class GameFrame extends JFrame {
 
     public static final int GAME_HEIGHT = 720;                  // 720p game resolution
-    public static final int GAME_WIDTH = 16 * GAME_HEIGHT / 9;  // wide aspect ratio
+    public static final int GAME_WIDTH = 16 * GAME_HEIGHT / 9;  // wide aspect ratioP
 
     private BufferStrategy bufferStrategy;
 
@@ -44,7 +44,7 @@ public class GameFrame extends JFrame {
     private BufferedImage teazel;
     private BufferedImage khengEnemy;
     private BufferedImage numOfHeavyBullet;
-    private BufferedImage numOfMachinGun;
+    private BufferedImage numOfMachineGun;
     private BufferedImage hardWall;
     private BufferedImage softWall;
     private BufferedImage smallEnemy;
@@ -68,7 +68,7 @@ public class GameFrame extends JFrame {
             tanksGun = ImageIO.read(new File("./Resources/Images/tankGun1.png"));
             tanksGun2 = ImageIO.read(new File("./Resources/Images/tankGun2.png"));
             numOfHeavyBullet = ImageIO.read(new File ("./Resources/Images/NumberOfHeavyBullet.png"));
-            numOfMachinGun = ImageIO.read(new File ("./Resources/Images/NumberOfMachinGun.png"));
+            numOfMachineGun = ImageIO.read(new File ("./Resources/Images/NumberOfMachinGun.png"));
             heavyBullet = ImageIO.read(new File("./Resources/Images/HeavyBullet.png"));
             lightBullet = ImageIO.read(new File("./Resources/Images/LightBullet.png"));
             area = ImageIO.read(new File("./Resources/Images/Area.png"));
@@ -317,7 +317,7 @@ public class GameFrame extends JFrame {
 
             //drawing the game info line number of Bullets
             g2d.drawImage(numOfHeavyBullet , 3 , 30 , null);
-            g2d.drawImage(numOfMachinGun , 7 , 85 , null);
+            g2d.drawImage(numOfMachineGun , 7 , 85 , null);
             g2d.setColor(Color.red);
             g2d.setFont(new Font("TimesRoman", Font.PLAIN, 50));
             g2d.drawString("" + state.getNumberOfBullets() , 65 , 75);
