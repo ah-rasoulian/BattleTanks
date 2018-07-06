@@ -3,6 +3,8 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.util.ArrayList;
 
 /**
@@ -35,12 +37,13 @@ public class GameState {
     private ArrayList<Bullet> bullets;
     private boolean gunIsReloaded;
     private long lastShutTime;
-    private Point shootingPoint ;
+    private Point shootingPoint;
 
-    private int numberOfBullets ;
-    private int numberOfBullets2 ;
-    private boolean tanksGun1Online ;
-    private long lastChangeGunTime ;
+    private int numberOfBullets;
+    private int numberOfBullets2;
+    private boolean tanksGun1Online;
+    private long lastChangeGunTime;
+    private AffineTransform affineTransform;
 
     public GameState() {
         //
@@ -76,10 +79,11 @@ public class GameState {
         //
         bullets = new ArrayList<Bullet>();
         gunIsReloaded = true;
-        numberOfBullets = 50 ;
-        numberOfBullets2 = 300 ;
+        numberOfBullets = 50;
+        numberOfBullets2 = 300;
         //
-        tanksGun1Online = true ;
+        tanksGun1Online = true;
+        affineTransform = new AffineTransform();
     }
 
     /**
@@ -112,10 +116,12 @@ public class GameState {
                 menuYPosition = 530;
         } else {
 
-            if (keyUP)
+            if (keyUP) {
                 tankLocationY -= 8;
-            if (keyDOWN)
+            }
+            if (keyDOWN) {
                 tankLocationY += 8;
+            }
             if (keyRIGHT)
                 tankLocationX += 8;
             if (keyLEFT)
@@ -123,30 +129,28 @@ public class GameState {
             if (keyEsc)
                 menuIsFinished = false;
             tankLocationX = Math.max(tankLocationX, 0);
-            tankLocationX = Math.min(tankLocationX, GameFrame.GAME_WIDTH - 30);
+            tankLocationX = Math.min(tankLocationX, GameFrame.GAME_WIDTH * 3 - 30);
             tankLocationY = Math.max(tankLocationY, 0);
-            tankLocationY = Math.min(tankLocationY, GameFrame.GAME_HEIGHT - 30);
+            tankLocationY = Math.min(tankLocationY, GameFrame.GAME_HEIGHT * 3 - 30);
 
-            if ( mouseLeftPress && shootIsValid() ) {
+            if (mouseLeftPress && shootIsValid()) {
                 if (tanksGun1Online) {
                     bullets.add(new HeavyBullet(this));
                     lastShutTime = System.currentTimeMillis();
-                    numberOfBullets -- ;
-                    gunIsReloaded = false ;
-                }
-                else {
+                    numberOfBullets--;
+                    gunIsReloaded = false;
+                } else {
                     bullets.add(new LightBullet(this));
-                    numberOfBullets2 -- ;
+                    numberOfBullets2--;
                 }
             }
 
-            if (mouseRightPress && (System.currentTimeMillis() - lastChangeGunTime >= 2000))
-            {
+            if (mouseRightPress && (System.currentTimeMillis() - lastChangeGunTime >= 2000)) {
                 if (tanksGun1Online)
                     tanksGun1Online = false;
                 else
-                    tanksGun1Online = true ;
-                lastChangeGunTime = System.currentTimeMillis() ;
+                    tanksGun1Online = true;
+                lastChangeGunTime = System.currentTimeMillis();
             }
             //
             // Update the state of all game elements
@@ -176,6 +180,14 @@ public class GameState {
         return mouseX;
     }
 
+    public void setMouseX(int mouseX) {
+        this.mouseX = mouseX;
+    }
+
+    public void setMouseY(int mouseY) {
+        this.mouseY = mouseY;
+    }
+
     public void setRotationRequired(double rotationRequired) {
         this.rotationRequired = rotationRequired;
     }
@@ -183,10 +195,11 @@ public class GameState {
     public double getRotationRequired() {
         return rotationRequired;
     }
-    public int getNumberOfBullets ()
-    {
-        return numberOfBullets ;
+
+    public int getNumberOfBullets() {
+        return numberOfBullets;
     }
+
     public ArrayList<Bullet> getBullets() {
         return bullets;
     }
@@ -195,17 +208,17 @@ public class GameState {
         return shootingPoint;
     }
 
-    private boolean shootIsValid (){
-        if (tanksGun1Online && ( numberOfBullets == 0) )
-            return false ;
+    private boolean shootIsValid() {
+        if (tanksGun1Online && (numberOfBullets == 0))
+            return false;
         if (!tanksGun1Online && (numberOfBullets2 == 0))
             return false;
         if (shootingPoint.x - tankLocationX > -38 && shootingPoint.x - tankLocationX < 150 && shootingPoint.y - tankLocationY > -50 && shootingPoint.y - tankLocationY < 130)
-            return false ;
+            return false;
         if (tanksGun1Online && (System.currentTimeMillis() - lastShutTime < 2000))
             return false;
 
-        return true ;
+        return true;
     }
 
     public boolean isTanksGun1Online() {
@@ -300,13 +313,30 @@ public class GameState {
 
         @Override
         public void mousePressed(MouseEvent e) {
+            int locX, locY;
+            locX = e.getX();
+            locY = e.getY();
+            if (tankLocationY >= 720 && tankLocationY <= 1440) {
+                locY += 720;
+
+            }
+            if (tankLocationY > 1440) {
+                locY += 1440;
+            }
+
+            if (tankLocationX >= GameFrame.GAME_WIDTH && tankLocationX <= GameFrame.GAME_WIDTH * 2) {
+                locX += GameFrame.GAME_WIDTH;
+            }
+
+            if (tankLocationX >= GameFrame.GAME_WIDTH * 2) {
+                locX += GameFrame.GAME_WIDTH * 2;
+            }
             if (SwingUtilities.isRightMouseButton(e)) {
                 mouseRightPress = true;
-                System.out.println("rt");
             } else {
                 mouseLeftPress = true;
-                shootingPoint = new Point(e.getX() , e.getY());
-                System.out.println("lt");
+
+                shootingPoint = new Point(locX, locY);
             }
         }
 
@@ -314,10 +344,8 @@ public class GameState {
         public void mouseReleased(MouseEvent e) {
             if (SwingUtilities.isRightMouseButton(e)) {
                 mouseRightPress = false;
-                System.out.println("rf");
             } else {
                 mouseLeftPress = false;
-                System.out.println("lf");
             }
         }
 
@@ -335,8 +363,21 @@ public class GameState {
 
         @Override
         public void mouseMoved(MouseEvent e) {
-            mouseX = e.getX();
-            mouseY = e.getY();
+            if (tankLocationY >= 720 && tankLocationY <= 1440) {
+                mouseY = e.getY() + 720;
+            } else if (tankLocationY > 1440) {
+                mouseY = e.getY() + 1440;
+            } else {
+                mouseY = e.getY();
+            }
+            if (tankLocationX >= GameFrame.GAME_WIDTH && tankLocationX <= GameFrame.GAME_WIDTH * 2) {
+                mouseX = e.getX() + GameFrame.GAME_WIDTH;
+            } else if (tankLocationX > GameFrame.GAME_WIDTH * 2) {
+                mouseX = e.getX() + GameFrame.GAME_WIDTH * 2;
+            } else {
+                mouseX = e.getX();
+            }
+
         }
     }
 }

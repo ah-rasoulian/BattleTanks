@@ -25,14 +25,14 @@ import java.util.ArrayList;
 public class GameFrame extends JFrame {
 
     public static final int GAME_HEIGHT = 720;                  // 720p game resolution
-    public static final int GAME_WIDTH = 16 * GAME_HEIGHT / 9;  // wide aspect ratioP
+    public static final int GAME_WIDTH = 16 * GAME_HEIGHT / 9;  // wide aspect ratio
 
     private BufferStrategy bufferStrategy;
 
     private BufferedImage menuImage;
     private BufferedImage tank;
     private BufferedImage tanksGun;
-    private BufferedImage tanksGun2 ;
+    private BufferedImage tanksGun2;
     private BufferedImage heavyBullet;
     private BufferedImage lightBullet;
     private BufferedImage area;
@@ -44,11 +44,13 @@ public class GameFrame extends JFrame {
     private BufferedImage teazel;
     private BufferedImage khengEnemy;
     private BufferedImage numOfHeavyBullet;
-    private BufferedImage numOfMachineGun;
+    private BufferedImage numOfMachinGun;
     private BufferedImage hardWall;
     private BufferedImage softWall;
     private BufferedImage smallEnemy;
     private ArrayList<Character> map;
+    private int numOfBullLocX;
+    private int numOfBullLocY;
 
     public GameFrame(String title) {
         super(title);
@@ -67,8 +69,8 @@ public class GameFrame extends JFrame {
             tank = ImageIO.read(new File("./Resources/Images/tank.png"));
             tanksGun = ImageIO.read(new File("./Resources/Images/tankGun1.png"));
             tanksGun2 = ImageIO.read(new File("./Resources/Images/tankGun2.png"));
-            numOfHeavyBullet = ImageIO.read(new File ("./Resources/Images/NumberOfHeavyBullet.png"));
-            numOfMachineGun = ImageIO.read(new File ("./Resources/Images/NumberOfMachinGun.png"));
+            numOfHeavyBullet = ImageIO.read(new File("./Resources/Images/NumberOfHeavyBullet.png"));
+            numOfMachinGun = ImageIO.read(new File("./Resources/Images/NumberOfMachinGun.png"));
             heavyBullet = ImageIO.read(new File("./Resources/Images/HeavyBullet.png"));
             lightBullet = ImageIO.read(new File("./Resources/Images/LightBullet.png"));
             area = ImageIO.read(new File("./Resources/Images/Area.png"));
@@ -138,6 +140,7 @@ public class GameFrame extends JFrame {
      */
     private void doRendering(Graphics2D g2d, GameState state) {
         if (!state.menuIsFinished) {
+
             //Draw the menu image
             g2d.drawImage(menuImage, 0, 0, null);
             //Draw the chooser menu item
@@ -145,23 +148,45 @@ public class GameFrame extends JFrame {
             g2d.fillOval(30, state.menuYPosition, 30, 30);
 
         } else {
-            //
+            if (state.tankLocationY < 720) {
+                numOfBullLocY = 0;
+            }
+            if (state.tankLocationY >= 720 && state.tankLocationY <= 1440) {
+                g2d.translate(0, -720);
+                numOfBullLocY = 720;
+            }
+            if (state.tankLocationY > 1440) {
+                g2d.translate(0, -1440);
+                numOfBullLocY = 1440;
+            }
+            if (state.tankLocationX < GAME_WIDTH) {
+                numOfBullLocX = 0;
+            }
+            if (state.tankLocationX >= GAME_WIDTH && state.tankLocationX <= GAME_WIDTH * 2) {
+                g2d.translate(GAME_WIDTH * -1, 0);
+                numOfBullLocX = GAME_WIDTH;
+            }
+            if (state.tankLocationX > GAME_WIDTH * 2) {
+                g2d.translate(GAME_WIDTH * -2, 0);
+                numOfBullLocX = GAME_WIDTH * 2;
+            }
+
             // Draw all game elements according
             //  to the game 'state' using 'g2d' ...
             //
             g2d.setColor(Color.GRAY);
-            g2d.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+            g2d.fillRect(0, 0, GAME_WIDTH * 3, GAME_HEIGHT * 3);
 
-            for (int i = 0; i < GAME_HEIGHT; i += area.getHeight()) {
-                for (int j = 0; j < GAME_WIDTH; j += area.getWidth()) {
+            for (int i = 0; i < GAME_HEIGHT * 3; i += area.getHeight()) {
+                for (int j = 0; j < GAME_WIDTH * 3; j += area.getWidth()) {
                     g2d.drawImage(area, j, i, null);
                 }
             }
 
             int k = 0;
             out:
-            for (int i = 0; i < GAME_HEIGHT; i += area.getHeight()) {
-                for (int j = 0; j < GAME_WIDTH; j += area.getWidth()) {
+            for (int i = 0; i < GAME_HEIGHT * 3; i += area.getHeight()) {
+                for (int j = 0; j < GAME_WIDTH * 3; j += area.getWidth()) {
                     if (k >= map.size())
                         break out;
                     switch (map.get(k)) {
@@ -222,8 +247,8 @@ public class GameFrame extends JFrame {
 
             k = 0;
             out1:
-            for (int i = 0; i < GAME_HEIGHT; i = i + area.getHeight()) {
-                for (int j = 0; j < GAME_WIDTH; j += area.getWidth()) {
+            for (int i = 0; i < GAME_HEIGHT * 3; i = i + area.getHeight()) {
+                for (int j = 0; j < GAME_WIDTH * 3; j += area.getWidth()) {
                     if (k >= map.size())
                         break out1;
                     switch (map.get(k)) {
@@ -262,6 +287,7 @@ public class GameFrame extends JFrame {
                     }
                 }
             }
+
             // drawing the tank
             g2d.drawImage(tank, state.tankLocationX, state.tankLocationY, null);
             int tankCenterX = state.tankLocationX + tank.getWidth() / 2;
@@ -282,11 +308,12 @@ public class GameFrame extends JFrame {
             }
             state.setRotationRequired(rotationRequired);
             // handle the tank's gun and rotate it and then draw it
-            AffineTransform tx ;
+            AffineTransform tx;
             if (state.isTanksGun1Online())
                 tx = AffineTransform.getRotateInstance(rotationRequired, tanksGun.getWidth() / 2 - 20, tanksGun.getHeight() / 2 - 20);
             else
                 tx = AffineTransform.getRotateInstance(rotationRequired, tanksGun2.getWidth() / 2 - 20, tanksGun2.getHeight() / 2 - 25);
+
 
             AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
             if (state.isTanksGun1Online())
@@ -296,7 +323,7 @@ public class GameFrame extends JFrame {
 
             // first removing invalid bullets then drawing the Bullets in the map
             for (int i = 0; i < state.getBullets().size(); i++) {
-                if (state.getBullets().get(i).getX() > GAME_WIDTH || state.getBullets().get(i).getX() < 0 || state.getBullets().get(i).getY() < 0 || state.getBullets().get(i).getY() > GAME_HEIGHT)
+                if (state.getBullets().get(i).getX() > GAME_WIDTH * 3 || state.getBullets().get(i).getX() < 0 || state.getBullets().get(i).getY() < 0 || state.getBullets().get(i).getY() > GAME_HEIGHT * 3)
                     state.getBullets().remove(i);
             }
             for (Bullet b :
@@ -307,23 +334,22 @@ public class GameFrame extends JFrame {
                     op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
                     g2d.drawImage(op.filter(heavyBullet, null), b.getX(), b.getY(), null);
                 }
-                if (b instanceof LightBullet)
-                {
+                if (b instanceof LightBullet) {
                     tx = AffineTransform.getRotateInstance(b.getRotationRequired(), lightBullet.getWidth() / 2, lightBullet.getHeight() / 2);
                     op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
                     g2d.drawImage(op.filter(lightBullet, null), b.getX(), b.getY(), null);
+
                 }
             }
 
             //drawing the game info line number of Bullets
-            g2d.drawImage(numOfHeavyBullet , 3 , 30 , null);
-            g2d.drawImage(numOfMachineGun , 7 , 85 , null);
+            g2d.drawImage(numOfHeavyBullet, numOfBullLocX + 3, numOfBullLocY + 30, null);
+            g2d.drawImage(numOfMachinGun, numOfBullLocX + 7, numOfBullLocY + 85, null);
             g2d.setColor(Color.red);
             g2d.setFont(new Font("TimesRoman", Font.PLAIN, 50));
-            g2d.drawString("" + state.getNumberOfBullets() , 65 , 75);
-            g2d.drawString("" + state.getNumberOfBullets2() , 65 , 130);
+            g2d.drawString("" + state.getNumberOfBullets(), numOfBullLocX + 65, numOfBullLocY + 75);
+            g2d.drawString("" + state.getNumberOfBullets2(), numOfBullLocX + 65, numOfBullLocY + 130);
         }
-
     }
 
     public ArrayList<Character> readMap(String fileName) {
@@ -350,12 +376,9 @@ public class GameFrame extends JFrame {
     public BufferedImage resizeImage(Image image, int width, int height) {
         Image tmp = image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
         BufferedImage dimg = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-
         Graphics2D g2d = dimg.createGraphics();
         g2d.drawImage(tmp, 0, 0, null);
         g2d.dispose();
-
         return dimg;
     }
-
 }
