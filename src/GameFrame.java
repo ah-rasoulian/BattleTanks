@@ -307,37 +307,33 @@ public class GameFrame extends JFrame {
             }
             state.setRotationRequired(rotationRequired);
             // handle the tank's gun and rotate it and then draw it
-            AffineTransform tx;
+            AffineTransform tankGunAffineTransform = new AffineTransform() ;
+            tankGunAffineTransform.translate(tankCenterX , tankCenterY);
+            tankGunAffineTransform.rotate(rotationRequired);
+            tankGunAffineTransform.translate(-30  , -31);
             if (state.isTanksGun1Online())
-                tx = AffineTransform.getRotateInstance(rotationRequired, tanksGun.getWidth() / 2 - 20, tanksGun.getHeight() / 2 - 20);
+                g2d.drawImage(tanksGun, tankGunAffineTransform, null);
             else
-                tx = AffineTransform.getRotateInstance(rotationRequired, tanksGun2.getWidth() / 2 - 20, tanksGun2.getHeight() / 2 - 25);
-
-
-            AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
-            if (state.isTanksGun1Online())
-                g2d.drawImage(op.filter(tanksGun, null), state.tankLocationX + 20, state.tankLocationY + 15, null);
-            else
-                g2d.drawImage(op.filter(tanksGun2, null), state.tankLocationX + 20, state.tankLocationY + 22, null);
+                g2d.drawImage(tanksGun2, tankGunAffineTransform, null);
 
             // first removing invalid bullets then drawing the Bullets in the map
             for (int i = 0; i < state.getBullets().size(); i++) {
                 if (state.getBullets().get(i).getX() > GAME_WIDTH * 3 || state.getBullets().get(i).getX() < 0 || state.getBullets().get(i).getY() < 0 || state.getBullets().get(i).getY() > GAME_HEIGHT * 3)
                     state.getBullets().remove(i);
             }
+            AffineTransform bulletAffineTransform ;
             for (Bullet b :
                     state.getBullets()) {
                 b.update();
+                bulletAffineTransform = new AffineTransform() ;
+                bulletAffineTransform.translate(b.getX() , b.getY());
+                bulletAffineTransform.rotate(b.getRotationRequired());
+                bulletAffineTransform.translate(0 , - 5);
                 if (b instanceof HeavyBullet) {
-                    tx = AffineTransform.getRotateInstance(b.getRotationRequired(), heavyBullet.getWidth() / 2, heavyBullet.getHeight() / 2);
-                    op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
-                    g2d.drawImage(op.filter(heavyBullet, null), b.getX(), b.getY(), null);
+                    g2d.drawImage(heavyBullet , bulletAffineTransform, null);
                 }
                 if (b instanceof LightBullet) {
-                    tx = AffineTransform.getRotateInstance(b.getRotationRequired(), lightBullet.getWidth() / 2, lightBullet.getHeight() / 2);
-                    op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
-                    g2d.drawImage(op.filter(lightBullet, null), b.getX(), b.getY(), null);
-
+                    g2d.drawImage(lightBullet , bulletAffineTransform, null);
                 }
             }
 

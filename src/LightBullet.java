@@ -1,29 +1,20 @@
-import java.awt.*;
-
+/**
+ * a class to handle the light Bullets
+ * that have a method to update the location of a bullet
+ * @author AmirHosseinRasulian
+ */
 public class LightBullet extends Bullet {
 
     public LightBullet (GameState state)
     {
-        super(state , 0.90 , 67);
+        super(state , 0.90 , 60);
     }
+    /**
+     * updating the point that bullet must draw there by the speed and x = vt formula
+     */
     @Override
     public void update() {
         x = pointOfGun.x + (int)( speedX * (System.currentTimeMillis() - startTime));
         y = pointOfGun.y + (int)( speedY * (System.currentTimeMillis() - startTime));
-    }
-
-    @Override
-    public int getX() {
-        return x;
-    }
-
-    @Override
-    public int getY() {
-        return y;
-    }
-
-    @Override
-    public double getRotationRequired() {
-        return rotationRequired;
     }
 }

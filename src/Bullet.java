@@ -1,5 +1,11 @@
 import java.awt.*;
 
+/**
+ * this is a class that simulates a bullet from 2 kind lightBullet and heavyBullet
+ * that they are 2 classes that extends this class
+ * this class have the data of a bullet
+ * @author AmirHossein Rasulian
+ */
 public abstract class Bullet
 {
     protected Point pointOfShut ;
@@ -13,7 +19,7 @@ public abstract class Bullet
     protected double startTime ;
     protected double distant ;
 
-    public Bullet (GameState state , double speed , int radius)
+    public Bullet (GameState state , double speed , double radius)
     {
         this.speed = speed ;
         startTime = System.currentTimeMillis() ;
@@ -21,32 +27,33 @@ public abstract class Bullet
         pointOfShut = state.getShootingPoint() ;
         rotationRequired = state.getRotationRequired() ;
 
-        int centerOfTankX = state.tankLocationX + 42 ;
-        int centerOfTankY = state.tankLocationY + 42 ;
+        int centerOfTankX = state.tankLocationX + 50 ;
+        int centerOfTankY = state.tankLocationY + 50 ;
 
-        if ( Math.toDegrees(rotationRequired) >= 0 && Math.toDegrees(rotationRequired) < 90)
-            pointOfGun = new Point(centerOfTankX + (int)(radius*Math.cos(rotationRequired)),centerOfTankY  + (int)(radius*Math.sin(rotationRequired))) ;
-        else if (Math.toDegrees(rotationRequired) >= 90 && Math.toDegrees(rotationRequired) < 180)
-            pointOfGun = new Point(centerOfTankX + (int)(radius*Math.cos(rotationRequired)) , centerOfTankY + (int)(radius*Math.sin(rotationRequired))) ;
-        else if (Math.toDegrees(rotationRequired) >= 180 && Math.toDegrees(rotationRequired) < 270)
-            pointOfGun = new Point(centerOfTankX + (int)(radius*Math.cos(rotationRequired)) , centerOfTankY + (int)(radius*Math.sin(rotationRequired))) ;
-        else
-            pointOfGun = new Point(centerOfTankX + (int)(radius*Math.cos(-rotationRequired)) , centerOfTankY - (int)(radius*Math.sin(-rotationRequired))) ;
+        distant = Math.sqrt((pointOfShut.x - centerOfTankX)*(pointOfShut.x - centerOfTankX) + (pointOfShut.y - centerOfTankY)*(pointOfShut.y - centerOfTankY));
+
+        speedX = speed * ( (double)(pointOfShut.x - centerOfTankX) ) / distant ;
+        speedY = speed * ( (double)(pointOfShut.y - centerOfTankY) ) / distant;
+
+        pointOfGun = new Point(centerOfTankX + (int)(radius * speedX) , centerOfTankY + (int)(radius * speedY));
 
         x = pointOfGun.x ;
         y = pointOfGun.y ;
-        distant = Math.sqrt((pointOfShut.x - pointOfGun.x)*(pointOfShut.x - pointOfGun.x) + (pointOfShut.y - pointOfGun.y)*(pointOfShut.y - pointOfGun.y));
-
-        speedX = speed * ( (double)(pointOfShut.x - pointOfGun.x) ) / distant ;
-        speedY = speed * ( (double)(pointOfShut.y - pointOfGun.y) ) / distant;
 
     }
 
     public abstract void update();
 
-    public abstract int getX();
+    public int getX()
+    {
+        return x;
+    }
 
-    public abstract int getY();
+    public int getY(){
+        return y ;
+    }
 
-    public abstract double getRotationRequired();
+    public double getRotationRequired(){
+        return rotationRequired;
+    }
 }

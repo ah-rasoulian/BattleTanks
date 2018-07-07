@@ -201,14 +201,6 @@ public class GameState {
         return mouseX;
     }
 
-    public void setMouseX(int mouseX) {
-        this.mouseX = mouseX;
-    }
-
-    public void setMouseY(int mouseY) {
-        this.mouseY = mouseY;
-    }
-
     public void setRotationRequired(double rotationRequired) {
         this.rotationRequired = rotationRequired;
     }
@@ -238,7 +230,7 @@ public class GameState {
             SoundPlayer.playSound("emptyGun");
             return false;
         }
-        if (shootingPoint.x - tankLocationX > -38 && shootingPoint.x - tankLocationX < 150 && shootingPoint.y - tankLocationY > -50 && shootingPoint.y - tankLocationY < 130)
+        if (shootingPoint.x - tankLocationX > 0 && shootingPoint.x - tankLocationX < 100 && shootingPoint.y - tankLocationY > 0 && shootingPoint.y - tankLocationY < 80)
             return false;
         if (tanksGun1Online && (System.currentTimeMillis() - lastShutTime < 2000))
             return false;
