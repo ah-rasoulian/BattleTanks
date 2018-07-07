@@ -90,6 +90,7 @@ public class GameFrame extends JFrame {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        initialMap();
     }
 
     /**
@@ -375,5 +376,73 @@ public class GameFrame extends JFrame {
         g2d.drawImage(tmp, 0, 0, null);
         g2d.dispose();
         return dimg;
+    }
+
+    public void initialMap() {
+        int k = 0;
+        out:
+        for (int i = 0; i < GameFrame.GAME_HEIGHT * 3; i += area.getHeight()) {
+            for (int j = 0; j < GameFrame.GAME_WIDTH * 3; j += area.getWidth()) {
+                if (k >= map.size())
+                    break out;
+                switch (map.get(k)) {
+                    case '\r':
+                        i -= area.getHeight();
+                        k++;
+                        continue out;
+
+                    case '\n':
+                        k++;
+                        continue out;
+                    case 'S':
+                        GameState.addObstacle(j, i, softWall.getWidth(), softWall.getHeight());
+                        k++;
+                        break;
+
+                    case 't':
+                        GameState.addObstacle(j, i, teazel.getWidth(), teazel.getHeight());
+                        k++;
+                        break;
+                    case 'h':
+                        GameState.addObstacle(j, i, hardWall.getWidth(), hardWall.getHeight());
+                        k++;
+                        break;
+                    default:
+                        k++;
+                }
+            }
+        }
+        k = 0;
+        out1:
+        for (int i = 0; i < GameFrame.GAME_HEIGHT * 3; i = i + area.getHeight()) {
+            for (int j = 0; j < GameFrame.GAME_WIDTH * 3; j += area.getWidth()) {
+                if (k >= map.size())
+                    break out1;
+                switch (map.get(k)) {
+                    case '\r':
+                        i -= area.getHeight();
+                        k++;
+                        continue out1;
+                    case '\n':
+                        k++;
+                        continue out1;
+                    case 'b':
+                        GameState.addObstacle(j, i, bigEnemy.getWidth(), bigEnemy.getHeight());
+                        k++;
+                        break;
+                    case 'k':
+                        GameState.addObstacle(j, i, khengEnemy.getWidth(), khengEnemy.getHeight());
+                        k++;
+                        break;
+                    case 'Q':
+                        GameState.addObstacle(j, i, smallEnemy.getWidth(), smallEnemy.getHeight());
+                        k++;
+                        break;
+                    default:
+                        k++;
+
+                }
+            }
+        }
     }
 }

@@ -47,6 +47,8 @@ public class GameState {
 
     private boolean menuSoundFinished;
 
+    public static ArrayList<ArrayList<Integer>> obstacles = new ArrayList<ArrayList<Integer>>();
+
     public GameState() {
         //
         // Initialize the game state and all elements ...
@@ -136,16 +138,18 @@ public class GameState {
                 menuYPosition = 530;
         } else {
 
-            if (keyUP) {
+            if (keyUP && allowToMove("up")) {
                 tankLocationY -= 8;
             }
-            if (keyDOWN) {
+            if (keyDOWN && allowToMove("down")) {
                 tankLocationY += 8;
             }
-            if (keyRIGHT)
+            if (keyRIGHT && allowToMove("right")) {
                 tankLocationX += 8;
-            if (keyLEFT)
+            }
+            if (keyLEFT && allowToMove("left")) {
                 tankLocationX -= 8;
+            }
             if (keyEsc)
                 menuIsFinished = false;
             tankLocationX = Math.max(tankLocationX, 0);
@@ -420,5 +424,48 @@ public class GameState {
             }
 
         }
+    }
+
+    public static void addObstacle(int x, int y, int lengthX, int lengthY) {
+        ArrayList<Integer> swap = new ArrayList<Integer>();
+        swap.add(x);
+        swap.add(y);
+        swap.add(lengthX);
+        swap.add(lengthY);
+        obstacles.add(swap);
+    }
+
+    public boolean allowToMove(String direction) {
+        int locX, locY;
+        locX = tankLocationX;
+        locY = tankLocationY;
+        switch (direction) {
+            case "up":
+                locY -= 8;
+                break;
+            case "down":
+                locY += 8;
+                break;
+            case "right":
+                locX += 8;
+                break;
+            case "left":
+                locX -= 8;
+                break;
+            default:
+                System.out.println("wrong direction");
+                break;
+        }
+        for (ArrayList<Integer> arrayList : obstacles) {
+            int x, y, lenX, lenY;
+            x = arrayList.get(0);
+            y = arrayList.get(1);
+            lenX = arrayList.get(2);
+            lenY = arrayList.get(3);
+            if (x <= locX + lenX && locX <= x + lenX - 20 && locY + lenY - 13 >= y && locY <= y + lenY - 10) {
+                return false;
+            }
+        }
+        return true;
     }
 }
