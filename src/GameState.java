@@ -24,7 +24,7 @@ public class GameState {
 
     private boolean keyUP, keyDOWN, keyRIGHT, keyLEFT, keyEsc;
     private boolean menuKeyUP, menuKeyDOWN, menuKeyENTER;
-    private boolean mouseLeftPress, mouseRightPress;
+    private boolean mouseLeftPress, mouseRightPress , mouseDragged;
     private int mouseX, mouseY;
     private KeyHandler keyHandler;
     private MouseHandler mouseHandler;
@@ -69,6 +69,7 @@ public class GameState {
         //
         mouseLeftPress = false;
         mouseRightPress = false;
+        mouseDragged = false ;
         mouseX = 0;
         mouseY = 0;
         //
@@ -152,7 +153,7 @@ public class GameState {
             tankLocationY = Math.max(tankLocationY, 0);
             tankLocationY = Math.min(tankLocationY, GameFrame.GAME_HEIGHT * 3 - 30);
 
-            if (mouseLeftPress && shootIsValid()) {
+            if ((mouseLeftPress || mouseDragged ) && shootIsValid()) {
                 if (tanksGun1Online) {
                     SoundPlayer.playSound("cannon");
                     bullets.add(new HeavyBullet(this));
@@ -363,6 +364,7 @@ public class GameState {
                 mouseRightPress = false;
             } else {
                 mouseLeftPress = false;
+                mouseDragged = false ;
             }
         }
 
@@ -376,6 +378,28 @@ public class GameState {
 
         @Override
         public void mouseDragged(MouseEvent e) {
+            int locX, locY;
+            locX = e.getX();
+            locY = e.getY();
+            if (tankLocationY >= 720 && tankLocationY <= 1440) {
+                locY += 720;
+
+            }
+            if (tankLocationY > 1440) {
+                locY += 1440;
+            }
+
+            if (tankLocationX >= GameFrame.GAME_WIDTH && tankLocationX <= GameFrame.GAME_WIDTH * 2) {
+                locX += GameFrame.GAME_WIDTH;
+            }
+
+            if (tankLocationX >= GameFrame.GAME_WIDTH * 2) {
+                locX += GameFrame.GAME_WIDTH * 2;
+            }
+            shootingPoint = new Point(locX, locY);
+            mouseDragged = true ;
+            mouseX = e.getX() ;
+            mouseY = e.getY() ;
         }
 
         @Override
