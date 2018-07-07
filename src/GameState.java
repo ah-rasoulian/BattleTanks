@@ -398,8 +398,8 @@ public class GameState {
             }
             shootingPoint = new Point(locX, locY);
             mouseDragged = true ;
-            mouseX = e.getX() ;
-            mouseY = e.getY() ;
+            mouseX = locX ;
+            mouseY = locY ;
         }
 
         @Override
