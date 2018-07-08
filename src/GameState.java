@@ -16,6 +16,7 @@ import java.util.ArrayList;
 public class GameState {
 
     private MyTank myTank ;
+    private ArrayList<Tank> enemyTanks ;
 
     public boolean gameOver;
 
@@ -50,6 +51,13 @@ public class GameState {
         //
         //create myTank
         myTank = new MyTank(100,100 , 0);
+        //create enemy Tanks
+        enemyTanks = new ArrayList<>();
+        enemyTanks.add( new EnemyFixedTank(1100 , 0 , 0 , myTank.getTankLocation()) );
+        enemyTanks.add( new EnemyFixedTank(3620 , 300 , 0 , myTank.getTankLocation()) );
+        enemyTanks.add( new EnemyFixedTank(1000 , 1040 , 0 , myTank.getTankLocation()) );
+        enemyTanks.add( new EnemyFixedTank(150 , 1550 , 0 , myTank.getTankLocation()) );
+        enemyTanks.add( new EnemyFixedTank(2700 , 1850 , 0 , myTank.getTankLocation()) );
         //
         menuIsFinished = false;
         savingIsAvailable = false;
@@ -238,6 +246,10 @@ public class GameState {
 
     public MyTank getMyTank() {
         return myTank;
+    }
+
+    public ArrayList<Tank> getEnemyTanks() {
+        return enemyTanks;
     }
 
     /**
@@ -451,7 +463,7 @@ public class GameState {
             y = arrayList.get(1);
             lenX = arrayList.get(2);
             lenY = arrayList.get(3);
-            if (x <= locX + lenX && locX <= x + lenX - 20 && locY + lenY - 13 >= y && locY <= y + lenY - 10) {
+            if (x <= locX + lenX && locX <= x + lenX - 10 && locY + lenY - 13 >= y && locY <= y + lenY - 10) {
                 return false;
             }
         }

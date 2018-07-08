@@ -55,6 +55,9 @@ public class GameFrame extends JFrame {
     private BufferedImage enemy2;
     private BufferedImage enemy2Gun;
     private BufferedImage health;
+
+    private BufferedImage enemyFixedTank ;
+    private BufferedImage enemyFixedTankGun ;
     private ArrayList<Character> map;
     private int numOfBullLocX;
     private int numOfBullLocY;
@@ -100,6 +103,8 @@ public class GameFrame extends JFrame {
             enemy2 = ImageIO.read(new File("./Resources/Images/SmallEnemyBody.png"));
             enemy2Gun = ImageIO.read(new File("./Resources/Images/SmallEnemyGun.png"));
             health = ImageIO.read(new File("./Resources/Images/health.png"));
+            enemyFixedTank = ImageIO.read(new File("./Resources/Images/enemyFixedTank.png"));
+            enemyFixedTankGun = ImageIO.read(new File("./Resources/Images/fixedTankGun.png"));
             map = readMap("map1");
         } catch (IOException e) {
             e.printStackTrace();
@@ -351,6 +356,27 @@ public class GameFrame extends JFrame {
                 g2d.drawImage(tanksGun, tankGunAffineTransform, null);
             else
                 g2d.drawImage(tanksGun2, tankGunAffineTransform, null);
+
+            //drawing the enemyTanks
+            for (Tank enemyTank:
+                 state.getEnemyTanks()) {
+                if (enemyTank instanceof EnemyFixedTank) {
+                    ((EnemyFixedTank) enemyTank).updateEnemyLocation(state.getMyTank().getTankLocation());
+                    g2d.drawImage(enemyFixedTank , enemyTank.getTankLocation().x , enemyTank.getTankLocation().y , null);
+                    g2d.drawImage(enemyFixedTankGun , enemyTank.affineTransform , null);
+                    AffineTransform bulletAffineTransform ;
+                    for (Bullet b :
+                            ((EnemyFixedTank) enemyTank).getBullets()) {
+                        b.update();
+                        bulletAffineTransform = new AffineTransform();
+                        bulletAffineTransform.translate(b.getX(), b.getY());
+                        bulletAffineTransform.rotate(b.getRotationRequired());
+                        bulletAffineTransform.translate(0, -5);
+                        g2d.drawImage(heavyBullet, bulletAffineTransform, null);
+                    }
+                }
+
+            }
 
             // first removing invalid bullets then drawing the Bullets in the map
             for (int i = 0; i < state.getBullets().size(); i++) {

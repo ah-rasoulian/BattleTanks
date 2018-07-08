@@ -1,9 +1,11 @@
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 
 public class Tank
 {
     private Point tankLocation ;
-    private double rotationRequired ;
+    protected AffineTransform affineTransform;
+    protected double rotationRequired ;
 
     public Tank (int locationX , int locationY , double rotationRequired)
     {

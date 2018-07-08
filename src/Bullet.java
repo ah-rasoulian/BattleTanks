@@ -41,6 +41,26 @@ public abstract class Bullet
         y = pointOfGun.y ;
 
     }
+    public Bullet (Point shootingPoint,int centerOfTankX , int centerOfTankY , double rotationRequired , double speed , double radius)
+    {
+        this.speed = speed ;
+        startTime = System.currentTimeMillis() ;
+
+        pointOfShut = shootingPoint ;
+        this.rotationRequired = rotationRequired ;
+
+
+        distant = Math.sqrt((pointOfShut.x - centerOfTankX)*(pointOfShut.x - centerOfTankX) + (pointOfShut.y - centerOfTankY)*(pointOfShut.y - centerOfTankY));
+
+        speedX = speed * ( (double)(pointOfShut.x - centerOfTankX) ) / distant ;
+        speedY = speed * ( (double)(pointOfShut.y - centerOfTankY) ) / distant;
+
+        pointOfGun = new Point(centerOfTankX + (int)(radius * speedX) , centerOfTankY + (int)(radius * speedY));
+
+        x = pointOfGun.x ;
+        y = pointOfGun.y ;
+
+    }
 
     public abstract void update();
 
