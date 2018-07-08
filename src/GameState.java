@@ -451,7 +451,7 @@ public class GameState {
             y = arrayList.get(1);
             lenX = arrayList.get(2);
             lenY = arrayList.get(3);
-            if (x <= locX + lenX && locX <= x + lenX - 20 && locY + lenY - 13 >= y && locY <= y + lenY - 10) {
+            if (x <= locX + lenX && locX <= x + lenX - 10 && locY + lenY - 13 >= y && locY <= y + lenY - 10) {
                 return false;
             }
         }
