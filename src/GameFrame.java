@@ -148,25 +148,25 @@ public class GameFrame extends JFrame {
             g2d.fillOval(30, state.menuYPosition, 30, 30);
 
         } else {
-            if (state.tankLocationY < 720) {
+            if (state.getMyTank().getTankLocation().y < 720) {
                 numOfBullLocY = 0;
             }
-            if (state.tankLocationY >= 720 && state.tankLocationY <= 1440) {
+            if (state.getMyTank().getTankLocation().y >= 720 && state.getMyTank().getTankLocation().y <= 1440) {
                 g2d.translate(0, -720);
                 numOfBullLocY = 720;
             }
-            if (state.tankLocationY > 1440) {
+            if (state.getMyTank().getTankLocation().y > 1440) {
                 g2d.translate(0, -1440);
                 numOfBullLocY = 1440;
             }
-            if (state.tankLocationX < GAME_WIDTH) {
+            if (state.getMyTank().getTankLocation().x < GAME_WIDTH) {
                 numOfBullLocX = 0;
             }
-            if (state.tankLocationX >= GAME_WIDTH && state.tankLocationX <= GAME_WIDTH * 2) {
+            if (state.getMyTank().getTankLocation().x >= GAME_WIDTH && state.getMyTank().getTankLocation().x <= GAME_WIDTH * 2) {
                 g2d.translate(GAME_WIDTH * -1, 0);
                 numOfBullLocX = GAME_WIDTH;
             }
-            if (state.tankLocationX > GAME_WIDTH * 2) {
+            if (state.getMyTank().getTankLocation().x > GAME_WIDTH * 2) {
                 g2d.translate(GAME_WIDTH * -2, 0);
                 numOfBullLocX = GAME_WIDTH * 2;
             }
@@ -289,9 +289,9 @@ public class GameFrame extends JFrame {
             }
 
             // drawing the tank
-            g2d.drawImage(tank, state.tankLocationX, state.tankLocationY, null);
-            int tankCenterX = state.tankLocationX + tank.getWidth() / 2;
-            int tankCenterY = state.tankLocationY + tank.getHeight() / 2;
+            g2d.drawImage(tank, state.getMyTank().getTankLocation().x, state.getMyTank().getTankLocation().y, null);
+            int tankCenterX = state.getMyTank().getTankLocation().x + tank.getWidth() / 2;
+            int tankCenterY = state.getMyTank().getTankLocation().y + tank.getHeight() / 2;
 
             //calculating the rotation required for the tank's gun base on where the mouse is
             double rotationRequired;
@@ -343,8 +343,8 @@ public class GameFrame extends JFrame {
             g2d.drawImage(numOfMachinGun, numOfBullLocX + 7, numOfBullLocY + 85, null);
             g2d.setColor(Color.red);
             g2d.setFont(new Font("TimesRoman", Font.PLAIN, 50));
-            g2d.drawString("" + state.getNumberOfBullets(), numOfBullLocX + 65, numOfBullLocY + 75);
-            g2d.drawString("" + state.getNumberOfBullets2(), numOfBullLocX + 65, numOfBullLocY + 130);
+            g2d.drawString("" + state.getMyTank().getNumberOfHeavyBullets(), numOfBullLocX + 65, numOfBullLocY + 75);
+            g2d.drawString("" + state.getMyTank().getNumberOfLightBullets(), numOfBullLocX + 65, numOfBullLocY + 130);
         }
     }
 

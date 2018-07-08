@@ -15,6 +15,8 @@ import java.util.ArrayList;
  */
 public class GameState {
 
+    private MyTank myTank ;
+
     public boolean gameOver;
 
     public boolean menuIsFinished;
@@ -29,18 +31,11 @@ public class GameState {
     private KeyHandler keyHandler;
     private MouseHandler mouseHandler;
 
-    public int tankLocationX;
-    public int tankLocationY;
-
-    private double rotationRequired;
-
     private ArrayList<Bullet> bullets;
     private boolean gunIsReloaded;
     private long lastShutTime;
     private Point shootingPoint;
 
-    private int numberOfBullets;
-    private int numberOfBullets2;
     private boolean tanksGun1Online;
     private long lastChangeGunTime;
     private AffineTransform affineTransform;
@@ -52,6 +47,9 @@ public class GameState {
     public GameState() {
         //
         // Initialize the game state and all elements ...
+        //
+        //create myTank
+        myTank = new MyTank(100,100 , 0);
         //
         menuIsFinished = false;
         savingIsAvailable = false;
@@ -75,17 +73,11 @@ public class GameState {
         mouseX = 0;
         mouseY = 0;
         //
-        tankLocationX = 100;
-        tankLocationY = 100;
-        rotationRequired = 0;
-        //
         keyHandler = new KeyHandler();
         mouseHandler = new MouseHandler();
         //
         bullets = new ArrayList<Bullet>();
         gunIsReloaded = true;
-        numberOfBullets = 50;
-        numberOfBullets2 = 300;
         //
         tanksGun1Online = true;
         affineTransform = new AffineTransform();
@@ -139,35 +131,36 @@ public class GameState {
         } else {
 
             if (keyUP && allowToMove("up")) {
-                tankLocationY -= 8;
+                myTank.getTankLocation().y -= 8;
             }
             if (keyDOWN && allowToMove("down")) {
-                tankLocationY += 8;
+                myTank.getTankLocation().y += 8;
             }
             if (keyRIGHT && allowToMove("right")) {
-                tankLocationX += 8;
+                myTank.getTankLocation().x += 8;
             }
             if (keyLEFT && allowToMove("left")) {
-                tankLocationX -= 8;
+                myTank.getTankLocation().x -= 8;
             }
             if (keyEsc)
                 menuIsFinished = false;
-            tankLocationX = Math.max(tankLocationX, 0);
-            tankLocationX = Math.min(tankLocationX, GameFrame.GAME_WIDTH * 3 - 30);
-            tankLocationY = Math.max(tankLocationY, 0);
-            tankLocationY = Math.min(tankLocationY, GameFrame.GAME_HEIGHT * 3 - 30);
+
+            myTank.getTankLocation().x = Math.max(myTank.getTankLocation().x , 0);
+            myTank.getTankLocation().x = Math.min(myTank.getTankLocation().x, GameFrame.GAME_WIDTH * 3 - 30);
+            myTank.getTankLocation().y = Math.max(myTank.getTankLocation().y, 0);
+            myTank.getTankLocation().y = Math.min(myTank.getTankLocation().y, GameFrame.GAME_HEIGHT * 3 - 30);
 
             if ((mouseLeftPress || mouseDragged ) && shootIsValid()) {
                 if (tanksGun1Online) {
                     SoundPlayer.playSound("cannon");
                     bullets.add(new HeavyBullet(this));
                     lastShutTime = System.currentTimeMillis();
-                    numberOfBullets--;
+                    myTank.decreaseHeavyBullets();
                     gunIsReloaded = false;
                 } else {
                     SoundPlayer.playSound("machineGun");
                     bullets.add(new LightBullet(this));
-                    numberOfBullets2--;
+                    myTank.decreaseLightBullets();
                 }
             }
 
@@ -207,15 +200,11 @@ public class GameState {
     }
 
     public void setRotationRequired(double rotationRequired) {
-        this.rotationRequired = rotationRequired;
+        myTank.setRotationRequired(rotationRequired);
     }
 
     public double getRotationRequired() {
-        return rotationRequired;
-    }
-
-    public int getNumberOfBullets() {
-        return numberOfBullets;
+        return myTank.getRotationRequired();
     }
 
     public ArrayList<Bullet> getBullets() {
@@ -227,15 +216,15 @@ public class GameState {
     }
 
     private boolean shootIsValid() {
-        if (tanksGun1Online && (numberOfBullets == 0)) {
+        if (tanksGun1Online && (myTank.getNumberOfHeavyBullets() == 0)) {
             SoundPlayer.playSound("emptyGun");
             return false;
         }
-        if (!tanksGun1Online && (numberOfBullets2 == 0)) {
+        if (!tanksGun1Online && (myTank.getNumberOfLightBullets() == 0)) {
             SoundPlayer.playSound("emptyGun");
             return false;
         }
-        if (shootingPoint.x - tankLocationX > 0 && shootingPoint.x - tankLocationX < 100 && shootingPoint.y - tankLocationY > 0 && shootingPoint.y - tankLocationY < 80)
+        if (shootingPoint.x - myTank.getTankLocation().x > 0 && shootingPoint.x - myTank.getTankLocation().x < 100 && shootingPoint.y - myTank.getTankLocation().y > 0 && shootingPoint.y - myTank.getTankLocation().y < 80)
             return false;
         if (tanksGun1Online && (System.currentTimeMillis() - lastShutTime < 2000))
             return false;
@@ -247,8 +236,8 @@ public class GameState {
         return tanksGun1Online;
     }
 
-    public int getNumberOfBullets2() {
-        return numberOfBullets2;
+    public MyTank getMyTank() {
+        return myTank;
     }
 
     /**
@@ -338,19 +327,19 @@ public class GameState {
             int locX, locY;
             locX = e.getX();
             locY = e.getY();
-            if (tankLocationY >= 720 && tankLocationY <= 1440) {
+            if (myTank.getTankLocation().y >= 720 && myTank.getTankLocation().y <= 1440) {
                 locY += 720;
 
             }
-            if (tankLocationY > 1440) {
+            if (myTank.getTankLocation().y > 1440) {
                 locY += 1440;
             }
 
-            if (tankLocationX >= GameFrame.GAME_WIDTH && tankLocationX <= GameFrame.GAME_WIDTH * 2) {
+            if (myTank.getTankLocation().x >= GameFrame.GAME_WIDTH && myTank.getTankLocation().x <= GameFrame.GAME_WIDTH * 2) {
                 locX += GameFrame.GAME_WIDTH;
             }
 
-            if (tankLocationX >= GameFrame.GAME_WIDTH * 2) {
+            if (myTank.getTankLocation().x >= GameFrame.GAME_WIDTH * 2) {
                 locX += GameFrame.GAME_WIDTH * 2;
             }
             if (SwingUtilities.isRightMouseButton(e)) {
@@ -385,19 +374,19 @@ public class GameState {
             int locX, locY;
             locX = e.getX();
             locY = e.getY();
-            if (tankLocationY >= 720 && tankLocationY <= 1440) {
+            if (myTank.getTankLocation().y >= 720 && myTank.getTankLocation().y <= 1440) {
                 locY += 720;
 
             }
-            if (tankLocationY > 1440) {
+            if (myTank.getTankLocation().y > 1440) {
                 locY += 1440;
             }
 
-            if (tankLocationX >= GameFrame.GAME_WIDTH && tankLocationX <= GameFrame.GAME_WIDTH * 2) {
+            if (myTank.getTankLocation().x >= GameFrame.GAME_WIDTH && myTank.getTankLocation().x <= GameFrame.GAME_WIDTH * 2) {
                 locX += GameFrame.GAME_WIDTH;
             }
 
-            if (tankLocationX >= GameFrame.GAME_WIDTH * 2) {
+            if (myTank.getTankLocation().x >= GameFrame.GAME_WIDTH * 2) {
                 locX += GameFrame.GAME_WIDTH * 2;
             }
             shootingPoint = new Point(locX, locY);
@@ -408,16 +397,16 @@ public class GameState {
 
         @Override
         public void mouseMoved(MouseEvent e) {
-            if (tankLocationY >= 720 && tankLocationY <= 1440) {
+            if (myTank.getTankLocation().y >= 720 && myTank.getTankLocation().y <= 1440) {
                 mouseY = e.getY() + 720;
-            } else if (tankLocationY > 1440) {
+            } else if (myTank.getTankLocation().y > 1440) {
                 mouseY = e.getY() + 1440;
             } else {
                 mouseY = e.getY();
             }
-            if (tankLocationX >= GameFrame.GAME_WIDTH && tankLocationX <= GameFrame.GAME_WIDTH * 2) {
+            if (myTank.getTankLocation().x >= GameFrame.GAME_WIDTH && myTank.getTankLocation().x <= GameFrame.GAME_WIDTH * 2) {
                 mouseX = e.getX() + GameFrame.GAME_WIDTH;
-            } else if (tankLocationX > GameFrame.GAME_WIDTH * 2) {
+            } else if (myTank.getTankLocation().x > GameFrame.GAME_WIDTH * 2) {
                 mouseX = e.getX() + GameFrame.GAME_WIDTH * 2;
             } else {
                 mouseX = e.getX();
@@ -437,8 +426,8 @@ public class GameState {
 
     public boolean allowToMove(String direction) {
         int locX, locY;
-        locX = tankLocationX;
-        locY = tankLocationY;
+        locX = myTank.getTankLocation().x;
+        locY = myTank.getTankLocation().y;
         switch (direction) {
             case "up":
                 locY -= 8;

@@ -27,8 +27,8 @@ public abstract class Bullet
         pointOfShut = state.getShootingPoint() ;
         rotationRequired = state.getRotationRequired() ;
 
-        int centerOfTankX = state.tankLocationX + 50 ;
-        int centerOfTankY = state.tankLocationY + 50 ;
+        int centerOfTankX = state.getMyTank().getTankLocation().x + 50 ;
+        int centerOfTankY = state.getMyTank().getTankLocation().y + 50 ;
 
         distant = Math.sqrt((pointOfShut.x - centerOfTankX)*(pointOfShut.x - centerOfTankX) + (pointOfShut.y - centerOfTankY)*(pointOfShut.y - centerOfTankY));
 
