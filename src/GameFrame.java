@@ -48,6 +48,13 @@ public class GameFrame extends JFrame {
     private BufferedImage hardWall;
     private BufferedImage softWall;
     private BufferedImage smallEnemy;
+    private BufferedImage repairFood;
+    private BufferedImage machinGunFood;
+    private BufferedImage cannonFood;
+    private BufferedImage destroyed;
+    private BufferedImage enemy2;
+    private BufferedImage enemy2Gun;
+    private BufferedImage health;
     private ArrayList<Character> map;
     private int numOfBullLocX;
     private int numOfBullLocY;
@@ -86,6 +93,13 @@ public class GameFrame extends JFrame {
             hardWall = ImageIO.read(new File("./Resources/Images/hardWall.png"));
             softWall = ImageIO.read(new File("./Resources/Images/softWall.png"));
             smallEnemy = ImageIO.read(new File("./Resources/Images/SmallEnemy.png"));
+            cannonFood = ImageIO.read(new File("./Resources/Images/CannonFood.png"));
+            machinGunFood = ImageIO.read(new File("./Resources/Images/MashinGunFood.png"));
+            repairFood = ImageIO.read(new File("./Resources/Images/RepairFood.png"));
+            destroyed = ImageIO.read(new File("./Resources/Images/destroyed.png"));
+            enemy2 = ImageIO.read(new File("./Resources/Images/SmallEnemyBody.png"));
+            enemy2Gun = ImageIO.read(new File("./Resources/Images/SmallEnemyGun.png"));
+            health = ImageIO.read(new File("./Resources/Images/health.png"));
             map = readMap("map1");
         } catch (IOException e) {
             e.printStackTrace();
@@ -237,6 +251,20 @@ public class GameFrame extends JFrame {
                             k++;
                             break;
 
+                        case 'r':
+                            g2d.drawImage(repairFood, j, i, null);
+                            k++;
+                            break;
+
+                        case 'c':
+                            g2d.drawImage(cannonFood, j, i, null);
+                            k++;
+                            break;
+
+                        case 'm':
+                            g2d.drawImage(machinGunFood, j, i, null);
+                            k++;
+                            break;
                         default:
 //                            j += area.getWidth();
                             k++;
@@ -280,6 +308,13 @@ public class GameFrame extends JFrame {
                             k++;
                             break;
 
+                        case '2':
+                            g2d.drawImage(enemy2, j, i, null);
+                            g2d.drawImage(enemy2Gun, j + 30, i + 30, null);
+//                            j += bigEnemy.getWidth();
+                            k++;
+                            break;
+
                         default:
 //                            j += area.getWidth();
                             k++;
@@ -308,10 +343,10 @@ public class GameFrame extends JFrame {
             }
             state.setRotationRequired(rotationRequired);
             // handle the tank's gun and rotate it and then draw it
-            AffineTransform tankGunAffineTransform = new AffineTransform() ;
-            tankGunAffineTransform.translate(tankCenterX , tankCenterY);
+            AffineTransform tankGunAffineTransform = new AffineTransform();
+            tankGunAffineTransform.translate(tankCenterX, tankCenterY);
             tankGunAffineTransform.rotate(rotationRequired);
-            tankGunAffineTransform.translate(-30  , -31);
+            tankGunAffineTransform.translate(-30, -31);
             if (state.isTanksGun1Online())
                 g2d.drawImage(tanksGun, tankGunAffineTransform, null);
             else
@@ -322,25 +357,29 @@ public class GameFrame extends JFrame {
                 if (state.getBullets().get(i).getX() > GAME_WIDTH * 3 || state.getBullets().get(i).getX() < 0 || state.getBullets().get(i).getY() < 0 || state.getBullets().get(i).getY() > GAME_HEIGHT * 3)
                     state.getBullets().remove(i);
             }
-            AffineTransform bulletAffineTransform ;
+            AffineTransform bulletAffineTransform;
             for (Bullet b :
                     state.getBullets()) {
                 b.update();
-                bulletAffineTransform = new AffineTransform() ;
-                bulletAffineTransform.translate(b.getX() , b.getY());
+                bulletAffineTransform = new AffineTransform();
+                bulletAffineTransform.translate(b.getX(), b.getY());
                 bulletAffineTransform.rotate(b.getRotationRequired());
-                bulletAffineTransform.translate(0 , - 5);
+                bulletAffineTransform.translate(0, -5);
                 if (b instanceof HeavyBullet) {
-                    g2d.drawImage(heavyBullet , bulletAffineTransform, null);
+                    g2d.drawImage(heavyBullet, bulletAffineTransform, null);
                 }
                 if (b instanceof LightBullet) {
-                    g2d.drawImage(lightBullet , bulletAffineTransform, null);
+                    g2d.drawImage(lightBullet, bulletAffineTransform, null);
                 }
             }
 
             //drawing the game info line number of Bullets
             g2d.drawImage(numOfHeavyBullet, numOfBullLocX + 3, numOfBullLocY + 30, null);
             g2d.drawImage(numOfMachinGun, numOfBullLocX + 7, numOfBullLocY + 85, null);
+            for (int i = numOfBullLocX + GAME_WIDTH / 2 - 65; i < numOfBullLocX + GAME_WIDTH / 2 + 65; i += 26) {
+                g2d.drawImage(health, i, numOfBullLocY + 36, null);
+            }
+
             g2d.setColor(Color.red);
             g2d.setFont(new Font("TimesRoman", Font.PLAIN, 50));
             g2d.drawString("" + state.getMyTank().getNumberOfHeavyBullets(), numOfBullLocX + 65, numOfBullLocY + 75);
@@ -386,6 +425,7 @@ public class GameFrame extends JFrame {
                 if (k >= map.size())
                     break out;
                 switch (map.get(k)) {
+
                     case '\r':
                         i -= area.getHeight();
                         k++;
@@ -394,6 +434,7 @@ public class GameFrame extends JFrame {
                     case '\n':
                         k++;
                         continue out;
+
                     case 'S':
                         GameState.addObstacle(j, i, softWall.getWidth(), softWall.getHeight());
                         k++;
@@ -403,10 +444,17 @@ public class GameFrame extends JFrame {
                         GameState.addObstacle(j, i, teazel.getWidth(), teazel.getHeight());
                         k++;
                         break;
+
                     case 'h':
                         GameState.addObstacle(j, i, hardWall.getWidth(), hardWall.getHeight());
                         k++;
                         break;
+
+                    case '2':
+                        GameState.addObstacle(j, i, enemy2.getWidth(), enemy2.getHeight());
+                        k++;
+                        break;
+
                     default:
                         k++;
                 }
@@ -419,25 +467,26 @@ public class GameFrame extends JFrame {
                 if (k >= map.size())
                     break out1;
                 switch (map.get(k)) {
+
                     case '\r':
                         i -= area.getHeight();
                         k++;
                         continue out1;
+
                     case '\n':
                         k++;
                         continue out1;
+
                     case 'b':
                         GameState.addObstacle(j, i, bigEnemy.getWidth(), bigEnemy.getHeight());
                         k++;
                         break;
-                    case 'k':
-                        GameState.addObstacle(j, i, khengEnemy.getWidth(), khengEnemy.getHeight());
-                        k++;
-                        break;
+
                     case 'Q':
                         GameState.addObstacle(j, i, smallEnemy.getWidth(), smallEnemy.getHeight());
                         k++;
                         break;
+
                     default:
                         k++;
 
