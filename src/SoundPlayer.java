@@ -105,7 +105,7 @@ public class SoundPlayer
                 break;
             case "enemyDestroyed" :
                 try {
-                    audioIn = AudioSystem.getAudioInputStream(new File("./Resources/Sounds/enemydestroyd.wav"));
+                    audioIn = AudioSystem.getAudioInputStream(new File("./Resources/Sounds/enemydestroyed.wav"));
                 } catch (UnsupportedAudioFileException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
