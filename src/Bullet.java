@@ -18,6 +18,7 @@ public abstract class Bullet
     protected double rotationRequired ; // -90 degree to 270 degree
     protected double startTime ;
     protected double distant ;
+    protected Rectangle bulletRec;
 
     public Bullet (GameState state , double speed , double radius)
     {
@@ -75,5 +76,9 @@ public abstract class Bullet
 
     public double getRotationRequired(){
         return rotationRequired;
+    }
+
+    public Rectangle getBulletRec() {
+        return bulletRec;
     }
 }

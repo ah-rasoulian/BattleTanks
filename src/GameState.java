@@ -43,7 +43,8 @@ public class GameState {
 
     private boolean menuSoundFinished;
 
-    public static ArrayList<ArrayList<Integer>> obstacles = new ArrayList<ArrayList<Integer>>();
+    private static ArrayList<Rectangle> obstacles = new ArrayList<Rectangle>();
+    private static Rectangle myTankRec;
 
     public GameState() {
         //
@@ -51,6 +52,7 @@ public class GameState {
         //
         //create myTank
         myTank = new MyTank(100,100 , 0);
+        myTankRec = new Rectangle(100, 100, 90, 80);
         //create enemy Tanks
         enemyTanks = new ArrayList<>();
         enemyTanks.add( new EnemyFixedTank(1100 , 0 , 0 , myTank.getTankLocation()) );
@@ -428,11 +430,7 @@ public class GameState {
     }
 
     public static void addObstacle(int x, int y, int lengthX, int lengthY) {
-        ArrayList<Integer> swap = new ArrayList<Integer>();
-        swap.add(x);
-        swap.add(y);
-        swap.add(lengthX);
-        swap.add(lengthY);
+        Rectangle swap = new Rectangle(x, y, lengthX, lengthY);
         obstacles.add(swap);
     }
 
@@ -457,16 +455,21 @@ public class GameState {
                 System.out.println("wrong direction");
                 break;
         }
-        for (ArrayList<Integer> arrayList : obstacles) {
-            int x, y, lenX, lenY;
-            x = arrayList.get(0);
-            y = arrayList.get(1);
-            lenX = arrayList.get(2);
-            lenY = arrayList.get(3);
-            if (x <= locX + lenX && locX <= x + lenX - 10 && locY + lenY - 13 >= y && locY <= y + lenY - 10) {
+
+        myTankRec.setLocation(locX + 5, locY + 10);
+        for (Rectangle rectangle : obstacles) {
+
+            if (rectangle.intersects(myTankRec)) {
                 return false;
             }
         }
         return true;
+    }
+
+    public boolean bulletCollision(Rectangle bullet){
+        for (Rectangle rectangle:obstacles) {
+            if (bullet.intersects(rectangle))return true;
+        }
+        return false;
     }
 }

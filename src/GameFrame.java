@@ -380,7 +380,7 @@ public class GameFrame extends JFrame {
 
             // first removing invalid bullets then drawing the Bullets in the map
             for (int i = 0; i < state.getBullets().size(); i++) {
-                if (state.getBullets().get(i).getX() > GAME_WIDTH * 3 || state.getBullets().get(i).getX() < 0 || state.getBullets().get(i).getY() < 0 || state.getBullets().get(i).getY() > GAME_HEIGHT * 3)
+                if (state.getBullets().get(i).getX() > GAME_WIDTH * 3 || state.getBullets().get(i).getX() < 0 || state.getBullets().get(i).getY() < 0 || state.getBullets().get(i).getY() > GAME_HEIGHT * 3 || state.bulletCollision(state.getBullets().get(i).bulletRec))
                     state.getBullets().remove(i);
             }
             AffineTransform bulletAffineTransform;
