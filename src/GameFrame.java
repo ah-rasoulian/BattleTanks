@@ -462,22 +462,22 @@ public class GameFrame extends JFrame {
                         continue out;
 
                     case 'S':
-                        GameState.addObstacle(j, i, softWall.getWidth(), softWall.getHeight());
+                        GameState.addObstacle(j, i, softWall.getWidth(), softWall.getHeight() , "softWall");
                         k++;
                         break;
 
                     case 't':
-                        GameState.addObstacle(j, i, teazel.getWidth(), teazel.getHeight());
+                        GameState.addObstacle(j, i, teazel.getWidth(), teazel.getHeight() , "teazel");
                         k++;
                         break;
 
                     case 'h':
-                        GameState.addObstacle(j, i, hardWall.getWidth(), hardWall.getHeight());
+                        GameState.addObstacle(j, i, hardWall.getWidth(), hardWall.getHeight() , "hardWall");
                         k++;
                         break;
 
                     case '2':
-                        GameState.addObstacle(j, i, enemy2.getWidth(), enemy2.getHeight());
+                        GameState.addObstacle(j, i, enemy2.getWidth(), enemy2.getHeight() , "enemy2");
                         k++;
                         break;
 
@@ -504,12 +504,12 @@ public class GameFrame extends JFrame {
                         continue out1;
 
                     case 'b':
-                        GameState.addObstacle(j, i, bigEnemy.getWidth(), bigEnemy.getHeight());
+                        GameState.addObstacle(j, i, bigEnemy.getWidth(), bigEnemy.getHeight() , "bigEnemy");
                         k++;
                         break;
 
                     case 'Q':
-                        GameState.addObstacle(j, i, smallEnemy.getWidth(), smallEnemy.getHeight());
+                        GameState.addObstacle(j, i, smallEnemy.getWidth(), smallEnemy.getHeight() ,"smallEnemy");
                         k++;
                         break;
 

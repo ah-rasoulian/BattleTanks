@@ -44,7 +44,7 @@ public class EnemyFixedTank extends Tank {
         if (System.currentTimeMillis() - startTime >= 2000 ) {
             if (shootIsValid()) {
                 bullets.add(new HeavyBullet(enemyLocation, tankCenterX , tankCenterY , rotationRequired ));
-                SoundPlayer.playSound("cannon");
+                SoundPlayer.playSound("enemyShot");
             }
             startTime += 2000 ;
         }

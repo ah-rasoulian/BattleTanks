@@ -6,6 +6,7 @@ import java.awt.event.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * This class holds the state of the game and all of its elements.
@@ -45,7 +46,7 @@ public class GameState {
 
     private static ArrayList<Rectangle> obstacles = new ArrayList<Rectangle>();
     private static Rectangle myTankRec;
-
+    private static HashMap <Rectangle , String > rectangleStringHashMap = new HashMap<>();
     public GameState() {
         //
         // Initialize the game state and all elements ...
@@ -429,9 +430,10 @@ public class GameState {
         }
     }
 
-    public static void addObstacle(int x, int y, int lengthX, int lengthY) {
+    public static void addObstacle(int x, int y, int lengthX, int lengthY , String obstacleName) {
         Rectangle swap = new Rectangle(x, y, lengthX, lengthY);
         obstacles.add(swap);
+        rectangleStringHashMap.put(swap,obstacleName);
     }
 
     public boolean allowToMove(String direction) {
@@ -468,7 +470,21 @@ public class GameState {
 
     public boolean bulletCollision(Rectangle bullet){
         for (Rectangle rectangle:obstacles) {
-            if (bullet.intersects(rectangle))return true;
+            if (bullet.intersects(rectangle)){
+                System.out.println(rectangleStringHashMap.get(rectangle));
+                switch (rectangleStringHashMap.get(rectangle)){
+                    case "softWall" :
+                        SoundPlayer.playSound("softWall");
+                        break ;
+                    case "hardWall" :
+                        SoundPlayer.playSound("recosh");
+                        break;
+                    case "smallEnemy" :
+                        SoundPlayer.playSound("enemyDestroyed");
+                        break;
+                }
+                return true;
+            }
         }
         return false;
     }
