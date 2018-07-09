@@ -17,7 +17,7 @@ import java.util.HashMap;
 public class GameState {
 
     private MyTank myTank ;
-    private ArrayList<Tank> enemyTanks ;
+    private ArrayList<EnemyTank> enemyTanks ;
 
     public boolean gameOver;
 
@@ -61,7 +61,7 @@ public class GameState {
         enemyTanks.add( new EnemyFixedTank(1000 , 1040 , 0 , myTank.getTankLocation()) );
         enemyTanks.add( new EnemyFixedTank(150 , 1550 , 0 , myTank.getTankLocation()) );
         enemyTanks.add( new EnemyFixedTank(2700 , 1850 , 0 , myTank.getTankLocation()) );
-        //
+        enemyTanks.add( new EnemyMovingTank(500 , 350 , 0 , myTank.getTankLocation()) );        //
         menuIsFinished = false;
         savingIsAvailable = false;
         // in the beginning of menu , it begins with new game suggestion
@@ -251,7 +251,7 @@ public class GameState {
         return myTank;
     }
 
-    public ArrayList<Tank> getEnemyTanks() {
+    public ArrayList<EnemyTank> getEnemyTanks() {
         return enemyTanks;
     }
 

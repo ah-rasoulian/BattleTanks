@@ -375,6 +375,24 @@ public class GameFrame extends JFrame {
                         g2d.drawImage(heavyBullet, bulletAffineTransform, null);
                     }
                 }
+                if (enemyTank instanceof EnemyMovingTank)
+                {
+                    ((EnemyMovingTank) enemyTank).updateEnemyLocation(state.getMyTank().getTankLocation());
+                    g2d.drawImage(enemy2 , enemyTank.getTankLocation().x , enemyTank.getTankLocation().y , null);
+                    g2d.drawImage(enemy2Gun , enemyTank.affineTransform , null);
+                    g2d.setColor(Color.MAGENTA);
+                    g2d.drawOval(((EnemyMovingTank) enemyTank).tankCenterX , ((EnemyMovingTank) enemyTank).tankCenterY , 5 ,5);
+                    AffineTransform bulletAffineTransform ;
+                    for (Bullet b :
+                            ((EnemyMovingTank) enemyTank).getBullets()) {
+                        b.update();
+                        bulletAffineTransform = new AffineTransform();
+                        bulletAffineTransform.translate(b.getX(), b.getY());
+                        bulletAffineTransform.rotate(b.getRotationRequired());
+                        bulletAffineTransform.translate(2, -5);
+                        g2d.drawImage(lightBullet, bulletAffineTransform, null);
+                    }
+                }
 
             }
 

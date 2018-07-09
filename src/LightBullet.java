@@ -12,7 +12,10 @@ public class LightBullet extends Bullet {
         super(state, 0.90, 60);
         bulletRec = new Rectangle(x, y, 17, 1);
     }
-
+    public LightBullet(Point shootingPoint, int centerOfTankX, int centerOfTankY, double rotationRequired) {
+        super(shootingPoint, centerOfTankX, centerOfTankY, rotationRequired, 0.50, 130);
+        bulletRec = new Rectangle(x, y, 17, 1);
+    }
     /**
      * updating the point that bullet must draw there by the speed and x = vt formula
      */

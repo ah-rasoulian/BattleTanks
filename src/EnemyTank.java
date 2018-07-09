@@ -1,0 +1,37 @@
+import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.util.ArrayList;
+
+public class EnemyTank extends Tank {
+    protected Point enemyLocation;
+    protected ArrayList<Bullet> bullets;
+    protected long startTime;
+    protected int tankCenterX;
+    protected int tankCenterY;
+
+    public EnemyTank(int locationX, int locationY, double rotationRequired, Point enemyLocation) {
+        super(locationX, locationY, rotationRequired);
+        this.enemyLocation = new Point(enemyLocation.x + 50, enemyLocation.y + 50);
+        bullets = new ArrayList<>();
+        startTime = System.currentTimeMillis();
+    }
+
+    public ArrayList<Bullet> getBullets() {
+        return bullets;
+    }
+
+    protected int checkArea(Point location) {
+        int area = 1;
+        if (location.y >= 720 && location.y <= 1440)
+            area += 3;
+        if (location.y > 1440)
+            area += 6;
+
+        if (location.x >= GameFrame.GAME_WIDTH && location.x <= GameFrame.GAME_WIDTH * 2)
+            area++;
+        if (location.x >= GameFrame.GAME_WIDTH * 2)
+            area += 2;
+
+        return area;
+    }
+}
