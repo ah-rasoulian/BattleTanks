@@ -51,15 +51,15 @@ public class GameState {
         // Initialize the game state and all elements ...
         //
         //create myTank
-        myTank = new MyTank(1200,1000 , 0);
+        myTank = new MyTank(100,100 , 0);
         myTankRec = new Rectangle(100, 100, 90, 80);
         //create enemy Tanks
         enemyTanks = new ArrayList<>();
-//        enemyTanks.add( new EnemyFixedTank(1100 , 0 , 0 , myTank.getTankLocation()) );
-//        enemyTanks.add( new EnemyFixedTank(3620 , 300 , 0 , myTank.getTankLocation()) );
+        enemyTanks.add( new EnemyFixedTank(1100 , 0 , 0 , myTank.getTankLocation()) );
+        enemyTanks.add( new EnemyFixedTank(3620 , 300 , 0 , myTank.getTankLocation()) );
         enemyTanks.add( new EnemyFixedTank(1000 , 1040 , 0 , myTank.getTankLocation()) );
-//        enemyTanks.add( new EnemyFixedTank(150 , 1550 , 0 , myTank.getTankLocation()) );
-//        enemyTanks.add( new EnemyFixedTank(2700 , 1850 , 0 , myTank.getTankLocation()) );
+        enemyTanks.add( new EnemyFixedTank(150 , 1550 , 0 , myTank.getTankLocation()) );
+        enemyTanks.add( new EnemyFixedTank(2700 , 1850 , 0 , myTank.getTankLocation()) );
         //
         menuIsFinished = false;
         savingIsAvailable = false;
