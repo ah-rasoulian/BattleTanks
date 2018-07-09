@@ -13,8 +13,8 @@ public class HeavyBullet extends Bullet {
         bulletRec = new Rectangle(x, y, 23, 9);
     }
 
-    public HeavyBullet(Point shootingPoint, int centerOfTankX, int centerOfTankY, double rotationRequired) {
-        super(shootingPoint, centerOfTankX, centerOfTankY, rotationRequired, 0.50, 90);
+    public HeavyBullet(Point shootingPoint, int centerOfTankX, int centerOfTankY, double rotationRequired , int radius) {
+        super(shootingPoint, centerOfTankX, centerOfTankY, rotationRequired, 0.50, radius);
         bulletRec = new Rectangle(x, y, 23, 9);
     }
 

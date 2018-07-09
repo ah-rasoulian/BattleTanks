@@ -61,7 +61,10 @@ public class GameState {
         enemyTanks.add( new EnemyFixedTank(1000 , 1040 , 0 , myTank.getTankLocation()) );
         enemyTanks.add( new EnemyFixedTank(150 , 1550 , 0 , myTank.getTankLocation()) );
         enemyTanks.add( new EnemyFixedTank(2700 , 1850 , 0 , myTank.getTankLocation()) );
-        enemyTanks.add( new EnemyMovingTank(500 , 350 , 0 , myTank.getTankLocation()) );        //
+        enemyTanks.add( new EnemyMovingTank(500 , 350 , 0 , myTank.getTankLocation()) );
+        enemyTanks.add( new EnemyMovingTank2(500 , 200 , 0 , myTank.getTankLocation()) );
+        enemyTanks.add( new EnemyMovingTank3(400 , 50 , 0 , myTank.getTankLocation()) );        ////
+        //
         menuIsFinished = false;
         savingIsAvailable = false;
         // in the beginning of menu , it begins with new game suggestion

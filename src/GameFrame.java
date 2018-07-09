@@ -358,42 +358,48 @@ public class GameFrame extends JFrame {
                 g2d.drawImage(tanksGun2, tankGunAffineTransform, null);
 
             //drawing the enemyTanks
-            for (Tank enemyTank:
+            for (EnemyTank enemyTank:
                  state.getEnemyTanks()) {
                 if (enemyTank instanceof EnemyFixedTank) {
                     ((EnemyFixedTank) enemyTank).updateEnemyLocation(state.getMyTank().getTankLocation());
-                    g2d.drawImage(enemyFixedTank , enemyTank.getTankLocation().x , enemyTank.getTankLocation().y , null);
-                    g2d.drawImage(enemyFixedTankGun , enemyTank.affineTransform , null);
-                    AffineTransform bulletAffineTransform ;
-                    for (Bullet b :
-                            ((EnemyFixedTank) enemyTank).getBullets()) {
-                        b.update();
-                        bulletAffineTransform = new AffineTransform();
-                        bulletAffineTransform.translate(b.getX(), b.getY());
-                        bulletAffineTransform.rotate(b.getRotationRequired());
-                        bulletAffineTransform.translate(0, -5);
-                        g2d.drawImage(heavyBullet, bulletAffineTransform, null);
-                    }
+                    g2d.drawImage(enemyFixedTank, enemyTank.getTankLocation().x, enemyTank.getTankLocation().y, null);
+                    g2d.drawImage(enemyFixedTankGun, enemyTank.affineTransform, null);
                 }
-                if (enemyTank instanceof EnemyMovingTank)
-                {
+                if (enemyTank instanceof EnemyMovingTank) {
                     ((EnemyMovingTank) enemyTank).updateEnemyLocation(state.getMyTank().getTankLocation());
-                    g2d.drawImage(enemy2 , enemyTank.getTankLocation().x , enemyTank.getTankLocation().y , null);
-                    g2d.drawImage(enemy2Gun , enemyTank.affineTransform , null);
-                    g2d.setColor(Color.MAGENTA);
-                    g2d.drawOval(((EnemyMovingTank) enemyTank).tankCenterX , ((EnemyMovingTank) enemyTank).tankCenterY , 5 ,5);
-                    AffineTransform bulletAffineTransform ;
-                    for (Bullet b :
-                            ((EnemyMovingTank) enemyTank).getBullets()) {
-                        b.update();
-                        bulletAffineTransform = new AffineTransform();
-                        bulletAffineTransform.translate(b.getX(), b.getY());
-                        bulletAffineTransform.rotate(b.getRotationRequired());
-                        bulletAffineTransform.translate(2, -5);
-                        g2d.drawImage(lightBullet, bulletAffineTransform, null);
-                    }
+                    g2d.drawImage(enemy2, enemyTank.getTankLocation().x, enemyTank.getTankLocation().y, null);
+                    g2d.drawImage(enemy2Gun, enemyTank.affineTransform, null);
+//                    g2d.setColor(Color.MAGENTA);
+//                    g2d.drawOval(((EnemyMovingTank) enemyTank).tankCenterX , ((EnemyMovingTank) enemyTank).tankCenterY , 5 ,5);
                 }
+                if (enemyTank instanceof EnemyMovingTank2) {
+                    ((EnemyMovingTank2) enemyTank).updateEnemyLocation(state.getMyTank().getTankLocation());
+                    g2d.drawImage(smallEnemy, ((EnemyMovingTank2) enemyTank).affineTransform , null);
+//                    g2d.setColor(Color.MAGENTA);
+//                    g2d.drawOval(((EnemyMovingTank2) enemyTank).tankCenterX , ((EnemyMovingTank2) enemyTank).tankCenterY , 5 ,5);
 
+                }
+                if (enemyTank instanceof EnemyMovingTank3)
+                {
+                    ((EnemyMovingTank3) enemyTank).updateEnemyLocation(state.getMyTank().getTankLocation());
+                    g2d.drawImage(bigEnemy, enemyTank.getTankLocation().x, enemyTank.getTankLocation().y, null);
+                    g2d.drawImage(bigEnemyGun, enemyTank.affineTransform, null);
+                    g2d.setColor(Color.MAGENTA);
+                    g2d.drawOval(((EnemyMovingTank3) enemyTank).tankCenterX , ((EnemyMovingTank3) enemyTank).tankCenterY , 5 ,5);
+
+                }
+                AffineTransform bulletAffineTransform;
+                for (Bullet b :
+                        enemyTank.getBullets() ) {
+                    b.update();
+                    bulletAffineTransform = new AffineTransform();
+                    bulletAffineTransform.translate(b.getX(), b.getY());
+                    bulletAffineTransform.rotate(b.getRotationRequired());
+                    if (enemyTank instanceof EnemyMovingTank || enemyTank instanceof EnemyFixedTank || enemyTank instanceof EnemyMovingTank3)
+                        g2d.drawImage(heavyBullet, bulletAffineTransform, null);
+                    if (enemyTank instanceof  EnemyMovingTank2)
+                        g2d.drawImage(lightBullet, bulletAffineTransform, null);
+                }
             }
 
             // first removing invalid bullets then drawing the Bullets in the map

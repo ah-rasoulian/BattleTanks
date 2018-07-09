@@ -12,8 +12,8 @@ public class LightBullet extends Bullet {
         super(state, 0.90, 60);
         bulletRec = new Rectangle(x, y, 17, 1);
     }
-    public LightBullet(Point shootingPoint, int centerOfTankX, int centerOfTankY, double rotationRequired) {
-        super(shootingPoint, centerOfTankX, centerOfTankY, rotationRequired, 0.50, 130);
+    public LightBullet(Point shootingPoint, int centerOfTankX, int centerOfTankY, double rotationRequired , int radius) {
+        super(shootingPoint, centerOfTankX, centerOfTankY, rotationRequired, 0.50, radius);
         bulletRec = new Rectangle(x, y, 17, 1);
     }
     /**

@@ -2,21 +2,22 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.util.Random;
 
-public class EnemyMovingTank extends EnemyTank {
+public class EnemyMovingTank3 extends EnemyTank {
     private boolean gunIsReloaded ;
-    private int directionChoosed ;
-    private char direction ;
-    Random randomGenerator ;
-    public EnemyMovingTank(int locationX, int locationY, double rotationRequired, Point enemyLocation) {
+    private char direction;
+    private int directionChoosed;
+    private Random randomGenerator;
+    public EnemyMovingTank3(int locationX, int locationY, double rotationRequired, Point enemyLocation) {
         super(locationX, locationY, rotationRequired, enemyLocation);
         gunIsReloaded = true ;
-        randomGenerator = new Random();
-        direction = 'R' ;
+        direction = 'R';
         directionChoosed = 0 ;
+        randomGenerator = new Random();
     }
     public void updateEnemyLocation(Point enemyLocation1) {
-        tankCenterX = getTankLocation().x + 50;
-        tankCenterY = getTankLocation().y + 45;
+        tankCenterX = getTankLocation().x + 45;
+        tankCenterY = getTankLocation().y + 42;
+
         enemyLocation.x = enemyLocation1.x + 58;
         enemyLocation.y = enemyLocation1.y + 58;
 
@@ -26,14 +27,14 @@ public class EnemyMovingTank extends EnemyTank {
             rotationRequired = Math.toRadians(180 - 0) + Math.atan(((double)(enemyLocation.y - tankCenterY)) / ((double) (enemyLocation.x - tankCenterX)));
         else {
             if (enemyLocation.y - tankCenterY > 0)
-                rotationRequired = Math.toRadians(90);
+                rotationRequired = Math.toRadians(90 - 0);
             else
-                rotationRequired = Math.toRadians(-90);
+                rotationRequired = Math.toRadians(-90 - 0);
         }
         affineTransform = new AffineTransform();
         affineTransform.translate(tankCenterX, tankCenterY);
         affineTransform.rotate(rotationRequired);
-        affineTransform.translate(-25, -20);
+        affineTransform.translate( -15 , - 15);
         shootBullet();
         updateTankLocation();
     }
@@ -43,35 +44,35 @@ public class EnemyMovingTank extends EnemyTank {
         return true;
     }
     private void shootBullet() {
-        if (System.currentTimeMillis() - startTime > 2000) {
+        if (System.currentTimeMillis() - startTime > 1000) {
             gunIsReloaded = true;
             startTime += 1000 ;
         }
         if (shootIsValid() && gunIsReloaded) {
-            if (System.currentTimeMillis() - startTime >= 1000) {
+            if (System.currentTimeMillis() - startTime >= 500) {
                 if (shootIsValid()) {
                     bullets.add(new HeavyBullet(enemyLocation, tankCenterX, tankCenterY, rotationRequired , 120));
                     SoundPlayer.playSound("enemyShot");
                 }
-                startTime += 2000;
+                startTime += 1000;
             }
         }
     }
     private void updateTankLocation (){
-        if (directionChoosed <= 7)
+        if (directionChoosed <= 10)
         {
             switch (direction){
                 case 'R' :
-                    getTankLocation().x += 4 ;
+                    getTankLocation().x += 6 ;
                     break;
                 case 'L' :
-                    getTankLocation().x -= 4 ;
+                    getTankLocation().x -= 5 ;
                     break;
                 case 'U' :
-                    getTankLocation().y += 4 ;
+                    getTankLocation().y += 5 ;
                     break;
                 case 'D' :
-                    getTankLocation().y -= 4 ;
+                    getTankLocation().y -= 5 ;
                     break;
             }
             directionChoosed ++ ;
@@ -80,10 +81,10 @@ public class EnemyMovingTank extends EnemyTank {
             directionChoosed = 0 ;
             switch (randomGenerator.nextInt(4)) {
                 case 0:
-                    direction = 'L';
+                    direction = 'R';
                     break;
                 case 1:
-                    direction = 'R';
+                    direction = 'L';
                     break;
                 case 2:
                     direction = 'U';

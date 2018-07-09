@@ -1,5 +1,4 @@
 import java.awt.*;
-import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 
 public class EnemyTank extends Tank {
@@ -11,7 +10,7 @@ public class EnemyTank extends Tank {
 
     public EnemyTank(int locationX, int locationY, double rotationRequired, Point enemyLocation) {
         super(locationX, locationY, rotationRequired);
-        this.enemyLocation = new Point(enemyLocation.x + 50, enemyLocation.y + 50);
+        this.enemyLocation = new Point(enemyLocation.x + 60, enemyLocation.y + 60);
         bullets = new ArrayList<>();
         startTime = System.currentTimeMillis();
     }

@@ -9,8 +9,8 @@ public class EnemyFixedTank extends EnemyTank {
     public void updateEnemyLocation(Point enemyLocation) {
         tankCenterX = getTankLocation().x + 43;
         tankCenterY = getTankLocation().y + 70;
-        this.enemyLocation.x = enemyLocation.x + 50;
-        this.enemyLocation.y = enemyLocation.y + 50;
+        this.enemyLocation.x = enemyLocation.x + 58;
+        this.enemyLocation.y = enemyLocation.y + 58;
 
         if (enemyLocation.x - tankCenterX > 0)
             rotationRequired = Math.atan(((double) (enemyLocation.y - tankCenterY)) / ((double) (enemyLocation.x - tankCenterX)));
@@ -42,7 +42,7 @@ public class EnemyFixedTank extends EnemyTank {
     private void shootBullet() {
         if (System.currentTimeMillis() - startTime >= 2000) {
             if (shootIsValid()) {
-                bullets.add(new HeavyBullet(enemyLocation, tankCenterX, tankCenterY, rotationRequired));
+                bullets.add(new HeavyBullet(enemyLocation, tankCenterX, tankCenterY, rotationRequired,90));
                 SoundPlayer.playSound("enemyShot");
             }
             startTime += 2000;
