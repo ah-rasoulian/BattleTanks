@@ -58,6 +58,8 @@ public class GameFrame extends JFrame {
     private BufferedImage softWall1;
     private BufferedImage softWall2;
     private BufferedImage softWall3;
+    private BufferedImage target;
+
     private BufferedImage enemyFixedTank ;
     private BufferedImage enemyFixedTankGun ;
     public static ArrayList<Character> map;
@@ -112,6 +114,7 @@ public class GameFrame extends JFrame {
             softWall1 = ImageIO.read(new File("./Resources/Images/softWall1.png"));
             softWall2 = ImageIO.read(new File("./Resources/Images/softWall2.png"));
             softWall3 = ImageIO.read(new File("./Resources/Images/softWall3.png"));
+            target = ImageIO.read(new File("./Resources/Images/target.png"));
             map = readMap("map1");
         } catch (IOException e) {
             e.printStackTrace();
@@ -466,6 +469,9 @@ public class GameFrame extends JFrame {
             g2d.setFont(new Font("TimesRoman", Font.PLAIN, 50));
             g2d.drawString("" + state.getMyTank().getNumberOfHeavyBullets(), numOfBullLocX + 65, numOfBullLocY + 75);
             g2d.drawString("" + state.getMyTank().getNumberOfLightBullets(), numOfBullLocX + 65, numOfBullLocY + 130);
+
+            //drawing the target
+            g2d.drawImage(target , state.getMouseX()-15, state.getMouseY()-15 , null);
         }
     }
 
