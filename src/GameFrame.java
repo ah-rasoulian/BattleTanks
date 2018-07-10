@@ -426,7 +426,7 @@ public class GameFrame extends JFrame {
                 }
                 AffineTransform bulletAffineTransform;
                 for (int i = 0; i < enemyTank.getBullets().size(); i++) {
-                    if (enemyTank.getBullets().get(i).getX() > GAME_WIDTH * 3 || enemyTank.getBullets().get(i).getX() < 0 || enemyTank.getBullets().get(i).getY() < 0 || enemyTank.getBullets().get(i).getY() > GAME_HEIGHT * 3 || state.bulletCollision(enemyTank.getBullets().get(i))) {
+                    if (enemyTank.getBullets().get(i).getX() > GAME_WIDTH * 3 || enemyTank.getBullets().get(i).getX() < 0 || enemyTank.getBullets().get(i).getY() < 0 || enemyTank.getBullets().get(i).getY() > GAME_HEIGHT * 3 || state.bulletCollision(enemyTank.getBullets().get(i) , enemyTank)) {
                         enemyTank.getBullets().remove(i);
                         i -- ;
                     }
@@ -447,7 +447,7 @@ public class GameFrame extends JFrame {
 
             // first removing invalid bullets then drawing the Bullets in the map
             for (int i = 0; i < state.getBullets().size(); i++) {
-                if (state.getBullets().get(i).getX() > GAME_WIDTH * 3 || state.getBullets().get(i).getX() < 0 || state.getBullets().get(i).getY() < 0 || state.getBullets().get(i).getY() > GAME_HEIGHT * 3 || state.bulletCollision(state.getBullets().get(i)))
+                if (state.getBullets().get(i).getX() > GAME_WIDTH * 3 || state.getBullets().get(i).getX() < 0 || state.getBullets().get(i).getY() < 0 || state.getBullets().get(i).getY() > GAME_HEIGHT * 3 || state.bulletCollision(state.getBullets().get(i) , state.getMyTank()))
                     state.getBullets().remove(i);
             }
             AffineTransform bulletAffineTransform;

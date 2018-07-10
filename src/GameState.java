@@ -59,7 +59,7 @@ public class GameState {
 //        enemyTanks.add(new EnemyFixedTank(1000, 1040, 0, myTank.getObstacleLocation()));
         enemyTanks.add(new EnemyFixedTank(150, 1550, 0, myTank.getObstacleLocation()));
         enemyTanks.add(new EnemyFixedTank(2700, 1850, 0, myTank.getObstacleLocation()));
-//        enemyTanks.add(new EnemyMovingTank(500, 100, 0, myTank.getObstacleLocation()));
+        enemyTanks.add(new EnemyMovingTank(500, 100, 0, myTank.getObstacleLocation()));
         enemyTanks.add(new EnemyMovingTank(2000, 400, 0, myTank.getObstacleLocation()));
         enemyTanks.add(new EnemyMovingTank(3000, 100, 0, myTank.getObstacleLocation()));
 //        enemyTanks.add(new EnemyMovingTank(2800, 1200, 0, myTank.getObstacleLocation()));
@@ -521,8 +521,10 @@ public class GameState {
         return true;
     }
 
-    public boolean bulletCollision(Bullet bullet) {
+    public boolean bulletCollision(Bullet bullet , Tank shoter) {
         for (Obstacle obstacle : GameFrame.obstacles) {
+            if (obstacle.equals(shoter))
+                continue;
             int coord;
             if ((bullet.bulletRec.intersects(myTank.obstacleRec))) {
                 if (bullet instanceof LightBullet) myTank.decreaseHealth(10);

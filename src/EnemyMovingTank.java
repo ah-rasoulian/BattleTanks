@@ -51,7 +51,7 @@ public class EnemyMovingTank extends EnemyTank {
         if (shootIsValid() && gunIsReloaded) {
             if (System.currentTimeMillis() - startTime >= 1000) {
                 if (shootIsValid()) {
-                    bullets.add(new HeavyBullet(enemyLocation, tankCenterX, tankCenterY, rotationRequired , 170));
+                    bullets.add(new HeavyBullet(enemyLocation, tankCenterX, tankCenterY, rotationRequired , 120));
                     SoundPlayer.playSound("enemyShot");
                 }
                 startTime += 2000;
