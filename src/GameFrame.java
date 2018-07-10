@@ -55,6 +55,7 @@ public class GameFrame extends JFrame {
     private BufferedImage enemy2;
     private BufferedImage enemy2Gun;
     private BufferedImage health;
+    private BufferedImage target;
 
     private BufferedImage enemyFixedTank ;
     private BufferedImage enemyFixedTankGun ;
@@ -105,6 +106,7 @@ public class GameFrame extends JFrame {
             health = ImageIO.read(new File("./Resources/Images/health.png"));
             enemyFixedTank = ImageIO.read(new File("./Resources/Images/enemyFixedTank.png"));
             enemyFixedTankGun = ImageIO.read(new File("./Resources/Images/fixedTankGun.png"));
+            target = ImageIO.read(new File("./Resources/Images/target.png"));
             map = readMap("map1");
         } catch (IOException e) {
             e.printStackTrace();
@@ -434,6 +436,9 @@ public class GameFrame extends JFrame {
             g2d.setFont(new Font("TimesRoman", Font.PLAIN, 50));
             g2d.drawString("" + state.getMyTank().getNumberOfHeavyBullets(), numOfBullLocX + 65, numOfBullLocY + 75);
             g2d.drawString("" + state.getMyTank().getNumberOfLightBullets(), numOfBullLocX + 65, numOfBullLocY + 130);
+
+            //drawing the target
+            g2d.drawImage(target , state.getMouseX()-15, state.getMouseY()-15 , null);
         }
     }
 
