@@ -1,24 +1,24 @@
    h          hh S                         t 
- w h  p    p  hhmS       2      p    Q     S 
+ w h  p    p  hhmS              p          S 
    h          hhSS          p              Sc
-h  h          hh      k                    hh
-            b hh                  SS         
-  s               b                     2    
- p  k        s                               
+h  h          hh                           hh
+              hh                  SS         
+  s                                          
+ p           s                               
 t t t t t t t t t t t t t t t t t t t t t t  
             p         p p   t             h  
- p  Q  s    p     2         t   b   p     h  
+ p     s    p               t       p     h  
        t    h               S                
-        t   h           S k S       hhh      
-         t          Q   S   S        rh      
-   b      t             S           k h      
+        t   h           S   S       hhh      
+         t              S   S        rh      
+          t             S             h      
            t            S                    
   t t t t t t t t t t t t t t t t t t t t t t
   S p                                        
-  S      2           p   k                 p 
-                   t            h       k    
-                   t  k   b     h            
-                   t            h   b   h  hh
-tttSS    Q               p              h 2  
- m SS      p           k   m         Q  h  w 
+  S                  p                     p 
+                   t            h            
+                   t            h            
+                   t            h       h  hh
+tttSS                    p              h    
+ m SS      p               m            h  w 
 c rSS                                   h    
