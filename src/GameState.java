@@ -16,7 +16,7 @@ import java.util.HashMap;
  */
 public class GameState {
 
-    private MyTank myTank;
+    private static MyTank myTank;
     private ArrayList<EnemyTank> enemyTanks;
 
     public boolean gameOver;
@@ -514,6 +514,8 @@ public class GameState {
         tank.obstacleRec.setLocation(locX + 5, locY + 10);
         for (Obstacle obstacle : GameFrame.obstacles) {
 
+//            if (myTank.obstacleRec.intersects())
+                
             if (obstacle.getObstacleRec().intersects(tank.obstacleRec)) {
                 return false;
             }
@@ -582,5 +584,9 @@ public class GameState {
                      i -- ;
                 }
         }
+    }
+
+    public static int getHealth(){
+        return myTank.health;
     }
 }

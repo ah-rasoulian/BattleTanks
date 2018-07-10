@@ -468,7 +468,13 @@ public class GameFrame extends JFrame {
             //drawing the game info line number of Bullets
             g2d.drawImage(numOfHeavyBullet, numOfBullLocX + 3, numOfBullLocY + 30, null);
             g2d.drawImage(numOfMachinGun, numOfBullLocX + 7, numOfBullLocY + 85, null);
-            for (int i = numOfBullLocX + GAME_WIDTH / 2 - 65; i < numOfBullLocX + GAME_WIDTH / 2 + 65; i += 26) {
+            int decHealth = 0;
+            if (GameState.getHealth() > 800) decHealth = 0;
+            else if (GameState.getHealth() > 600) decHealth = 26;
+            else if (GameState.getHealth() > 400) decHealth = 26 * 2;
+            else if (GameState.getHealth() > 200) decHealth = 26 * 3;
+            else if (GameState.getHealth() > 0) decHealth = 26 * 4;
+            for (int i = numOfBullLocX + GAME_WIDTH / 2 - 65; i < numOfBullLocX + GAME_WIDTH / 2 + 65 - decHealth; i += 26) {
                 g2d.drawImage(health, i, numOfBullLocY + 36, null);
             }
 
@@ -567,6 +573,10 @@ public class GameFrame extends JFrame {
                         k++;
                         break;
 
+                    case 'r':
+                        GameState.addObstacle(j, i, repairFood.getWidth(), repairFood.getHeight(), "repairFood");
+                        k++;
+                        break;
 
                     default:
                         k++;
