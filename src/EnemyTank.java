@@ -8,8 +8,8 @@ public class EnemyTank extends Tank {
     protected int tankCenterX;
     protected int tankCenterY;
 
-    public EnemyTank(int locationX, int locationY, double rotationRequired, Point enemyLocation) {
-        super(locationX, locationY, rotationRequired);
+    public EnemyTank(int locationX, int locationY, double rotationRequired, Point enemyLocation, int health, int width, int height) {
+        super(locationX, locationY, rotationRequired, health, width, height);
         this.enemyLocation = new Point(enemyLocation.x + 60, enemyLocation.y + 60);
         bullets = new ArrayList<>();
         startTime = System.currentTimeMillis();

@@ -14,14 +14,14 @@ public class ThreadPool {
 
     /**
      * Initializes a new CachedThreadPool.
-     * @see java.util.concurrent.Executors#newCachedThreadPool()
+     * @see Executors#newCachedThreadPool()
      */
     public static void init() {
         executor = Executors.newCachedThreadPool();
     }
 
     /**
-     * {@link java.util.concurrent.ExecutorService#execute(java.lang.Runnable)}
+     * {@link ExecutorService#execute(Runnable)}
      */
     public static void execute(Runnable r) {
         if (executor == null)
@@ -30,14 +30,14 @@ public class ThreadPool {
     }
 
     /**
-     * {@link java.util.concurrent.ExecutorService#shutdown()}
+     * {@link ExecutorService#shutdown()}
      */
     public static void shutdown() {
         executor.shutdown();
     }
 
     /**
-     * {@link java.util.concurrent.ExecutorService#shutdownNow()}
+     * {@link ExecutorService#shutdownNow()}
      */
     public static void shutdownNow() {
         executor.shutdownNow();

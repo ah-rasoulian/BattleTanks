@@ -20,7 +20,7 @@ public abstract class Bullet
     protected double distant ;
     protected Rectangle bulletRec;
 
-    public Bullet (GameState state , double speed , double radius)
+    public Bullet(GameState state , double speed , double radius)
     {
         this.speed = speed ;
         startTime = System.currentTimeMillis() ;
@@ -28,8 +28,8 @@ public abstract class Bullet
         pointOfShut = state.getShootingPoint() ;
         rotationRequired = state.getRotationRequired() ;
 
-        int centerOfTankX = state.getMyTank().getTankLocation().x + 50 ;
-        int centerOfTankY = state.getMyTank().getTankLocation().y + 50 ;
+        int centerOfTankX = state.getMyTank().getObstacleLocation().x + 50 ;
+        int centerOfTankY = state.getMyTank().getObstacleLocation().y + 50 ;
 
         distant = Math.sqrt((pointOfShut.x - centerOfTankX)*(pointOfShut.x - centerOfTankX) + (pointOfShut.y - centerOfTankY)*(pointOfShut.y - centerOfTankY));
 
@@ -42,7 +42,7 @@ public abstract class Bullet
         y = pointOfGun.y ;
 
     }
-    public Bullet (Point shootingPoint,int centerOfTankX , int centerOfTankY , double rotationRequired , double speed , double radius)
+    public Bullet(Point shootingPoint, int centerOfTankX , int centerOfTankY , double rotationRequired , double speed , double radius)
     {
         this.speed = speed ;
         startTime = System.currentTimeMillis() ;

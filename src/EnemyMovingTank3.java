@@ -8,15 +8,15 @@ public class EnemyMovingTank3 extends EnemyTank {
     private int directionChoosed;
     private Random randomGenerator;
     public EnemyMovingTank3(int locationX, int locationY, double rotationRequired, Point enemyLocation) {
-        super(locationX, locationY, rotationRequired, enemyLocation);
+        super(locationX, locationY, rotationRequired, enemyLocation, 600, 100, 100);
         gunIsReloaded = true ;
         direction = 'R';
         directionChoosed = 0 ;
         randomGenerator = new Random();
     }
     public void updateEnemyLocation(Point enemyLocation1) {
-        tankCenterX = getTankLocation().x + 45;
-        tankCenterY = getTankLocation().y + 42;
+        tankCenterX = getObstacleLocation().x + 45;
+        tankCenterY = getObstacleLocation().y + 42;
 
         enemyLocation.x = enemyLocation1.x + 58;
         enemyLocation.y = enemyLocation1.y + 58;
@@ -39,7 +39,7 @@ public class EnemyMovingTank3 extends EnemyTank {
         updateTankLocation();
     }
     private boolean shootIsValid() {
-        if (checkArea(enemyLocation) != checkArea(getTankLocation()))
+        if (checkArea(enemyLocation) != checkArea(getObstacleLocation()))
             return false;
         return true;
     }
@@ -63,16 +63,16 @@ public class EnemyMovingTank3 extends EnemyTank {
         {
             switch (direction){
                 case 'R' :
-                    getTankLocation().x += 6 ;
+                    getObstacleLocation().x += 6 ;
                     break;
                 case 'L' :
-                    getTankLocation().x -= 5 ;
+                    getObstacleLocation().x -= 5 ;
                     break;
                 case 'U' :
-                    getTankLocation().y += 5 ;
+                    getObstacleLocation().y += 5 ;
                     break;
                 case 'D' :
-                    getTankLocation().y -= 5 ;
+                    getObstacleLocation().y -= 5 ;
                     break;
             }
             directionChoosed ++ ;

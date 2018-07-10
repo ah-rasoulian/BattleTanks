@@ -3,14 +3,15 @@ import java.awt.geom.AffineTransform;
 
 public class EnemyFixedTank extends EnemyTank {
 
-    public EnemyFixedTank(int locationX, int locationY, double rotationRequired, Point enemyLocation) {
-        super(locationX, locationY, rotationRequired, enemyLocation);
+    public EnemyFixedTank(int locationX, int locationY, double rotationRequired, Point enemyLocation, int health, int width, int height) {
+        super(locationX, locationY, rotationRequired, enemyLocation, health, width, height);
     }
+
     public void updateEnemyLocation(Point enemyLocation) {
-        tankCenterX = getTankLocation().x + 43;
-        tankCenterY = getTankLocation().y + 70;
-        this.enemyLocation.x = enemyLocation.x + 58;
-        this.enemyLocation.y = enemyLocation.y + 58;
+        tankCenterX = getObstacleLocation().x + 43;
+        tankCenterY = getObstacleLocation().y + 70;
+        this.enemyLocation.x = enemyLocation.x + 50;
+        this.enemyLocation.y = enemyLocation.y + 50;
 
         if (enemyLocation.x - tankCenterX > 0)
             rotationRequired = Math.atan(((double) (enemyLocation.y - tankCenterY)) / ((double) (enemyLocation.x - tankCenterX)));
@@ -32,13 +33,15 @@ public class EnemyFixedTank extends EnemyTank {
         affineTransform.translate(-25, +14);
         shootBullet();
     }
+
     private boolean shootIsValid() {
         if (!(Math.toDegrees(rotationRequired) >= 74 && Math.toDegrees(rotationRequired) <= 204))
             return false;
-        if (checkArea(enemyLocation) != checkArea(getTankLocation()))
+        if (checkArea(enemyLocation) != checkArea(getObstacleLocation()))
             return false;
         return true;
     }
+
     private void shootBullet() {
         if (System.currentTimeMillis() - startTime >= 2000) {
             if (shootIsValid()) {

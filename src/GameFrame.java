@@ -55,10 +55,13 @@ public class GameFrame extends JFrame {
     private BufferedImage enemy2;
     private BufferedImage enemy2Gun;
     private BufferedImage health;
-
+    private BufferedImage softWall1;
+    private BufferedImage softWall2;
+    private BufferedImage softWall3;
     private BufferedImage enemyFixedTank ;
     private BufferedImage enemyFixedTankGun ;
-    private ArrayList<Character> map;
+    public static ArrayList<Character> map;
+    public static ArrayList<Obstacle> obstacles;
     private int numOfBullLocX;
     private int numOfBullLocY;
 
@@ -105,10 +108,15 @@ public class GameFrame extends JFrame {
             health = ImageIO.read(new File("./Resources/Images/health.png"));
             enemyFixedTank = ImageIO.read(new File("./Resources/Images/enemyFixedTank.png"));
             enemyFixedTankGun = ImageIO.read(new File("./Resources/Images/fixedTankGun.png"));
+            destroyed = ImageIO.read(new File("./Resources/Images/destroyed.png"));
+            softWall1 = ImageIO.read(new File("./Resources/Images/softWall1.png"));
+            softWall2 = ImageIO.read(new File("./Resources/Images/softWall2.png"));
+            softWall3 = ImageIO.read(new File("./Resources/Images/softWall3.png"));
             map = readMap("map1");
         } catch (IOException e) {
             e.printStackTrace();
         }
+        obstacles = new ArrayList<Obstacle>();
         initialMap();
     }
 
@@ -167,25 +175,25 @@ public class GameFrame extends JFrame {
             g2d.fillOval(30, state.menuYPosition, 30, 30);
 
         } else {
-            if (state.getMyTank().getTankLocation().y < 720) {
+            if (state.getMyTank().getObstacleLocation().y < 720) {
                 numOfBullLocY = 0;
             }
-            if (state.getMyTank().getTankLocation().y >= 720 && state.getMyTank().getTankLocation().y <= 1440) {
+            if (state.getMyTank().getObstacleLocation().y >= 720 && state.getMyTank().getObstacleLocation().y <= 1440) {
                 g2d.translate(0, -720);
                 numOfBullLocY = 720;
             }
-            if (state.getMyTank().getTankLocation().y > 1440) {
+            if (state.getMyTank().getObstacleLocation().y > 1440) {
                 g2d.translate(0, -1440);
                 numOfBullLocY = 1440;
             }
-            if (state.getMyTank().getTankLocation().x < GAME_WIDTH) {
+            if (state.getMyTank().getObstacleLocation().x < GAME_WIDTH) {
                 numOfBullLocX = 0;
             }
-            if (state.getMyTank().getTankLocation().x >= GAME_WIDTH && state.getMyTank().getTankLocation().x <= GAME_WIDTH * 2) {
+            if (state.getMyTank().getObstacleLocation().x >= GAME_WIDTH && state.getMyTank().getObstacleLocation().x <= GAME_WIDTH * 2) {
                 g2d.translate(GAME_WIDTH * -1, 0);
                 numOfBullLocX = GAME_WIDTH;
             }
-            if (state.getMyTank().getTankLocation().x > GAME_WIDTH * 2) {
+            if (state.getMyTank().getObstacleLocation().x > GAME_WIDTH * 2) {
                 g2d.translate(GAME_WIDTH * -2, 0);
                 numOfBullLocX = GAME_WIDTH * 2;
             }
@@ -270,6 +278,30 @@ public class GameFrame extends JFrame {
                             g2d.drawImage(machinGunFood, j, i, null);
                             k++;
                             break;
+
+                        case 'd':
+                            g2d.drawImage(destroyed, j, i, null);
+                            k++;
+                            break;
+
+                        case '7':
+                            g2d.drawImage(softWall1, j, i, null);
+//                            j += area.getWidth();
+                            k++;
+                            break;
+
+                        case '8':
+                            g2d.drawImage(softWall2, j, i, null);
+//                            j += area.getWidth();
+                            k++;
+                            break;
+
+                        case '9':
+                            g2d.drawImage(softWall3, j, i, null);
+//                            j += area.getWidth();
+                            k++;
+                            break;
+
                         default:
 //                            j += area.getWidth();
                             k++;
@@ -329,9 +361,9 @@ public class GameFrame extends JFrame {
             }
 
             // drawing the tank
-            g2d.drawImage(tank, state.getMyTank().getTankLocation().x, state.getMyTank().getTankLocation().y, null);
-            int tankCenterX = state.getMyTank().getTankLocation().x + tank.getWidth() / 2;
-            int tankCenterY = state.getMyTank().getTankLocation().y + tank.getHeight() / 2;
+            g2d.drawImage(tank, state.getMyTank().getObstacleLocation().x, state.getMyTank().getObstacleLocation().y, null);
+            int tankCenterX = state.getMyTank().getObstacleLocation().x + tank.getWidth() / 2;
+            int tankCenterY = state.getMyTank().getObstacleLocation().y + tank.getHeight() / 2;
 
             //calculating the rotation required for the tank's gun base on where the mouse is
             double rotationRequired;
@@ -361,19 +393,19 @@ public class GameFrame extends JFrame {
             for (EnemyTank enemyTank:
                  state.getEnemyTanks()) {
                 if (enemyTank instanceof EnemyFixedTank) {
-                    ((EnemyFixedTank) enemyTank).updateEnemyLocation(state.getMyTank().getTankLocation());
-                    g2d.drawImage(enemyFixedTank, enemyTank.getTankLocation().x, enemyTank.getTankLocation().y, null);
+                    ((EnemyFixedTank) enemyTank).updateEnemyLocation(state.getMyTank().getObstacleLocation());
+                    g2d.drawImage(enemyFixedTank, enemyTank.getObstacleLocation().x, enemyTank.getObstacleLocation().y, null);
                     g2d.drawImage(enemyFixedTankGun, enemyTank.affineTransform, null);
                 }
                 if (enemyTank instanceof EnemyMovingTank) {
-                    ((EnemyMovingTank) enemyTank).updateEnemyLocation(state.getMyTank().getTankLocation());
-                    g2d.drawImage(enemy2, enemyTank.getTankLocation().x, enemyTank.getTankLocation().y, null);
+                    ((EnemyMovingTank) enemyTank).updateEnemyLocation(state.getMyTank().getObstacleLocation());
+                    g2d.drawImage(enemy2, enemyTank.getObstacleLocation().x, enemyTank.getObstacleLocation().y, null);
                     g2d.drawImage(enemy2Gun, enemyTank.affineTransform, null);
 //                    g2d.setColor(Color.MAGENTA);
 //                    g2d.drawOval(((EnemyMovingTank) enemyTank).tankCenterX , ((EnemyMovingTank) enemyTank).tankCenterY , 5 ,5);
                 }
                 if (enemyTank instanceof EnemyMovingTank2) {
-                    ((EnemyMovingTank2) enemyTank).updateEnemyLocation(state.getMyTank().getTankLocation());
+                    ((EnemyMovingTank2) enemyTank).updateEnemyLocation(state.getMyTank().getObstacleLocation());
                     g2d.drawImage(smallEnemy, ((EnemyMovingTank2) enemyTank).affineTransform , null);
 //                    g2d.setColor(Color.MAGENTA);
 //                    g2d.drawOval(((EnemyMovingTank2) enemyTank).tankCenterX , ((EnemyMovingTank2) enemyTank).tankCenterY , 5 ,5);
@@ -381,8 +413,8 @@ public class GameFrame extends JFrame {
                 }
                 if (enemyTank instanceof EnemyMovingTank3)
                 {
-                    ((EnemyMovingTank3) enemyTank).updateEnemyLocation(state.getMyTank().getTankLocation());
-                    g2d.drawImage(bigEnemy, enemyTank.getTankLocation().x, enemyTank.getTankLocation().y, null);
+                    ((EnemyMovingTank3) enemyTank).updateEnemyLocation(state.getMyTank().getObstacleLocation());
+                    g2d.drawImage(bigEnemy, enemyTank.getObstacleLocation().x, enemyTank.getObstacleLocation().y, null);
                     g2d.drawImage(bigEnemyGun, enemyTank.affineTransform, null);
                     g2d.setColor(Color.MAGENTA);
                     g2d.drawOval(((EnemyMovingTank3) enemyTank).tankCenterX , ((EnemyMovingTank3) enemyTank).tankCenterY , 5 ,5);
@@ -404,7 +436,7 @@ public class GameFrame extends JFrame {
 
             // first removing invalid bullets then drawing the Bullets in the map
             for (int i = 0; i < state.getBullets().size(); i++) {
-                if (state.getBullets().get(i).getX() > GAME_WIDTH * 3 || state.getBullets().get(i).getX() < 0 || state.getBullets().get(i).getY() < 0 || state.getBullets().get(i).getY() > GAME_HEIGHT * 3 || state.bulletCollision(state.getBullets().get(i).bulletRec))
+                if (state.getBullets().get(i).getX() > GAME_WIDTH * 3 || state.getBullets().get(i).getX() < 0 || state.getBullets().get(i).getY() < 0 || state.getBullets().get(i).getY() > GAME_HEIGHT * 3 || state.bulletCollision(state.getBullets().get(i)))
                     state.getBullets().remove(i);
             }
             AffineTransform bulletAffineTransform;
@@ -504,6 +536,12 @@ public class GameFrame extends JFrame {
                         GameState.addObstacle(j, i, enemy2.getWidth(), enemy2.getHeight() , "enemy2");
                         k++;
                         break;
+
+                    case 'k':
+                        GameState.addObstacle(j + 10, i + 10, khengEnemy.getWidth() - 20, khengEnemy.getHeight() - 20, "khengEnemy");
+                        k++;
+                        break;
+
 
                     default:
                         k++;

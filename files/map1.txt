@@ -15,7 +15,7 @@ t t t t t t t t t t t t t t t t t t t t t t
            t            S                    
   t t t t t t t t t t t t t t t t t t t t t t
   S p                                        
-  S      2           p   k                 p
+  S      2           p   k                 p 
                    t            h       k    
                    t  k   b     h            
                    t            h   b   h  hh
