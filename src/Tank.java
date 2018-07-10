@@ -6,8 +6,8 @@ public class Tank extends Obstacle {
     protected AffineTransform affineTransform;
     protected boolean destroy;
 
-    public Tank(int locationX, int locationY, double rotationRequired , int health, int width, int height) {
-        super(locationX, locationY, width, height,true);
+    public Tank(int locationX, int locationY, double rotationRequired , int health, int width, int height , String obstacleName) {
+        super(locationX, locationY, width, height,true , obstacleName);
         this.rotationRequired = rotationRequired;
         this.health = health;
     }

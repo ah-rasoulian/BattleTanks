@@ -4,11 +4,12 @@ public class Obstacle {
     protected Point obstacleLocation;
     protected Rectangle obstacleRec;
     private boolean impact;
-
-    public Obstacle(int locationX, int locationY, int width, int height, boolean impact) {
+    private String obstacleName ;
+    public Obstacle(int locationX, int locationY, int width, int height, boolean impact , String obstacleName) {
         obstacleLocation = new Point(locationX, locationY);
         obstacleRec = new Rectangle(locationX, locationY, width, height);
         this.impact = impact;
+        this.obstacleName = obstacleName;
     }
 
     public Point getObstacleLocation() {
@@ -29,5 +30,9 @@ public class Obstacle {
 
     public boolean isImpact() {
         return impact;
+    }
+
+    public String getObstacleName() {
+        return obstacleName;
     }
 }

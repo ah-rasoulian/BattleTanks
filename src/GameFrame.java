@@ -426,8 +426,10 @@ public class GameFrame extends JFrame {
                 }
                 AffineTransform bulletAffineTransform;
                 for (int i = 0; i < enemyTank.getBullets().size(); i++) {
-                    if (enemyTank.getBullets().get(i).getX() > GAME_WIDTH * 3 || enemyTank.getBullets().get(i).getX() < 0 || enemyTank.getBullets().get(i).getY() < 0 || enemyTank.getBullets().get(i).getY() > GAME_HEIGHT * 3 || state.bulletCollision(enemyTank.getBullets().get(i)))
+                    if (enemyTank.getBullets().get(i).getX() > GAME_WIDTH * 3 || enemyTank.getBullets().get(i).getX() < 0 || enemyTank.getBullets().get(i).getY() < 0 || enemyTank.getBullets().get(i).getY() > GAME_HEIGHT * 3 || state.bulletCollision(enemyTank.getBullets().get(i))) {
                         enemyTank.getBullets().remove(i);
+                        i -- ;
+                    }
                 }
 
                 for (Bullet b :

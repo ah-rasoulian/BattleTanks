@@ -8,7 +8,7 @@ public class EnemyMovingTank extends EnemyTank {
     private char direction ;
     Random randomGenerator ;
     public EnemyMovingTank(int locationX, int locationY, double rotationRequired, Point enemyLocation) {
-        super(locationX, locationY, rotationRequired, enemyLocation,600,100,100);
+        super(locationX, locationY, rotationRequired, enemyLocation,600,90,90);
         gunIsReloaded = true ;
         randomGenerator = new Random();
         direction = 'R' ;
@@ -51,7 +51,7 @@ public class EnemyMovingTank extends EnemyTank {
         if (shootIsValid() && gunIsReloaded) {
             if (System.currentTimeMillis() - startTime >= 1000) {
                 if (shootIsValid()) {
-                    bullets.add(new HeavyBullet(enemyLocation, tankCenterX, tankCenterY, rotationRequired , 120));
+                    bullets.add(new HeavyBullet(enemyLocation, tankCenterX, tankCenterY, rotationRequired , 170));
                     SoundPlayer.playSound("enemyShot");
                 }
                 startTime += 2000;
@@ -63,16 +63,20 @@ public class EnemyMovingTank extends EnemyTank {
         {
             switch (direction){
                 case 'R' :
-                    getObstacleLocation().x += 4 ;
+                    if (GameState.allowToMove("right" , this))
+                        getObstacleLocation().x += 4 ;
                     break;
                 case 'L' :
-                    getObstacleLocation().x -= 4 ;
+                    if (GameState.allowToMove("left" , this))
+                        getObstacleLocation().x -= 4 ;
                     break;
                 case 'U' :
-                    getObstacleLocation().y += 4 ;
+                    if (GameState.allowToMove("up" , this))
+                        getObstacleLocation().y += 4 ;
                     break;
                 case 'D' :
-                    getObstacleLocation().y -= 4 ;
+                    if (GameState.allowToMove("down" , this))
+                        getObstacleLocation().y -= 4 ;
                     break;
             }
             directionChoosed ++ ;

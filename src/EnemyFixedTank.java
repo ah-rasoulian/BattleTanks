@@ -3,8 +3,8 @@ import java.awt.geom.AffineTransform;
 
 public class EnemyFixedTank extends EnemyTank {
 
-    public EnemyFixedTank(int locationX, int locationY, double rotationRequired, Point enemyLocation, int health, int width, int height) {
-        super(locationX, locationY, rotationRequired, enemyLocation, health, width, height);
+    public EnemyFixedTank(int locationX, int locationY, double rotationRequired, Point enemyLocation) {
+        super(locationX, locationY, rotationRequired, enemyLocation, 500, 120, 100);
     }
 
     public void updateEnemyLocation(Point enemyLocation) {
@@ -45,7 +45,7 @@ public class EnemyFixedTank extends EnemyTank {
     private void shootBullet() {
         if (System.currentTimeMillis() - startTime >= 2000) {
             if (shootIsValid()) {
-                bullets.add(new HeavyBullet(enemyLocation, tankCenterX, tankCenterY, rotationRequired,90));
+                bullets.add(new HeavyBullet(enemyLocation, tankCenterX, tankCenterY, rotationRequired,150));
                 SoundPlayer.playSound("enemyShot");
             }
             startTime += 2000;

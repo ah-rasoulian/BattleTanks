@@ -9,7 +9,7 @@ import java.awt.*;
 public class LightBullet extends Bullet {
 
     public LightBullet(GameState state) {
-        super(state, 0.90, 60);
+        super(state, 0.90, 90);
         bulletRec = new Rectangle(x, y, 17, 1);
     }
     public LightBullet(Point shootingPoint, int centerOfTankX, int centerOfTankY, double rotationRequired , int radius) {
