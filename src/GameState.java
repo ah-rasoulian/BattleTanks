@@ -62,28 +62,9 @@ public class GameState {
         enemyTanks.add(new EnemyFixedTank(1000, 1040, 0, myTank.getObstacleLocation(), 500, 127, 116));
         enemyTanks.add(new EnemyFixedTank(150, 1550, 0, myTank.getObstacleLocation(), 500, 127, 116));
         enemyTanks.add(new EnemyFixedTank(2700, 1850, 0, myTank.getObstacleLocation(), 500, 127, 116));
-        enemyTanks.add(new EnemyMovingTank(500 , 200 , 0 , myTank.getObstacleLocation()));
-        enemyTanks.add(new EnemyMovingTank(1700, 100, 0, myTank.getObstacleLocation()));
-        enemyTanks.add(new EnemyMovingTank(2000, 400, 0, myTank.getObstacleLocation()));
-        enemyTanks.add(new EnemyMovingTank(3000, 100, 0, myTank.getObstacleLocation()));
-        enemyTanks.add(new EnemyMovingTank(2800, 1200, 0, myTank.getObstacleLocation()));
-        enemyTanks.add(new EnemyMovingTank(400, 1200, 0, myTank.getObstacleLocation()));
-        enemyTanks.add(new EnemyMovingTank(1000, 1800, 0, myTank.getObstacleLocation()));
-        enemyTanks.add(new EnemyMovingTank(3000, 1800, 0, myTank.getObstacleLocation()));
-        enemyTanks.add(new EnemyMovingTank2(800, 500, 0, myTank.getObstacleLocation()));
-        enemyTanks.add(new EnemyMovingTank2(3400, 1200, 0, myTank.getObstacleLocation()));
-        enemyTanks.add(new EnemyMovingTank2(2200, 1000, 0, myTank.getObstacleLocation()));
-        enemyTanks.add(new EnemyMovingTank2(800, 1600, 0, myTank.getObstacleLocation()));
-        enemyTanks.add(new EnemyMovingTank2(1400, 1700, 0, myTank.getObstacleLocation()));
-        enemyTanks.add(new EnemyMovingTank2(1700, 1900, 0, myTank.getObstacleLocation()));
-        enemyTanks.add(new EnemyMovingTank3(1500, 500, 0, myTank.getObstacleLocation()));
-        enemyTanks.add(new EnemyMovingTank3(2700, 500, 0, myTank.getObstacleLocation()));
-        enemyTanks.add(new EnemyMovingTank3(1500, 1200, 0, myTank.getObstacleLocation()));
-        enemyTanks.add(new EnemyMovingTank3(1400, 900, 0, myTank.getObstacleLocation()));
-        enemyTanks.add(new EnemyMovingTank3(300, 1000, 0, myTank.getObstacleLocation()));
-        enemyTanks.add(new EnemyMovingTank3(1700, 2000, 0, myTank.getObstacleLocation()));
-        enemyTanks.add(new EnemyMovingTank3(2300, 1600, 0, myTank.getObstacleLocation()));
-        enemyTanks.add(new EnemyMovingTank3(3200, 1600, 0, myTank.getObstacleLocation()));
+        enemyTanks.add(new EnemyMovingTank(500, 350, 0, myTank.getObstacleLocation()));    //
+        enemyTanks.add(new EnemyMovingTank2(500, 200, 0, myTank.getObstacleLocation()));
+        enemyTanks.add(new EnemyMovingTank3(400, 50, 0, myTank.getObstacleLocation()));        ////
         //
         menuIsFinished = false;
         savingIsAvailable = false;
@@ -522,8 +503,15 @@ public class GameState {
     public boolean bulletCollision(Bullet bullet) {
         for (Obstacle obstacle : GameFrame.obstacles) {
             int coord;
-            if (bullet.bulletRec.intersects(obstacle.obstacleRec) && obstacle.isImpact()) {
-                coord = obstacle.obstacleRec.y / 91 * 47 + obstacle.obstacleRec.x / 85;
+            if ((bullet.bulletRec.intersects(myTankRec))) {
+                if (bullet instanceof LightBullet) myTank.decreaseHealth(10);
+                if (bullet instanceof HeavyBullet) myTank.decreaseHealth(100);
+                if (myTank.health <= 0)
+                    gameOver = true;
+                return true;
+            }
+            if ((bullet.bulletRec.intersects(obstacle.obstacleRec) && obstacle.isImpact())) {
+                coord = obstacle.obstacleRec.y / 91 * 46 + obstacle.obstacleRec.x / 85;
                 System.out.println(rectangleStringHashMap.get(obstacle.obstacleRec));
                 switch (rectangleStringHashMap.get(obstacle.obstacleRec)) {
                     case "softWall":
@@ -553,8 +541,6 @@ public class GameState {
                         GameFrame.map.set(coord, '9');
                     }
                 }
-
-
                 return true;
             }
         }

@@ -59,7 +59,7 @@ public class EnemyMovingTank3 extends EnemyTank {
         }
     }
     private void updateTankLocation (){
-        if (directionChoosed <= 15)
+        if (directionChoosed <= 10)
         {
             switch (direction){
                 case 'R' :

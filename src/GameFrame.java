@@ -59,7 +59,7 @@ public class GameFrame extends JFrame {
     private BufferedImage softWall2;
     private BufferedImage softWall3;
     private BufferedImage target;
-
+    private BufferedImage gameOver;
     private BufferedImage enemyFixedTank ;
     private BufferedImage enemyFixedTankGun ;
     public static ArrayList<Character> map;
@@ -115,6 +115,7 @@ public class GameFrame extends JFrame {
             softWall2 = ImageIO.read(new File("./Resources/Images/softWall2.png"));
             softWall3 = ImageIO.read(new File("./Resources/Images/softWall3.png"));
             target = ImageIO.read(new File("./Resources/Images/target.png"));
+            gameOver =resizeImage(ImageIO.read(new File("./Resources/Images/gameOver.png")),GAME_WIDTH,GAME_HEIGHT);
             map = readMap("map1");
         } catch (IOException e) {
             e.printStackTrace();
@@ -424,6 +425,11 @@ public class GameFrame extends JFrame {
 
                 }
                 AffineTransform bulletAffineTransform;
+                for (int i = 0; i < enemyTank.getBullets().size(); i++) {
+                    if (enemyTank.getBullets().get(i).getX() > GAME_WIDTH * 3 || enemyTank.getBullets().get(i).getX() < 0 || enemyTank.getBullets().get(i).getY() < 0 || enemyTank.getBullets().get(i).getY() > GAME_HEIGHT * 3 || state.bulletCollision(enemyTank.getBullets().get(i)))
+                        enemyTank.getBullets().remove(i);
+                }
+
                 for (Bullet b :
                         enemyTank.getBullets() ) {
                     b.update();
@@ -472,6 +478,10 @@ public class GameFrame extends JFrame {
 
             //drawing the target
             g2d.drawImage(target , state.getMouseX()-15, state.getMouseY()-15 , null);
+
+            if (state.gameOver){
+                g2d.drawImage(gameOver,0,0,null);
+            }
         }
     }
 
