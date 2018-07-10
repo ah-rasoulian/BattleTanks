@@ -60,8 +60,8 @@ public class GameFrame extends JFrame {
     private BufferedImage softWall3;
     private BufferedImage target;
     private BufferedImage gameOver;
-    private BufferedImage enemyFixedTank ;
-    private BufferedImage enemyFixedTankGun ;
+    private BufferedImage enemyFixedTank;
+    private BufferedImage enemyFixedTankGun;
     public static ArrayList<Character> map;
     public static ArrayList<Obstacle> obstacles;
     private int numOfBullLocX;
@@ -115,7 +115,7 @@ public class GameFrame extends JFrame {
             softWall2 = ImageIO.read(new File("./Resources/Images/softWall2.png"));
             softWall3 = ImageIO.read(new File("./Resources/Images/softWall3.png"));
             target = ImageIO.read(new File("./Resources/Images/target.png"));
-            gameOver =resizeImage(ImageIO.read(new File("./Resources/Images/gameOver.png")),GAME_WIDTH,GAME_HEIGHT);
+            gameOver = resizeImage(ImageIO.read(new File("./Resources/Images/gameOver.png")), GAME_WIDTH, GAME_HEIGHT);
             map = readMap("map1");
         } catch (IOException e) {
             e.printStackTrace();
@@ -394,8 +394,8 @@ public class GameFrame extends JFrame {
                 g2d.drawImage(tanksGun2, tankGunAffineTransform, null);
 
             //drawing the enemyTanks
-            for (EnemyTank enemyTank:
-                 state.getEnemyTanks()) {
+            for (EnemyTank enemyTank :
+                    state.getEnemyTanks()) {
                 if (enemyTank instanceof EnemyFixedTank) {
                     ((EnemyFixedTank) enemyTank).updateEnemyLocation(state.getMyTank().getObstacleLocation());
                     g2d.drawImage(enemyFixedTank, enemyTank.getObstacleLocation().x, enemyTank.getObstacleLocation().y, null);
@@ -410,44 +410,43 @@ public class GameFrame extends JFrame {
                 }
                 if (enemyTank instanceof EnemyMovingTank2) {
                     ((EnemyMovingTank2) enemyTank).updateEnemyLocation(state.getMyTank().getObstacleLocation());
-                    g2d.drawImage(smallEnemy, ((EnemyMovingTank2) enemyTank).affineTransform , null);
+                    g2d.drawImage(smallEnemy, ((EnemyMovingTank2) enemyTank).affineTransform, null);
 //                    g2d.setColor(Color.MAGENTA);
 //                    g2d.drawOval(((EnemyMovingTank2) enemyTank).tankCenterX , ((EnemyMovingTank2) enemyTank).tankCenterY , 5 ,5);
 
                 }
-                if (enemyTank instanceof EnemyMovingTank3)
-                {
+                if (enemyTank instanceof EnemyMovingTank3) {
                     ((EnemyMovingTank3) enemyTank).updateEnemyLocation(state.getMyTank().getObstacleLocation());
                     g2d.drawImage(bigEnemy, enemyTank.getObstacleLocation().x, enemyTank.getObstacleLocation().y, null);
                     g2d.drawImage(bigEnemyGun, enemyTank.affineTransform, null);
                     g2d.setColor(Color.MAGENTA);
-                    g2d.drawOval(((EnemyMovingTank3) enemyTank).tankCenterX , ((EnemyMovingTank3) enemyTank).tankCenterY , 5 ,5);
+                    g2d.drawOval(((EnemyMovingTank3) enemyTank).tankCenterX, ((EnemyMovingTank3) enemyTank).tankCenterY, 5, 5);
 
                 }
                 AffineTransform bulletAffineTransform;
                 for (int i = 0; i < enemyTank.getBullets().size(); i++) {
-                    if (enemyTank.getBullets().get(i).getX() > GAME_WIDTH * 3 || enemyTank.getBullets().get(i).getX() < 0 || enemyTank.getBullets().get(i).getY() < 0 || enemyTank.getBullets().get(i).getY() > GAME_HEIGHT * 3 || state.bulletCollision(enemyTank.getBullets().get(i) , enemyTank)) {
+                    if (enemyTank.getBullets().get(i).getX() > GAME_WIDTH * 3 || enemyTank.getBullets().get(i).getX() < 0 || enemyTank.getBullets().get(i).getY() < 0 || enemyTank.getBullets().get(i).getY() > GAME_HEIGHT * 3 || state.bulletCollision(enemyTank.getBullets().get(i), enemyTank)) {
                         enemyTank.getBullets().remove(i);
-                        i -- ;
+                        i--;
                     }
                 }
 
                 for (Bullet b :
-                        enemyTank.getBullets() ) {
+                        enemyTank.getBullets()) {
                     b.update();
                     bulletAffineTransform = new AffineTransform();
                     bulletAffineTransform.translate(b.getX(), b.getY());
                     bulletAffineTransform.rotate(b.getRotationRequired());
                     if (enemyTank instanceof EnemyMovingTank || enemyTank instanceof EnemyFixedTank || enemyTank instanceof EnemyMovingTank3)
                         g2d.drawImage(heavyBullet, bulletAffineTransform, null);
-                    if (enemyTank instanceof  EnemyMovingTank2)
+                    if (enemyTank instanceof EnemyMovingTank2)
                         g2d.drawImage(lightBullet, bulletAffineTransform, null);
                 }
             }
 
             // first removing invalid bullets then drawing the Bullets in the map
             for (int i = 0; i < state.getBullets().size(); i++) {
-                if (state.getBullets().get(i).getX() > GAME_WIDTH * 3 || state.getBullets().get(i).getX() < 0 || state.getBullets().get(i).getY() < 0 || state.getBullets().get(i).getY() > GAME_HEIGHT * 3 || state.bulletCollision(state.getBullets().get(i) , state.getMyTank()))
+                if (state.getBullets().get(i).getX() > GAME_WIDTH * 3 || state.getBullets().get(i).getX() < 0 || state.getBullets().get(i).getY() < 0 || state.getBullets().get(i).getY() > GAME_HEIGHT * 3 || state.bulletCollision(state.getBullets().get(i), state.getMyTank()))
                     state.getBullets().remove(i);
             }
             AffineTransform bulletAffineTransform;
@@ -479,10 +478,18 @@ public class GameFrame extends JFrame {
             g2d.drawString("" + state.getMyTank().getNumberOfLightBullets(), numOfBullLocX + 65, numOfBullLocY + 130);
 
             //drawing the target
-            g2d.drawImage(target , state.getMouseX()-15, state.getMouseY()-15 , null);
+            g2d.drawImage(target, state.getMouseX() - 15, state.getMouseY() - 15, null);
 
-            if (state.gameOver){
-                g2d.drawImage(gameOver,0,0,null);
+            if (state.gameOver) {
+                g2d.drawImage(gameOver, 0, 0, null);
+                g2d.drawImage(gameOver, GAME_WIDTH, 0, null);
+                g2d.drawImage(gameOver, GAME_WIDTH * 2, 0, null);
+                g2d.drawImage(gameOver, 0, GAME_HEIGHT, null);
+                g2d.drawImage(gameOver, GAME_WIDTH, GAME_HEIGHT, null);
+                g2d.drawImage(gameOver, GAME_WIDTH * 2, GAME_HEIGHT, null);
+                g2d.drawImage(gameOver, 0, GAME_HEIGHT * 2, null);
+                g2d.drawImage(gameOver, GAME_WIDTH, GAME_HEIGHT * 2, null);
+                g2d.drawImage(gameOver, GAME_WIDTH * 2, GAME_HEIGHT * 2, null);
             }
         }
     }
@@ -536,22 +543,22 @@ public class GameFrame extends JFrame {
                         continue out;
 
                     case 'S':
-                        GameState.addObstacle(j, i, softWall.getWidth(), softWall.getHeight() , "softWall");
+                        GameState.addObstacle(j, i, softWall.getWidth(), softWall.getHeight(), "softWall");
                         k++;
                         break;
 
                     case 't':
-                        GameState.addObstacle(j, i, teazel.getWidth(), teazel.getHeight() , "teazel");
+                        GameState.addObstacle(j, i, teazel.getWidth(), teazel.getHeight(), "teazel");
                         k++;
                         break;
 
                     case 'h':
-                        GameState.addObstacle(j, i, hardWall.getWidth(), hardWall.getHeight() , "hardWall");
+                        GameState.addObstacle(j, i, hardWall.getWidth(), hardWall.getHeight(), "hardWall");
                         k++;
                         break;
 
                     case '2':
-                        GameState.addObstacle(j, i, enemy2.getWidth(), enemy2.getHeight() , "enemy2");
+                        GameState.addObstacle(j, i, enemy2.getWidth(), enemy2.getHeight(), "enemy2");
                         k++;
                         break;
 
@@ -584,12 +591,12 @@ public class GameFrame extends JFrame {
                         continue out1;
 
                     case 'b':
-                        GameState.addObstacle(j, i, bigEnemy.getWidth(), bigEnemy.getHeight() , "bigEnemy");
+                        GameState.addObstacle(j, i, bigEnemy.getWidth(), bigEnemy.getHeight(), "bigEnemy");
                         k++;
                         break;
 
                     case 'Q':
-                        GameState.addObstacle(j, i, smallEnemy.getWidth(), smallEnemy.getHeight() ,"smallEnemy");
+                        GameState.addObstacle(j, i, smallEnemy.getWidth(), smallEnemy.getHeight(), "smallEnemy");
                         k++;
                         break;
 
