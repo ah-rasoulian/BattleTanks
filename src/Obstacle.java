@@ -1,5 +1,8 @@
 import java.awt.*;
 
+/**
+ * @author AmirHosseinRasulian & MohammadHasanRashidi
+ */
 public class Obstacle {
     protected Point obstacleLocation;
     protected Rectangle obstacleRec;

@@ -486,7 +486,16 @@ public class GameFrame extends JFrame {
             //drawing the target
             g2d.drawImage(target, state.getMouseX() - 15, state.getMouseY() - 15, null);
 
-            if (state.gameOver) {
+            if (state.gameOver && state.winning) {
+                String str = "YOU WON!";
+                g2d.fillRect(GAME_WIDTH * 2, GAME_HEIGHT * 2, GAME_WIDTH, GAME_HEIGHT);
+                g2d.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+                g2d.setColor(Color.WHITE);
+                g2d.setFont(g2d.getFont().deriveFont(Font.BOLD).deriveFont(64.0f));
+                int strWidth = g2d.getFontMetrics().stringWidth(str);
+                g2d.drawString(str, (GAME_WIDTH - strWidth) / 2 * 6, GAME_HEIGHT / 2 * 5);
+                g2d.drawString(str, (GAME_WIDTH - strWidth) / 2, GAME_HEIGHT / 2);
+            } else if (state.gameOver) {
                 g2d.drawImage(gameOver, 0, 0, null);
                 g2d.drawImage(gameOver, GAME_WIDTH, 0, null);
                 g2d.drawImage(gameOver, GAME_WIDTH * 2, 0, null);
@@ -573,33 +582,6 @@ public class GameFrame extends JFrame {
                         k++;
                         break;
 
-                    case 'r':
-                        GameState.addObstacle(j, i, repairFood.getWidth(), repairFood.getHeight(), "repairFood");
-                        k++;
-                        break;
-
-                    default:
-                        k++;
-                }
-            }
-        }
-        k = 0;
-        out1:
-        for (int i = 0; i < GameFrame.GAME_HEIGHT * 3; i = i + area.getHeight()) {
-            for (int j = 0; j < GameFrame.GAME_WIDTH * 3; j += area.getWidth()) {
-                if (k >= map.size())
-                    break out1;
-                switch (map.get(k)) {
-
-                    case '\r':
-                        i -= area.getHeight();
-                        k++;
-                        continue out1;
-
-                    case '\n':
-                        k++;
-                        continue out1;
-
                     case 'b':
                         GameState.addObstacle(j, i, bigEnemy.getWidth(), bigEnemy.getHeight(), "bigEnemy");
                         k++;
@@ -610,9 +592,23 @@ public class GameFrame extends JFrame {
                         k++;
                         break;
 
+                    case 'r':
+                        GameState.addObstacle(j, i, repairFood.getWidth(), repairFood.getHeight(), "repairFood");
+                        k++;
+                        break;
+
+                    case 'm':
+                        GameState.addObstacle(j, i, machinGunFood.getWidth(), machinGunFood.getHeight(), "mashinGunFood");
+                        k++;
+                        break;
+
+                    case 'c':
+                        GameState.addObstacle(j, i, cannonFood.getWidth(), cannonFood.getHeight(), "cannonFood");
+                        k++;
+                        break;
+
                     default:
                         k++;
-
                 }
             }
         }

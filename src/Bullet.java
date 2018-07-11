@@ -4,7 +4,7 @@ import java.awt.*;
  * this is a class that simulates a bullet from 2 kind lightBullet and heavyBullet
  * that they are 2 classes that extends this class
  * this class have the data of a bullet
- * @author AmirHossein Rasulian
+ * @author AmirHosseinRasulian & MohammadHasanRashidi
  */
 public abstract class Bullet
 {

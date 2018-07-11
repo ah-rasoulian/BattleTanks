@@ -1,6 +1,9 @@
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 
+/**
+ * @author AmirHosseinRasulian & MohammadHasanRashidi
+ */
 public class EnemyFixedTank extends EnemyTank {
 
     public EnemyFixedTank(int locationX, int locationY, double rotationRequired, Point enemyLocation) {

@@ -4,7 +4,7 @@ import java.awt.*;
  * a class to handle the light Bullets
  * that have a method to update the location of a bullet
  *
- * @author AmirHosseinRasulian
+ * @author AmirHosseinRasulian & MohammadHasanRashidi
  */
 public class LightBullet extends Bullet {
 

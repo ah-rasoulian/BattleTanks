@@ -4,7 +4,7 @@ import java.awt.*;
  * a class to handle the heavy Bullets
  * that have a method to update the location of a bullet
  *
- * @author AmirHosseinRasulian
+ * @author AmirHosseinRasulian & MohammadHasanRashidi
  */
 public class HeavyBullet extends Bullet {
 

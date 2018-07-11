@@ -1,5 +1,8 @@
 import java.awt.geom.AffineTransform;
 
+/**
+ * @author AmirHosseinRasulian & MohammadHasanRashidi
+ */
 public class Tank extends Obstacle {
     protected double rotationRequired;
     protected int health;

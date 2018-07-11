@@ -2,6 +2,9 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.util.Random;
 
+/**
+ * @author AmirHosseinRasulian & MohammadHasanRashidi
+ */
 public class EnemyMovingTank2 extends EnemyTank {
     private boolean gunIsReloaded;
     private char direction;

@@ -1,10 +1,14 @@
+/**
+ * @author AmirHosseinRasulian & MohammadHasanRashidi
+ */
+
 public class MyTank extends Tank {
 
     private Integer numberOfHeavyBullets;
     private Integer numberOfLightBullets;
 
     public MyTank(int locationX, int locationY, double rotationRequired) {
-        super(locationX, locationY, rotationRequired, 1000, 100, 100 , "myTank");
+        super(locationX, locationY, rotationRequired, 1000, 90, 80 , "myTank");
         numberOfHeavyBullets = 50;
         numberOfLightBullets = 300;
     }
@@ -15,6 +19,14 @@ public class MyTank extends Tank {
 
     public Integer getNumberOfLightBullets() {
         return numberOfLightBullets;
+    }
+
+    public void setNumberOfHeavyBullets(Integer numberOfHeavyBullets) {
+        this.numberOfHeavyBullets = numberOfHeavyBullets;
+    }
+
+    public void setNumberOfLightBullets(Integer numberOfLightBullets) {
+        this.numberOfLightBullets = numberOfLightBullets;
     }
 
     public void decreaseHeavyBullets() {

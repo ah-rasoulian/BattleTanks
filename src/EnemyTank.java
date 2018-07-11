@@ -1,6 +1,9 @@
 import java.awt.*;
 import java.util.ArrayList;
 
+/**
+ * @author AmirHosseinRasulian & MohammadHasanRashidi
+ */
 public class EnemyTank extends Tank {
     protected Point enemyLocation;
     protected ArrayList<Bullet> bullets;
