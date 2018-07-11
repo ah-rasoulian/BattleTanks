@@ -608,12 +608,14 @@ public class GameState {
             coord = GameFrame.obstacles.get(i).obstacleRec.y / 91 * 46 + GameFrame.obstacles.get(i).obstacleRec.x / 85;
             if (GameFrame.obstacles.get(i) instanceof Tank)
                 if (((Tank) GameFrame.obstacles.get(i)).health <= 0) {
-                    enemyTanks.remove(GameFrame.obstacles.get(i));
-                    GameFrame.obstacles.remove(i);
-                    if (GameFrame.obstacles.get(i).getObstacleName().equals("softWall"))
+                    if (GameFrame.obstacles.get(i).getObstacleName().equals("softWall")) {
                         GameFrame.map.set(coord, ' ');
-                    else
+                        GameFrame.obstacles.remove(i);
+                    } else {
                         GameFrame.map.set(coord, 'd');
+                        enemyTanks.remove(GameFrame.obstacles.get(i));
+                        GameFrame.obstacles.remove(i);
+                    }
                     i--;
                 }
         }
