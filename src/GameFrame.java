@@ -176,7 +176,7 @@ public class GameFrame extends JFrame {
             g2d.drawImage(menuImage, 0, 0, null);
             //Draw the chooser menu item
             g2d.setColor(Color.red);
-            g2d.fillOval(30, state.menuYPosition, 30, 30);
+            g2d.fillOval(20, state.menuYPosition, 30, 30);
 
         } else {
             if (state.getMyTank().getObstacleLocation().y < 720) {

@@ -44,8 +44,7 @@ public class GameState {
     private AffineTransform affineTransform;
 
     private boolean menuSoundFinished;
-
-    private static ArrayList<Rectangle> obstacles = new ArrayList<Rectangle>();
+    private boolean enemysAreCreated ;
 
     public GameState() {
         //
@@ -53,40 +52,9 @@ public class GameState {
         //
         //create myTank
         myTank = new MyTank(100, 100, 0);
+        enemysAreCreated = false;
         //create enemy Tanks
         enemyTanks = new ArrayList<>();
-        enemyTanks.add(new EnemyFixedTank(1100, 0, 0, myTank.getObstacleLocation()));
-        enemyTanks.add(new EnemyFixedTank(3620, 300, 0, myTank.getObstacleLocation()));
-//        enemyTanks.add(new EnemyFixedTank(1000, 1040, 0, myTank.getObstacleLocation()));
-        enemyTanks.add(new EnemyFixedTank(150, 1550, 0, myTank.getObstacleLocation()));
-        enemyTanks.add(new EnemyFixedTank(2700, 1850, 0, myTank.getObstacleLocation()));
-        enemyTanks.add(new EnemyMovingTank(500, 100, 0, myTank.getObstacleLocation()));
-        enemyTanks.add(new EnemyMovingTank(2000, 400, 0, myTank.getObstacleLocation()));
-        enemyTanks.add(new EnemyMovingTank(3000, 100, 0, myTank.getObstacleLocation()));
-//        enemyTanks.add(new EnemyMovingTank(2800, 1200, 0, myTank.getObstacleLocation()));
-//        enemyTanks.add(new EnemyMovingTank(400, 1200, 0, myTank.getObstacleLocation()));
-        enemyTanks.add(new EnemyMovingTank(1000, 1800, 0, myTank.getObstacleLocation()));
-//        enemyTanks.add(new EnemyMovingTank(3000, 1800, 0, myTank.getObstacleLocation()));
-        enemyTanks.add(new EnemyMovingTank2(800, 500, 0, myTank.getObstacleLocation()));
-//        enemyTanks.add(new EnemyMovingTank2(3400, 1200, 0, myTank.getObstacleLocation()));
-//        enemyTanks.add(new EnemyMovingTank2(2200, 1000, 0, myTank.getObstacleLocation()));
-        enemyTanks.add(new EnemyMovingTank2(800, 1600, 0, myTank.getObstacleLocation()));
-//        enemyTanks.add(new EnemyMovingTank2(1400, 1700, 0, myTank.getObstacleLocation()));
-//        enemyTanks.add(new EnemyMovingTank2(1700, 1900, 0, myTank.getObstacleLocation()));
-        enemyTanks.add(new EnemyMovingTank3(1500, 500, 0, myTank.getObstacleLocation()));
-//        enemyTanks.add(new EnemyMovingTank3(2700, 500, 0, myTank.getObstacleLocation()));
-//        enemyTanks.add(new EnemyMovingTank3(1500, 1200, 0, myTank.getObstacleLocation()));
-        enemyTanks.add(new EnemyMovingTank3(1400, 900, 0, myTank.getObstacleLocation()));
-//        enemyTanks.add(new EnemyMovingTank3(300, 1000, 0, myTank.getObstacleLocation()));
-//        enemyTanks.add(new EnemyMovingTank3(1700, 2000, 0, myTank.getObstacleLocation()));
-        enemyTanks.add(new EnemyMovingTank3(2300, 1600, 0, myTank.getObstacleLocation()));
-//        enemyTanks.add(new EnemyMovingTank3(3200, 1600, 0, myTank.getObstacleLocation()));
-
-        //add enemy tanks to obstacle
-        for (EnemyTank enemyTank :
-                enemyTanks) {
-            GameFrame.obstacles.add(enemyTank);
-        }
         //
         menuIsFinished = false;
         savingIsAvailable = false;
@@ -142,19 +110,19 @@ public class GameState {
                 menuKeyUP = false;
             }
             if (menuKeyDOWN) {
-                if (menuChooserPlace < 3) {
+                if (menuChooserPlace < 5) {
                     SoundPlayer.playSound("select");
                     menuChooserPlace++;
                 }
                 menuKeyDOWN = false;
             }
-            if (menuKeyENTER && menuChooserPlace == 2) {
+            if (menuKeyENTER && (menuChooserPlace == 2 || menuChooserPlace == 3 || menuChooserPlace == 4)) {
                 SoundPlayer.playSound("agree");
                 menuIsFinished = true;
                 SoundPlayer.getStartUp().close();
                 SoundPlayer.playSound("gameSound1");
             }
-            if (menuKeyENTER && menuChooserPlace == 3) {
+            if (menuKeyENTER && menuChooserPlace == 5) {
                 SoundPlayer.playSound("agree");
                 System.exit(0);
             }
@@ -162,11 +130,55 @@ public class GameState {
             if (menuChooserPlace == 1)
                 menuYPosition = 440;
             if (menuChooserPlace == 2)
-                menuYPosition = 485;
+                menuYPosition = 470;
             if (menuChooserPlace == 3)
-                menuYPosition = 530;
+                menuYPosition = 515;
+            if (menuChooserPlace == 4)
+                menuYPosition = 560 ;
+            if (menuChooserPlace == 5)
+                menuYPosition = 605 ;
         } else {
 
+            if (!enemysAreCreated){
+                enemyTanks.add(new EnemyFixedTank(1100, 0, 0, myTank.getObstacleLocation()));
+                enemyTanks.add(new EnemyFixedTank(3620, 300, 0, myTank.getObstacleLocation()));
+                enemyTanks.add(new EnemyFixedTank(2700, 1850, 0, myTank.getObstacleLocation()));
+                enemyTanks.add(new EnemyMovingTank(500, 100, 0, myTank.getObstacleLocation()));
+                enemyTanks.add(new EnemyMovingTank(3000, 100, 0, myTank.getObstacleLocation()));
+                enemyTanks.add(new EnemyMovingTank(400, 1200, 0, myTank.getObstacleLocation()));
+                enemyTanks.add(new EnemyMovingTank(3000, 1800, 0, myTank.getObstacleLocation()));
+                enemyTanks.add(new EnemyMovingTank2(3400, 1200, 0, myTank.getObstacleLocation()));
+                enemyTanks.add(new EnemyMovingTank2(800, 1600, 0, myTank.getObstacleLocation()));
+                enemyTanks.add(new EnemyMovingTank2(1400, 1700, 0, myTank.getObstacleLocation()));
+                enemyTanks.add(new EnemyMovingTank3(1500, 500, 0, myTank.getObstacleLocation()));
+                enemyTanks.add(new EnemyMovingTank3(1400, 900, 0, myTank.getObstacleLocation()));
+                enemyTanks.add(new EnemyMovingTank3(1700, 2000, 0, myTank.getObstacleLocation()));
+                enemyTanks.add(new EnemyMovingTank3(3200, 1600, 0, myTank.getObstacleLocation()));
+                if (menuChooserPlace >= 3)
+                {
+                    enemyTanks.add(new EnemyFixedTank(1000, 1040, 0, myTank.getObstacleLocation()));
+                    enemyTanks.add(new EnemyMovingTank(2000, 400, 0, myTank.getObstacleLocation()));
+                    enemyTanks.add(new EnemyMovingTank(2800, 1200, 0, myTank.getObstacleLocation()));
+                    enemyTanks.add(new EnemyMovingTank2(2200, 1000, 0, myTank.getObstacleLocation()));
+                    enemyTanks.add(new EnemyMovingTank3(2700, 500, 0, myTank.getObstacleLocation()));
+                    enemyTanks.add(new EnemyMovingTank3(1500, 1200, 0, myTank.getObstacleLocation()));
+                }
+                if (menuChooserPlace == 4 ){
+                    enemyTanks.add(new EnemyFixedTank(150, 1550, 0, myTank.getObstacleLocation()));
+                    enemyTanks.add(new EnemyMovingTank(1000, 1800, 0, myTank.getObstacleLocation()));
+                    enemyTanks.add(new EnemyMovingTank2(800, 500, 0, myTank.getObstacleLocation()));
+                    enemyTanks.add(new EnemyMovingTank2(1900, 1600, 0, myTank.getObstacleLocation()));
+                    enemyTanks.add(new EnemyMovingTank3(300, 1000, 0, myTank.getObstacleLocation()));
+                    enemyTanks.add(new EnemyMovingTank3(2300, 1600, 0, myTank.getObstacleLocation()));
+                }
+                //add enemy tanks to obstacle
+                for (EnemyTank enemyTank :
+                        enemyTanks) {
+                    GameFrame.obstacles.add(enemyTank);
+                }
+                //
+                enemysAreCreated = true;
+            }
             if (keyUP && allowToMove("up", myTank)) {
                 myTank.getObstacleLocation().y -= 8;
             }
@@ -532,7 +544,8 @@ public class GameState {
         tank.obstacleRec.setLocation(locX + 5, locY + 5);
         int coord;
         for (Obstacle obstacle : GameFrame.obstacles) {
-
+            if (obstacle.equals(tank))
+                continue;
             if (myTank.obstacleRec.intersects(obstacle.obstacleRec) && (obstacle.getObstacleName().equals("repairFood") || obstacle.getObstacleName().equals("cannonFood") || obstacle.getObstacleName().equals("mashinGunFood"))) {
                 coord = obstacle.obstacleRec.y / 91 * 46 + obstacle.obstacleRec.x / 85;
                 GameFrame.obstacles.remove(obstacle);

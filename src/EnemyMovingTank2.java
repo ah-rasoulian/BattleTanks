@@ -65,15 +65,19 @@ public class EnemyMovingTank2 extends EnemyTank {
     }
 
     private void updateTankLocation() {
-        if (directionChoosed <= 4) {
+        if (directionChoosed <= 7) {
             switch (direction) {
                 case 'R':
                     if (GameState.allowToMove("right" , this))
                         getObstacleLocation().x += 3;
+                    else
+                        directionChoosed = 0 ;
                     break;
                 case 'L':
                     if (GameState.allowToMove("left" , this))
                         getObstacleLocation().x -= 3;
+                    else
+                        directionChoosed = 0 ;
                     break;
             }
             directionChoosed++;

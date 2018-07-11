@@ -62,24 +62,32 @@ public class EnemyMovingTank3 extends EnemyTank {
         }
     }
     private void updateTankLocation (){
-        if (directionChoosed <= 10)
+        if (directionChoosed <= 15)
         {
             switch (direction){
                 case 'R' :
                     if (GameState.allowToMove("right" , this))
                         getObstacleLocation().x += 5 ;
+                    else
+                        directionChoosed = 0 ;
                     break;
                 case 'L' :
                     if (GameState.allowToMove("left" , this))
                         getObstacleLocation().x -= 4 ;
+                    else
+                        directionChoosed = 0 ;
                     break;
                 case 'U' :
                     if (GameState.allowToMove("up" , this))
                         getObstacleLocation().y += 4 ;
+                    else
+                        directionChoosed = 0 ;
                     break;
                 case 'D' :
                     if (GameState.allowToMove("down" , this))
                         getObstacleLocation().y -= 4 ;
+                    else
+                        directionChoosed = 0 ;
                     break;
             }
             directionChoosed ++ ;
