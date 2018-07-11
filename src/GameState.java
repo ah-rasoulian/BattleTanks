@@ -52,6 +52,7 @@ public class GameState {
         //
         //create myTank
         myTank = new MyTank(100, 100, 0);
+        GameFrame.obstacles.add(myTank);
         enemysAreCreated = false;
         //create enemy Tanks
         enemyTanks = new ArrayList<>();
@@ -161,7 +162,7 @@ public class GameState {
                     enemyTanks.add(new EnemyMovingTank(2800, 1200, 0, myTank.getObstacleLocation()));
                     enemyTanks.add(new EnemyMovingTank2(2200, 1000, 0, myTank.getObstacleLocation()));
                     enemyTanks.add(new EnemyMovingTank3(2700, 500, 0, myTank.getObstacleLocation()));
-                    enemyTanks.add(new EnemyMovingTank3(1500, 1200, 0, myTank.getObstacleLocation()));
+
                 }
                 if (menuChooserPlace == 4 ){
                     enemyTanks.add(new EnemyFixedTank(150, 1550, 0, myTank.getObstacleLocation()));
@@ -170,6 +171,7 @@ public class GameState {
                     enemyTanks.add(new EnemyMovingTank2(1900, 1600, 0, myTank.getObstacleLocation()));
                     enemyTanks.add(new EnemyMovingTank3(300, 1000, 0, myTank.getObstacleLocation()));
                     enemyTanks.add(new EnemyMovingTank3(2300, 1600, 0, myTank.getObstacleLocation()));
+
                 }
                 //add enemy tanks to obstacle
                 for (EnemyTank enemyTank :

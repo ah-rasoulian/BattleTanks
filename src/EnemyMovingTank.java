@@ -68,25 +68,25 @@ public class EnemyMovingTank extends EnemyTank {
                 case 'R' :
                     if (GameState.allowToMove("right" , this))
                         getObstacleLocation().x += 4 ;
-                    else directionChoosed = 0 ;
+                    else directionChoosed = 11 ;
                     break;
                 case 'L' :
                     if (GameState.allowToMove("left" , this))
                         getObstacleLocation().x -= 4 ;
                     else
-                        directionChoosed = 0 ;
+                        directionChoosed = 11 ;
                     break;
                 case 'U' :
                     if (GameState.allowToMove("up" , this))
-                        getObstacleLocation().y += 4 ;
+                        getObstacleLocation().y -= 4 ;
                     else
-                        directionChoosed = 0 ;
+                        directionChoosed = 11 ;
                     break;
                 case 'D' :
                     if (GameState.allowToMove("down" , this))
-                        getObstacleLocation().y -= 4 ;
+                        getObstacleLocation().y += 4 ;
                     else
-                        directionChoosed = 0 ;
+                        directionChoosed = 11 ;
                     break;
             }
             directionChoosed ++ ;
