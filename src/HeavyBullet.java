@@ -9,7 +9,7 @@ import java.awt.*;
 public class HeavyBullet extends Bullet {
 
     public HeavyBullet(GameState state) {
-        super(state, 0.50, 160);
+        super(state, 0.50, 180);
         bulletRec = new Rectangle(x, y, 23, 9);
     }
 
