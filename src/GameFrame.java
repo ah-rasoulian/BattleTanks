@@ -178,333 +178,344 @@ public class GameFrame extends JFrame {
             g2d.setColor(Color.red);
             g2d.fillOval(20, state.menuYPosition, 30, 30);
 
-        } else {
-            if (state.getMyTank().getObstacleLocation().y < 720) {
-                numOfBullLocY = 0;
+        }
+        else {
+            if (!state.getServer().isServerConnected()) {
+                g2d.setColor(Color.CYAN);
+                g2d.fillRect(0, 0, 1280, 720);
+                g2d.setColor(Color.red);
+                g2d.setFont(new Font("TimesRoman", Font.PLAIN, 50));
+                g2d.drawString("your IP address is  " + state.getServer().showIp() , 200 , 360);
+                g2d.drawString("Waiting for connection ..." , 380 , 500);
             }
-            if (state.getMyTank().getObstacleLocation().y >= 720 && state.getMyTank().getObstacleLocation().y <= 1440) {
-                g2d.translate(0, -720);
-                numOfBullLocY = 720;
-            }
-            if (state.getMyTank().getObstacleLocation().y > 1440) {
-                g2d.translate(0, -1440);
-                numOfBullLocY = 1440;
-            }
-            if (state.getMyTank().getObstacleLocation().x < GAME_WIDTH) {
-                numOfBullLocX = 0;
-            }
-            if (state.getMyTank().getObstacleLocation().x >= GAME_WIDTH && state.getMyTank().getObstacleLocation().x <= GAME_WIDTH * 2) {
-                g2d.translate(GAME_WIDTH * -1, 0);
-                numOfBullLocX = GAME_WIDTH;
-            }
-            if (state.getMyTank().getObstacleLocation().x > GAME_WIDTH * 2) {
-                g2d.translate(GAME_WIDTH * -2, 0);
-                numOfBullLocX = GAME_WIDTH * 2;
-            }
-
-            // Draw all game elements according
-            //  to the game 'state' using 'g2d' ...
-            //
-            g2d.setColor(Color.GRAY);
-            g2d.fillRect(0, 0, GAME_WIDTH * 3, GAME_HEIGHT * 3);
-
-            for (int i = 0; i < GAME_HEIGHT * 3; i += area.getHeight()) {
-                for (int j = 0; j < GAME_WIDTH * 3; j += area.getWidth()) {
-                    g2d.drawImage(area, j, i, null);
+            else {
+                if (state.getMyTank().getObstacleLocation().y < 720) {
+                    numOfBullLocY = 0;
                 }
-            }
+                if (state.getMyTank().getObstacleLocation().y >= 720 && state.getMyTank().getObstacleLocation().y <= 1440) {
+                    g2d.translate(0, -720);
+                    numOfBullLocY = 720;
+                }
+                if (state.getMyTank().getObstacleLocation().y > 1440) {
+                    g2d.translate(0, -1440);
+                    numOfBullLocY = 1440;
+                }
+                if (state.getMyTank().getObstacleLocation().x < GAME_WIDTH) {
+                    numOfBullLocX = 0;
+                }
+                if (state.getMyTank().getObstacleLocation().x >= GAME_WIDTH && state.getMyTank().getObstacleLocation().x <= GAME_WIDTH * 2) {
+                    g2d.translate(GAME_WIDTH * -1, 0);
+                    numOfBullLocX = GAME_WIDTH;
+                }
+                if (state.getMyTank().getObstacleLocation().x > GAME_WIDTH * 2) {
+                    g2d.translate(GAME_WIDTH * -2, 0);
+                    numOfBullLocX = GAME_WIDTH * 2;
+                }
 
-            int k = 0;
-            out:
-            for (int i = 0; i < GAME_HEIGHT * 3; i += area.getHeight()) {
-                for (int j = 0; j < GAME_WIDTH * 3; j += area.getWidth()) {
-                    if (k >= map.size())
-                        break out;
-                    switch (map.get(k)) {
-                        case 'p':
-                            g2d.drawImage(plant, j, i, null);
+                // Draw all game elements according
+                //  to the game 'state' using 'g2d' ...
+                //
+                g2d.setColor(Color.GRAY);
+                g2d.fillRect(0, 0, GAME_WIDTH * 3, GAME_HEIGHT * 3);
+
+                for (int i = 0; i < GAME_HEIGHT * 3; i += area.getHeight()) {
+                    for (int j = 0; j < GAME_WIDTH * 3; j += area.getWidth()) {
+                        g2d.drawImage(area, j, i, null);
+                    }
+                }
+
+                int k = 0;
+                out:
+                for (int i = 0; i < GAME_HEIGHT * 3; i += area.getHeight()) {
+                    for (int j = 0; j < GAME_WIDTH * 3; j += area.getWidth()) {
+                        if (k >= map.size())
+                            break out;
+                        switch (map.get(k)) {
+                            case 'p':
+                                g2d.drawImage(plant, j, i, null);
 //                            j += plant.getWidth();
-                            k++;
-                            break;
+                                k++;
+                                break;
 
-                        case 'w':
-                            g2d.drawImage(wicket, j, i, null);
+                            case 'w':
+                                g2d.drawImage(wicket, j, i, null);
 //                            j += wicket.getWidth();
-                            k++;
-                            break;
+                                k++;
+                                break;
 
-                        case '\r':
+                            case '\r':
 //                        case '\n':
 //                            g2d.drawImage(area,j,i,null);
 //                            j += area.getWidth();
-                            i -= area.getHeight();
-                            k++;
-                            continue out;
+                                i -= area.getHeight();
+                                k++;
+                                continue out;
 
-                        case '\n':
-                            k++;
+                            case '\n':
+                                k++;
 //                            j += area.getWidth();
-                            continue out;
+                                continue out;
 
-                        case 's':
-                            g2d.drawImage(soil, j, i, null);
+                            case 's':
+                                g2d.drawImage(soil, j, i, null);
 //                            j += area.getWidth();
-                            k++;
-                            break;
+                                k++;
+                                break;
 
-                        case 'S':
-                            g2d.drawImage(softWall, j, i, null);
-                            k++;
-                            break;
+                            case 'S':
+                                g2d.drawImage(softWall, j, i, null);
+                                k++;
+                                break;
 
-                        case 't':
-                            g2d.drawImage(teazel, j, i, null);
+                            case 't':
+                                g2d.drawImage(teazel, j, i, null);
 //                            j += teazel.getWidth();
-                            k++;
-                            break;
-                        case 'h':
-                            g2d.drawImage(hardWall, j, i, null);
+                                k++;
+                                break;
+                            case 'h':
+                                g2d.drawImage(hardWall, j, i, null);
 //                            j += hardWall.getWidth();
-                            k++;
-                            break;
+                                k++;
+                                break;
 
-                        case 'r':
-                            g2d.drawImage(repairFood, j, i, null);
-                            k++;
-                            break;
+                            case 'r':
+                                g2d.drawImage(repairFood, j, i, null);
+                                k++;
+                                break;
 
-                        case 'c':
-                            g2d.drawImage(cannonFood, j, i, null);
-                            k++;
-                            break;
+                            case 'c':
+                                g2d.drawImage(cannonFood, j, i, null);
+                                k++;
+                                break;
 
-                        case 'm':
-                            g2d.drawImage(machinGunFood, j, i, null);
-                            k++;
-                            break;
+                            case 'm':
+                                g2d.drawImage(machinGunFood, j, i, null);
+                                k++;
+                                break;
 
-                        case 'd':
-                            g2d.drawImage(destroyed, j, i, null);
-                            k++;
-                            break;
+                            case 'd':
+                                g2d.drawImage(destroyed, j, i, null);
+                                k++;
+                                break;
 
-                        case '7':
-                            g2d.drawImage(softWall1, j, i, null);
+                            case '7':
+                                g2d.drawImage(softWall1, j, i, null);
 //                            j += area.getWidth();
-                            k++;
-                            break;
+                                k++;
+                                break;
 
-                        case '8':
-                            g2d.drawImage(softWall2, j, i, null);
+                            case '8':
+                                g2d.drawImage(softWall2, j, i, null);
 //                            j += area.getWidth();
-                            k++;
-                            break;
+                                k++;
+                                break;
 
-                        case '9':
-                            g2d.drawImage(softWall3, j, i, null);
+                            case '9':
+                                g2d.drawImage(softWall3, j, i, null);
 //                            j += area.getWidth();
-                            k++;
-                            break;
+                                k++;
+                                break;
 
-                        default:
+                            default:
 //                            j += area.getWidth();
-                            k++;
+                                k++;
 
+                        }
                     }
                 }
-            }
 
-            k = 0;
-            out1:
-            for (int i = 0; i < GAME_HEIGHT * 3; i = i + area.getHeight()) {
-                for (int j = 0; j < GAME_WIDTH * 3; j += area.getWidth()) {
-                    if (k >= map.size())
-                        break out1;
-                    switch (map.get(k)) {
-                        case '\r':
+                k = 0;
+                out1:
+                for (int i = 0; i < GAME_HEIGHT * 3; i = i + area.getHeight()) {
+                    for (int j = 0; j < GAME_WIDTH * 3; j += area.getWidth()) {
+                        if (k >= map.size())
+                            break out1;
+                        switch (map.get(k)) {
+                            case '\r':
 //                            g2d.drawImage(area,j,i,null);
 //                            j += area.getWidth();
-                            i -= area.getHeight();
-                            k++;
-                            continue out1;
+                                i -= area.getHeight();
+                                k++;
+                                continue out1;
 
-                        case '\n':
-                            k++;
+                            case '\n':
+                                k++;
 //                            j += area.getWidth();
-                            continue out1;
-                        case 'b':
-                            g2d.drawImage(bigEnemy, j, i, null);
-                            g2d.drawImage(bigEnemyGun, j + 30, i + 30, null);
+                                continue out1;
+                            case 'b':
+                                g2d.drawImage(bigEnemy, j, i, null);
+                                g2d.drawImage(bigEnemyGun, j + 30, i + 30, null);
 //                            j += bigEnemy.getWidth();
-                            k++;
-                            break;
-                        case 'k':
-                            g2d.drawImage(khengEnemy, j, i, null);
+                                k++;
+                                break;
+                            case 'k':
+                                g2d.drawImage(khengEnemy, j, i, null);
 //                            j += khengEnemy.getWidth();
-                            k++;
-                            break;
+                                k++;
+                                break;
 
-                        case 'Q':
-                            g2d.drawImage(smallEnemy, j, i, null);
-                            k++;
-                            break;
+                            case 'Q':
+                                g2d.drawImage(smallEnemy, j, i, null);
+                                k++;
+                                break;
 
-                        case '2':
-                            g2d.drawImage(enemy2, j, i, null);
-                            g2d.drawImage(enemy2Gun, j + 30, i + 30, null);
+                            case '2':
+                                g2d.drawImage(enemy2, j, i, null);
+                                g2d.drawImage(enemy2Gun, j + 30, i + 30, null);
 //                            j += bigEnemy.getWidth();
-                            k++;
-                            break;
+                                k++;
+                                break;
 
-                        default:
+                            default:
 //                            j += area.getWidth();
-                            k++;
+                                k++;
 
+                        }
                     }
                 }
-            }
 
-            // drawing the tank
-            g2d.drawImage(tank, state.getMyTank().getObstacleLocation().x, state.getMyTank().getObstacleLocation().y, null);
-            int tankCenterX = state.getMyTank().getObstacleLocation().x + tank.getWidth() / 2;
-            int tankCenterY = state.getMyTank().getObstacleLocation().y + tank.getHeight() / 2;
+                // drawing the tank
+                g2d.drawImage(tank, state.getMyTank().getObstacleLocation().x, state.getMyTank().getObstacleLocation().y, null);
+                int tankCenterX = state.getMyTank().getObstacleLocation().x + tank.getWidth() / 2;
+                int tankCenterY = state.getMyTank().getObstacleLocation().y + tank.getHeight() / 2;
 
-            //calculating the rotation required for the tank's gun base on where the mouse is
-            double rotationRequired;
-            if (state.getMouseX() - tankCenterX > 0)
-                rotationRequired = Math.atan(((double) (state.getMouseY() - tankCenterY)) / ((double) (state.getMouseX() - tankCenterX)));
-            else if (state.getMouseX() - tankCenterX < 0)
-                rotationRequired = Math.toRadians(180) + Math.atan(((double) (state.getMouseY() - tankCenterY)) / ((double) (state.getMouseX() - tankCenterX)));
-            else {
-                if (state.getMouseY() - tankCenterY > 0)
-                    rotationRequired = Math.toRadians(90);
-                else
-                    rotationRequired = Math.toRadians(-90);
+                //calculating the rotation required for the tank's gun base on where the mouse is
+                double rotationRequired;
+                if (state.getMouseX() - tankCenterX > 0)
+                    rotationRequired = Math.atan(((double) (state.getMouseY() - tankCenterY)) / ((double) (state.getMouseX() - tankCenterX)));
+                else if (state.getMouseX() - tankCenterX < 0)
+                    rotationRequired = Math.toRadians(180) + Math.atan(((double) (state.getMouseY() - tankCenterY)) / ((double) (state.getMouseX() - tankCenterX)));
+                else {
+                    if (state.getMouseY() - tankCenterY > 0)
+                        rotationRequired = Math.toRadians(90);
+                    else
+                        rotationRequired = Math.toRadians(-90);
 
-            }
-            state.setRotationRequired(rotationRequired);
-            // handle the tank's gun and rotate it and then draw it
-            AffineTransform tankGunAffineTransform = new AffineTransform();
-            tankGunAffineTransform.translate(tankCenterX, tankCenterY);
-            tankGunAffineTransform.rotate(rotationRequired);
-            tankGunAffineTransform.translate(-30, -31);
-            if (state.isTanksGun1Online())
-                g2d.drawImage(tanksGun, tankGunAffineTransform, null);
-            else
-                g2d.drawImage(tanksGun2, tankGunAffineTransform, null);
-
-            //drawing the enemyTanks
-            for (EnemyTank enemyTank :
-                    state.getEnemyTanks()) {
-                if (enemyTank instanceof EnemyFixedTank) {
-                    ((EnemyFixedTank) enemyTank).updateEnemyLocation(state.getMyTank().getObstacleLocation());
-                    g2d.drawImage(enemyFixedTank, enemyTank.getObstacleLocation().x, enemyTank.getObstacleLocation().y, null);
-                    g2d.drawImage(enemyFixedTankGun, enemyTank.affineTransform, null);
                 }
-                if (enemyTank instanceof EnemyMovingTank) {
-                    ((EnemyMovingTank) enemyTank).updateEnemyLocation(state.getMyTank().getObstacleLocation());
-                    g2d.drawImage(enemy2, enemyTank.getObstacleLocation().x, enemyTank.getObstacleLocation().y, null);
-                    g2d.drawImage(enemy2Gun, enemyTank.affineTransform, null);
+                state.setRotationRequired(rotationRequired);
+                // handle the tank's gun and rotate it and then draw it
+                AffineTransform tankGunAffineTransform = new AffineTransform();
+                tankGunAffineTransform.translate(tankCenterX, tankCenterY);
+                tankGunAffineTransform.rotate(rotationRequired);
+                tankGunAffineTransform.translate(-30, -31);
+                if (state.isTanksGun1Online())
+                    g2d.drawImage(tanksGun, tankGunAffineTransform, null);
+                else
+                    g2d.drawImage(tanksGun2, tankGunAffineTransform, null);
+
+                //drawing the enemyTanks
+                for (EnemyTank enemyTank :
+                        state.getEnemyTanks()) {
+                    if (enemyTank instanceof EnemyFixedTank) {
+                        ((EnemyFixedTank) enemyTank).updateEnemyLocation(state.getMyTank().getObstacleLocation());
+                        g2d.drawImage(enemyFixedTank, enemyTank.getObstacleLocation().x, enemyTank.getObstacleLocation().y, null);
+                        g2d.drawImage(enemyFixedTankGun, enemyTank.affineTransform, null);
+                    }
+                    if (enemyTank instanceof EnemyMovingTank) {
+                        ((EnemyMovingTank) enemyTank).updateEnemyLocation(state.getMyTank().getObstacleLocation());
+                        g2d.drawImage(enemy2, enemyTank.getObstacleLocation().x, enemyTank.getObstacleLocation().y, null);
+                        g2d.drawImage(enemy2Gun, enemyTank.affineTransform, null);
 //                    g2d.setColor(Color.MAGENTA);
 //                    g2d.drawOval(((EnemyMovingTank) enemyTank).tankCenterX , ((EnemyMovingTank) enemyTank).tankCenterY , 5 ,5);
-                }
-                if (enemyTank instanceof EnemyMovingTank2) {
-                    ((EnemyMovingTank2) enemyTank).updateEnemyLocation(state.getMyTank().getObstacleLocation());
-                    g2d.drawImage(smallEnemy, ((EnemyMovingTank2) enemyTank).affineTransform, null);
+                    }
+                    if (enemyTank instanceof EnemyMovingTank2) {
+                        ((EnemyMovingTank2) enemyTank).updateEnemyLocation(state.getMyTank().getObstacleLocation());
+                        g2d.drawImage(smallEnemy, ((EnemyMovingTank2) enemyTank).affineTransform, null);
 //                    g2d.setColor(Color.MAGENTA);
 //                    g2d.drawOval(((EnemyMovingTank2) enemyTank).tankCenterX , ((EnemyMovingTank2) enemyTank).tankCenterY , 5 ,5);
 
-                }
-                if (enemyTank instanceof EnemyMovingTank3) {
-                    ((EnemyMovingTank3) enemyTank).updateEnemyLocation(state.getMyTank().getObstacleLocation());
-                    g2d.drawImage(bigEnemy, enemyTank.getObstacleLocation().x, enemyTank.getObstacleLocation().y, null);
-                    g2d.drawImage(bigEnemyGun, enemyTank.affineTransform, null);
-                    g2d.setColor(Color.MAGENTA);
-                    g2d.drawOval(((EnemyMovingTank3) enemyTank).tankCenterX, ((EnemyMovingTank3) enemyTank).tankCenterY, 5, 5);
+                    }
+                    if (enemyTank instanceof EnemyMovingTank3) {
+                        ((EnemyMovingTank3) enemyTank).updateEnemyLocation(state.getMyTank().getObstacleLocation());
+                        g2d.drawImage(bigEnemy, enemyTank.getObstacleLocation().x, enemyTank.getObstacleLocation().y, null);
+                        g2d.drawImage(bigEnemyGun, enemyTank.affineTransform, null);
+                        g2d.setColor(Color.MAGENTA);
+                        g2d.drawOval(((EnemyMovingTank3) enemyTank).tankCenterX, ((EnemyMovingTank3) enemyTank).tankCenterY, 5, 5);
 
-                }
-                AffineTransform bulletAffineTransform;
-                for (int i = 0; i < enemyTank.getBullets().size(); i++) {
-                    if (enemyTank.getBullets().get(i).getX() > GAME_WIDTH * 3 || enemyTank.getBullets().get(i).getX() < 0 || enemyTank.getBullets().get(i).getY() < 0 || enemyTank.getBullets().get(i).getY() > GAME_HEIGHT * 3 || state.bulletCollision(enemyTank.getBullets().get(i), enemyTank)) {
-                        enemyTank.getBullets().remove(i);
-                        i--;
+                    }
+                    AffineTransform bulletAffineTransform;
+                    for (int i = 0; i < enemyTank.getBullets().size(); i++) {
+                        if (enemyTank.getBullets().get(i).getX() > GAME_WIDTH * 3 || enemyTank.getBullets().get(i).getX() < 0 || enemyTank.getBullets().get(i).getY() < 0 || enemyTank.getBullets().get(i).getY() > GAME_HEIGHT * 3 || state.bulletCollision(enemyTank.getBullets().get(i), enemyTank)) {
+                            enemyTank.getBullets().remove(i);
+                            i--;
+                        }
+                    }
+
+                    for (Bullet b :
+                            enemyTank.getBullets()) {
+                        b.update();
+                        bulletAffineTransform = new AffineTransform();
+                        bulletAffineTransform.translate(b.getX(), b.getY());
+                        bulletAffineTransform.rotate(b.getRotationRequired());
+                        if (enemyTank instanceof EnemyMovingTank || enemyTank instanceof EnemyFixedTank || enemyTank instanceof EnemyMovingTank3)
+                            g2d.drawImage(heavyBullet, bulletAffineTransform, null);
+                        if (enemyTank instanceof EnemyMovingTank2)
+                            g2d.drawImage(lightBullet, bulletAffineTransform, null);
                     }
                 }
 
+                // first removing invalid bullets then drawing the Bullets in the map
+                for (int i = 0; i < state.getBullets().size(); i++) {
+                    if (state.getBullets().get(i).getX() > GAME_WIDTH * 3 || state.getBullets().get(i).getX() < 0 || state.getBullets().get(i).getY() < 0 || state.getBullets().get(i).getY() > GAME_HEIGHT * 3 || state.bulletCollision(state.getBullets().get(i), state.getMyTank()))
+                        state.getBullets().remove(i);
+                }
+                AffineTransform bulletAffineTransform;
                 for (Bullet b :
-                        enemyTank.getBullets()) {
+                        state.getBullets()) {
                     b.update();
                     bulletAffineTransform = new AffineTransform();
                     bulletAffineTransform.translate(b.getX(), b.getY());
                     bulletAffineTransform.rotate(b.getRotationRequired());
-                    if (enemyTank instanceof EnemyMovingTank || enemyTank instanceof EnemyFixedTank || enemyTank instanceof EnemyMovingTank3)
+                    bulletAffineTransform.translate(0, -5);
+                    if (b instanceof HeavyBullet) {
                         g2d.drawImage(heavyBullet, bulletAffineTransform, null);
-                    if (enemyTank instanceof EnemyMovingTank2)
+                    }
+                    if (b instanceof LightBullet) {
                         g2d.drawImage(lightBullet, bulletAffineTransform, null);
+                    }
                 }
-            }
 
-            // first removing invalid bullets then drawing the Bullets in the map
-            for (int i = 0; i < state.getBullets().size(); i++) {
-                if (state.getBullets().get(i).getX() > GAME_WIDTH * 3 || state.getBullets().get(i).getX() < 0 || state.getBullets().get(i).getY() < 0 || state.getBullets().get(i).getY() > GAME_HEIGHT * 3 || state.bulletCollision(state.getBullets().get(i), state.getMyTank()))
-                    state.getBullets().remove(i);
-            }
-            AffineTransform bulletAffineTransform;
-            for (Bullet b :
-                    state.getBullets()) {
-                b.update();
-                bulletAffineTransform = new AffineTransform();
-                bulletAffineTransform.translate(b.getX(), b.getY());
-                bulletAffineTransform.rotate(b.getRotationRequired());
-                bulletAffineTransform.translate(0, -5);
-                if (b instanceof HeavyBullet) {
-                    g2d.drawImage(heavyBullet, bulletAffineTransform, null);
+                //drawing the game info line number of Bullets
+                g2d.drawImage(numOfHeavyBullet, numOfBullLocX + 3, numOfBullLocY + 30, null);
+                g2d.drawImage(numOfMachinGun, numOfBullLocX + 7, numOfBullLocY + 85, null);
+                int decHealth = 0;
+                if (GameState.getHealth() > 800) decHealth = 0;
+                else if (GameState.getHealth() > 600) decHealth = 26;
+                else if (GameState.getHealth() > 400) decHealth = 26 * 2;
+                else if (GameState.getHealth() > 200) decHealth = 26 * 3;
+                else if (GameState.getHealth() > 0) decHealth = 26 * 4;
+                for (int i = numOfBullLocX + GAME_WIDTH / 2 - 65; i < numOfBullLocX + GAME_WIDTH / 2 + 65 - decHealth; i += 26) {
+                    g2d.drawImage(health, i, numOfBullLocY + 36, null);
                 }
-                if (b instanceof LightBullet) {
-                    g2d.drawImage(lightBullet, bulletAffineTransform, null);
+
+                g2d.setColor(Color.red);
+                g2d.setFont(new Font("TimesRoman", Font.PLAIN, 50));
+                g2d.drawString("" + state.getMyTank().getNumberOfHeavyBullets(), numOfBullLocX + 65, numOfBullLocY + 75);
+                g2d.drawString("" + state.getMyTank().getNumberOfLightBullets(), numOfBullLocX + 65, numOfBullLocY + 130);
+
+                //drawing the target
+                g2d.drawImage(target, state.getMouseX() - 15, state.getMouseY() - 15, null);
+
+                if (state.gameOver && state.winning) {
+                    String str = "YOU WON!";
+                    g2d.fillRect(GAME_WIDTH * 2, GAME_HEIGHT * 2, GAME_WIDTH, GAME_HEIGHT);
+                    g2d.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+                    g2d.setColor(Color.WHITE);
+                    g2d.setFont(g2d.getFont().deriveFont(Font.BOLD).deriveFont(64.0f));
+                    int strWidth = g2d.getFontMetrics().stringWidth(str);
+                    g2d.drawString(str, (GAME_WIDTH - strWidth) / 2 * 6, GAME_HEIGHT / 2 * 5);
+                    g2d.drawString(str, (GAME_WIDTH - strWidth) / 2, GAME_HEIGHT / 2);
+                } else if (state.gameOver) {
+                    g2d.drawImage(gameOver, 0, 0, null);
+                    g2d.drawImage(gameOver, GAME_WIDTH, 0, null);
+                    g2d.drawImage(gameOver, GAME_WIDTH * 2, 0, null);
+                    g2d.drawImage(gameOver, 0, GAME_HEIGHT, null);
+                    g2d.drawImage(gameOver, GAME_WIDTH, GAME_HEIGHT, null);
+                    g2d.drawImage(gameOver, GAME_WIDTH * 2, GAME_HEIGHT, null);
+                    g2d.drawImage(gameOver, 0, GAME_HEIGHT * 2, null);
+                    g2d.drawImage(gameOver, GAME_WIDTH, GAME_HEIGHT * 2, null);
+                    g2d.drawImage(gameOver, GAME_WIDTH * 2, GAME_HEIGHT * 2, null);
                 }
-            }
-
-            //drawing the game info line number of Bullets
-            g2d.drawImage(numOfHeavyBullet, numOfBullLocX + 3, numOfBullLocY + 30, null);
-            g2d.drawImage(numOfMachinGun, numOfBullLocX + 7, numOfBullLocY + 85, null);
-            int decHealth = 0;
-            if (GameState.getHealth() > 800) decHealth = 0;
-            else if (GameState.getHealth() > 600) decHealth = 26;
-            else if (GameState.getHealth() > 400) decHealth = 26 * 2;
-            else if (GameState.getHealth() > 200) decHealth = 26 * 3;
-            else if (GameState.getHealth() > 0) decHealth = 26 * 4;
-            for (int i = numOfBullLocX + GAME_WIDTH / 2 - 65; i < numOfBullLocX + GAME_WIDTH / 2 + 65 - decHealth; i += 26) {
-                g2d.drawImage(health, i, numOfBullLocY + 36, null);
-            }
-
-            g2d.setColor(Color.red);
-            g2d.setFont(new Font("TimesRoman", Font.PLAIN, 50));
-            g2d.drawString("" + state.getMyTank().getNumberOfHeavyBullets(), numOfBullLocX + 65, numOfBullLocY + 75);
-            g2d.drawString("" + state.getMyTank().getNumberOfLightBullets(), numOfBullLocX + 65, numOfBullLocY + 130);
-
-            //drawing the target
-            g2d.drawImage(target, state.getMouseX() - 15, state.getMouseY() - 15, null);
-
-            if (state.gameOver && state.winning) {
-                String str = "YOU WON!";
-                g2d.fillRect(GAME_WIDTH * 2, GAME_HEIGHT * 2, GAME_WIDTH, GAME_HEIGHT);
-                g2d.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
-                g2d.setColor(Color.WHITE);
-                g2d.setFont(g2d.getFont().deriveFont(Font.BOLD).deriveFont(64.0f));
-                int strWidth = g2d.getFontMetrics().stringWidth(str);
-                g2d.drawString(str, (GAME_WIDTH - strWidth) / 2 * 6, GAME_HEIGHT / 2 * 5);
-                g2d.drawString(str, (GAME_WIDTH - strWidth) / 2, GAME_HEIGHT / 2);
-            } else if (state.gameOver) {
-                g2d.drawImage(gameOver, 0, 0, null);
-                g2d.drawImage(gameOver, GAME_WIDTH, 0, null);
-                g2d.drawImage(gameOver, GAME_WIDTH * 2, 0, null);
-                g2d.drawImage(gameOver, 0, GAME_HEIGHT, null);
-                g2d.drawImage(gameOver, GAME_WIDTH, GAME_HEIGHT, null);
-                g2d.drawImage(gameOver, GAME_WIDTH * 2, GAME_HEIGHT, null);
-                g2d.drawImage(gameOver, 0, GAME_HEIGHT * 2, null);
-                g2d.drawImage(gameOver, GAME_WIDTH, GAME_HEIGHT * 2, null);
-                g2d.drawImage(gameOver, GAME_WIDTH * 2, GAME_HEIGHT * 2, null);
             }
         }
     }

@@ -46,6 +46,8 @@ public class GameState {
     private boolean menuSoundFinished;
     private boolean enemysAreCreated ;
 
+    private Server server;
+
     public GameState() {
         //
         // Initialize the game state and all elements ...
@@ -128,6 +130,8 @@ public class GameState {
                 SoundPlayer.playSound("agree");
                 menuIsFinished = true;
                 SoundPlayer.getStartUp().close();
+                server = new Server();
+                ThreadPool.execute(server);
             }
             if (menuKeyENTER && menuChooserPlace == 3){
                 SoundPlayer.playSound("agree");
@@ -313,6 +317,10 @@ public class GameState {
 
     public ArrayList<EnemyTank> getEnemyTanks() {
         return enemyTanks;
+    }
+
+    public Server getServer() {
+        return server;
     }
 
     /**
