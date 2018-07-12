@@ -53,11 +53,14 @@ public class GameState {
     private Server server;
     private Client client;
     private boolean multiPlay ;
+    private MultiplayDatas multiplayDatas;
     public GameState() {
         //
         // Initialize the game state and all elements ...
         //
         multiPlay = false;
+        server = null;
+        client = null;
         //create myTank
         heavyGunLevel = 0;
         machineGunLevel = 0;
@@ -138,6 +141,7 @@ public class GameState {
                 SoundPlayer.playSound("agree");
                 SoundPlayer.getStartUp().close();
                 server = new Server();
+                multiplayDatas = new MultiplayDatas();
                 ThreadPool.execute(server);
                 multiPlay = true;
             }
@@ -145,6 +149,8 @@ public class GameState {
                 SoundPlayer.playSound("agree");
                 SoundPlayer.getStartUp().close();
                 client = new Client();
+                multiplayDatas = new MultiplayDatas();
+                ThreadPool.execute(client);
                 multiPlay = true;
             }
             if (menuKeyENTER && menuChooserPlace == 7) {
@@ -218,6 +224,20 @@ public class GameState {
                 }
                 //
                 enemysAreCreated = true;
+            }
+            if (multiPlay)
+            {
+                multiplayDatas.setMyTankLoc(myTank.obstacleLocation);
+                multiplayDatas.setMyBullets(bullets);
+                if (server != null)
+                {
+                    HashMap<Integer , Point> enemyLocations = new HashMap<>();
+                    for (EnemyTank enemyTank:
+                         enemyTanks) {
+                        enemyLocations.put(enemyTank.tankNumber , enemyTank.obstacleLocation);
+                    }
+                    multiplayDatas.setEnemysLocations(enemyLocations);
+                }
             }
             if (keyUP && allowToMove("up", myTank)) {
                 myTank.getObstacleLocation().y -= 8;
