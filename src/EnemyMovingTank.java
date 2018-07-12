@@ -61,52 +61,55 @@ public class EnemyMovingTank extends EnemyTank {
             }
         }
     }
-    private void updateTankLocation (){
-        if (directionChoosed <= 10)
-        {
-            switch (direction){
-                case 'R' :
-                    if (GameState.allowToMove("right" , this))
-                        getObstacleLocation().x += 4 ;
-                    else directionChoosed = 11 ;
-                    break;
-                case 'L' :
-                    if (GameState.allowToMove("left" , this))
-                        getObstacleLocation().x -= 4 ;
-                    else
-                        directionChoosed = 11 ;
-                    break;
-                case 'U' :
-                    if (GameState.allowToMove("up" , this))
-                        getObstacleLocation().y -= 4 ;
-                    else
-                        directionChoosed = 11 ;
-                    break;
-                case 'D' :
-                    if (GameState.allowToMove("down" , this))
-                        getObstacleLocation().y += 4 ;
-                    else
-                        directionChoosed = 11 ;
-                    break;
+    private void updateTankLocation () {
+        if (!GameState.isMultiPlay() || GameState.getServer() != null) {
+            if (directionChoosed <= 10) {
+                switch (direction) {
+                    case 'R':
+                        if (GameState.allowToMove("right", this))
+                            getObstacleLocation().x += 4;
+                        else directionChoosed = 11;
+                        break;
+                    case 'L':
+                        if (GameState.allowToMove("left", this))
+                            getObstacleLocation().x -= 4;
+                        else
+                            directionChoosed = 11;
+                        break;
+                    case 'U':
+                        if (GameState.allowToMove("up", this))
+                            getObstacleLocation().y -= 4;
+                        else
+                            directionChoosed = 11;
+                        break;
+                    case 'D':
+                        if (GameState.allowToMove("down", this))
+                            getObstacleLocation().y += 4;
+                        else
+                            directionChoosed = 11;
+                        break;
+                }
+                directionChoosed++;
+            } else {
+                directionChoosed = 0;
+                switch (randomGenerator.nextInt(4)) {
+                    case 0:
+                        direction = 'L';
+                        break;
+                    case 1:
+                        direction = 'R';
+                        break;
+                    case 2:
+                        direction = 'U';
+                        break;
+                    case 3:
+                        direction = 'D';
+                        break;
+                }
             }
-            directionChoosed ++ ;
         }
         else {
-            directionChoosed = 0 ;
-            switch (randomGenerator.nextInt(4)) {
-                case 0:
-                    direction = 'L';
-                    break;
-                case 1:
-                    direction = 'R';
-                    break;
-                case 2:
-                    direction = 'U';
-                    break;
-                case 3:
-                    direction = 'D';
-                    break;
-            }
+            obstacleLocation = GameState.friendMultiPlayDatas.getEnemysLocations().get(tankNumber);
         }
     }
 }

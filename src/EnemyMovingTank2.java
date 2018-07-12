@@ -65,32 +65,37 @@ public class EnemyMovingTank2 extends EnemyTank {
     }
 
     private void updateTankLocation() {
-        if (directionChoosed <= 7) {
-            switch (direction) {
-                case 'R':
-                    if (GameState.allowToMove("right", this))
-                        getObstacleLocation().x += 3;
-                    else
-                        directionChoosed = 8;
-                    break;
-                case 'L':
-                    if (GameState.allowToMove("left", this))
-                        getObstacleLocation().x -= 3;
-                    else
-                        directionChoosed = 8;
-                    break;
+        if (!GameState.isMultiPlay() || GameState.getServer() != null) {
+            if (directionChoosed <= 7) {
+                switch (direction) {
+                    case 'R':
+                        if (GameState.allowToMove("right", this))
+                            getObstacleLocation().x += 3;
+                        else
+                            directionChoosed = 8;
+                        break;
+                    case 'L':
+                        if (GameState.allowToMove("left", this))
+                            getObstacleLocation().x -= 3;
+                        else
+                            directionChoosed = 8;
+                        break;
+                }
+                directionChoosed++;
+            } else {
+                directionChoosed = 0;
+                switch (randomGenerator.nextInt(2)) {
+                    case 0:
+                        direction = 'R';
+                        break;
+                    case 1:
+                        direction = 'L';
+                        break;
+                }
             }
-            directionChoosed++;
-        } else {
-            directionChoosed = 0;
-            switch (randomGenerator.nextInt(2)) {
-                case 0:
-                    direction = 'R';
-                    break;
-                case 1:
-                    direction = 'L';
-                    break;
-            }
+        }
+        else {
+            obstacleLocation = GameState.friendMultiPlayDatas.getEnemysLocations().get(tankNumber);
         }
     }
 }

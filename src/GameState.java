@@ -23,7 +23,7 @@ public class GameState {
     public boolean gameOver;
     public boolean winning;
 
-    public boolean menuIsFinished;
+    public static boolean menuIsFinished;
     public boolean savingIsAvailable;
     public int menuChooserPlace;
     public int menuYPosition;
@@ -50,14 +50,18 @@ public class GameState {
     private static int heavyGunLevel;
     private static int machineGunLevel;
 
-    private Server server;
+    private static Server server;
     private Client client;
-    private boolean multiPlay ;
-    private MultiplayDatas multiplayDatas;
+    private static boolean multiPlay ;
+    public static MultiplayDatas multiplayDatas;
+    public static MultiplayDatas friendMultiPlayDatas ;
+
     public GameState() {
         //
         // Initialize the game state and all elements ...
         //
+        friendMultiPlayDatas = null ;
+        multiplayDatas = new MultiplayDatas();
         multiPlay = false;
         server = null;
         client = null;
@@ -175,7 +179,7 @@ public class GameState {
         }
         else
             {
-                menuIsFinished = true ;
+
             }
         }
         else {
@@ -225,7 +229,7 @@ public class GameState {
                 //
                 enemysAreCreated = true;
             }
-            if (multiPlay)
+            if (multiPlay && ((server != null && server.isServerConnected()) ||(client != null && client.isClientConnected())))
             {
                 multiplayDatas.setMyTankLoc(myTank.obstacleLocation);
                 multiplayDatas.setMyBullets(bullets);
@@ -237,7 +241,12 @@ public class GameState {
                         enemyLocations.put(enemyTank.tankNumber , enemyTank.obstacleLocation);
                     }
                     multiplayDatas.setEnemysLocations(enemyLocations);
+                    server.updateDatas();
                 }
+                else {
+                    client.updateDatas();
+                }
+                friendTank.obstacleLocation = friendMultiPlayDatas.getMyTankLoc();
             }
             if (keyUP && allowToMove("up", myTank)) {
                 myTank.getObstacleLocation().y -= 8;
@@ -368,12 +377,15 @@ public class GameState {
     public MyTank getMyTank() {
         return myTank;
     }
+    public MyTank getFriendTank (){
+        return friendTank;
+    }
 
     public ArrayList<EnemyTank> getEnemyTanks() {
         return enemyTanks;
     }
 
-    public Server getServer() {
+    public static Server getServer() {
         return server;
     }
 
@@ -381,7 +393,7 @@ public class GameState {
         return client;
     }
 
-    public boolean isMultiPlay() {
+    public static boolean isMultiPlay() {
         return multiPlay;
     }
 

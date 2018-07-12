@@ -3,6 +3,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
@@ -12,6 +14,9 @@ public class Client implements Runnable
     private JTextField textField;
     private boolean clientConnected ;
     private String hostIP ;
+
+    private ObjectOutputStream out;
+    private ObjectInputStream in;
 
     public Client (){
         Handler handler = new Handler();
@@ -37,10 +42,23 @@ public class Client implements Runnable
         return clientConnected;
     }
 
+    public void updateDatas (){
+        try {
+            out.writeObject(GameState.multiplayDatas);
+            GameState.friendMultiPlayDatas = (MultiplayDatas) in.readObject();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
     @Override
     public void run() {
         try (Socket server = new Socket(hostIP , 1397)) {
             clientConnected = true ;
+            GameState.menuIsFinished = true;
+             out = new ObjectOutputStream(server.getOutputStream());
+             in = new ObjectInputStream(server.getInputStream());
         } catch (UnknownHostException e) {
             e.printStackTrace();
         } catch (IOException e) {

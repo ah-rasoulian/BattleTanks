@@ -438,7 +438,12 @@ public class GameFrame extends JFrame {
                         g2d.drawImage(tanksGun2upgrade, tankGunAffineTransform, null);
                     }
                 }
-
+                //drawing the friend tank
+                if(GameState.isMultiPlay())
+                {
+                    if (state.getFriendTank() != null)
+                        g2d.drawImage(tank,state.getFriendTank().getObstacleLocation().x , state.getFriendTank().getObstacleLocation().y ,null);
+                }
                 //drawing the enemyTanks
                 for (EnemyTank enemyTank :
                         state.getEnemyTanks()) {

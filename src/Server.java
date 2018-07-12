@@ -1,13 +1,12 @@
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.*;
 
 public class Server implements Runnable
 {
-    private ServerSocket serverSocket ;
     private boolean serverConnected ;
+    private ObjectOutputStream out;
+    private ObjectInputStream in;
 
     public Server (){
         serverConnected = false;
@@ -37,13 +36,25 @@ public class Server implements Runnable
     public boolean isServerConnected() {
         return serverConnected;
     }
-
+    public void updateDatas (){
+        try {
+            out.writeObject(GameState.multiplayDatas);
+            GameState.friendMultiPlayDatas = (MultiplayDatas) in.readObject();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            System.out.println();
+        }
+    }
     @Override
     public void run() {
         try (ServerSocket serverSocket = new ServerSocket(1397)){
-            this.serverSocket = serverSocket;
             try (Socket client = serverSocket.accept()){
                 serverConnected = true;
+                GameState.menuIsFinished = true;
+                out = new ObjectOutputStream(client.getOutputStream());
+                in = new ObjectInputStream(client.getInputStream());
             }
         } catch (IOException e) {
             e.printStackTrace();
