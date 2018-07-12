@@ -32,7 +32,10 @@ public class GameFrame extends JFrame {
     private BufferedImage menuImage;
     private BufferedImage tank;
     private BufferedImage tanksGun;
+    private BufferedImage tanksGunUpgrade1;
+    private BufferedImage tanksGunUpgrade2;
     private BufferedImage tanksGun2;
+    private BufferedImage tanksGun2upgrade;
     private BufferedImage heavyBullet;
     private BufferedImage lightBullet;
     private BufferedImage area;
@@ -62,6 +65,7 @@ public class GameFrame extends JFrame {
     private BufferedImage gameOver;
     private BufferedImage enemyFixedTank;
     private BufferedImage enemyFixedTankGun;
+    private BufferedImage upgrade;
     public static ArrayList<Character> map;
     public static ArrayList<Obstacle> obstacles;
     private int numOfBullLocX;
@@ -83,6 +87,9 @@ public class GameFrame extends JFrame {
             menuImage = ImageIO.read(new File("menu.png"));
             tank = ImageIO.read(new File("./Resources/Images/tank.png"));
             tanksGun = ImageIO.read(new File("./Resources/Images/tankGun1.png"));
+            tanksGunUpgrade1 = resizeImage(ImageIO.read(new File("./myTankIcons/playerCannonGun2.png")), 90, 90);
+            tanksGunUpgrade2 = ImageIO.read(new File("./myTankIcons/playerCannonGun3.png"));
+            tanksGun2upgrade = ImageIO.read(new File("./myTankIcons/playerBulletGun1.png"));
             tanksGun2 = ImageIO.read(new File("./Resources/Images/tankGun2.png"));
             numOfHeavyBullet = ImageIO.read(new File("./Resources/Images/NumberOfHeavyBullet.png"));
             numOfMachinGun = ImageIO.read(new File("./Resources/Images/NumberOfMachinGun.png"));
@@ -116,6 +123,7 @@ public class GameFrame extends JFrame {
             softWall3 = ImageIO.read(new File("./Resources/Images/softWall3.png"));
             target = ImageIO.read(new File("./Resources/Images/target.png"));
             gameOver = resizeImage(ImageIO.read(new File("./Resources/Images/gameOver.png")), GAME_WIDTH, GAME_HEIGHT);
+            upgrade = ImageIO.read(new File("./myTankIcons/upgrader.png"));
             map = readMap("map1");
         } catch (IOException e) {
             e.printStackTrace();
@@ -321,6 +329,12 @@ public class GameFrame extends JFrame {
                                 k++;
                                 break;
 
+                            case 'u':
+                                g2d.drawImage(upgrade, j, i, null);
+//                            j += area.getWidth();
+                                k++;
+                                break;
+
                             default:
 //                            j += area.getWidth();
                                 k++;
@@ -403,10 +417,19 @@ public class GameFrame extends JFrame {
                 tankGunAffineTransform.translate(tankCenterX, tankCenterY);
                 tankGunAffineTransform.rotate(rotationRequired);
                 tankGunAffineTransform.translate(-30, -31);
-                if (state.isTanksGun1Online())
-                    g2d.drawImage(tanksGun, tankGunAffineTransform, null);
-                else
-                    g2d.drawImage(tanksGun2, tankGunAffineTransform, null);
+                if (state.isTanksGun1Online()) {
+                    if (state.getHeavyGunLevel() == 0)
+                        g2d.drawImage(tanksGun, tankGunAffineTransform, null);
+                    else if (state.getHeavyGunLevel() == 1)
+                        g2d.drawImage(tanksGunUpgrade1, tankGunAffineTransform, null);
+                    else
+                        g2d.drawImage(tanksGunUpgrade2, tankGunAffineTransform, null);
+                } else {
+                    if (state.getMachineGunLevel() == 0)
+                        g2d.drawImage(tanksGun2, tankGunAffineTransform, null);
+                    else
+                        g2d.drawImage(tanksGun2upgrade, tankGunAffineTransform, null);
+                }
 
                 //drawing the enemyTanks
                 for (EnemyTank enemyTank :
@@ -574,52 +597,68 @@ public class GameFrame extends JFrame {
                         continue out;
 
                     case 'S':
-                        GameState.addObstacle(j, i, softWall.getWidth(), softWall.getHeight(), "softWall");
+                        if (k == 17) {
+                            GameState.addObstacle(j, i, softWall.getWidth(), softWall.getHeight(), "softWall", 1);
+                        } else if (k == 63) {
+                            GameState.addObstacle(j, i, softWall.getWidth(), softWall.getHeight(), "softWall", 3);
+                        } else if (k == 219) {
+                            GameState.addObstacle(j, i, softWall.getWidth(), softWall.getHeight(), "softWall", 4);
+                        }else if (k==530){
+                            GameState.addObstacle(j, i, softWall.getWidth(), softWall.getHeight(), "softWall", 2);
+                        }
+                        else {
+                            GameState.addObstacle(j, i, softWall.getWidth(), softWall.getHeight(), "softWall", 0);
+                        }
                         k++;
                         break;
 
                     case 't':
-                        GameState.addObstacle(j, i, teazel.getWidth(), teazel.getHeight(), "teazel");
+                        GameState.addObstacle(j, i, teazel.getWidth(), teazel.getHeight(), "teazel", 0);
                         k++;
                         break;
 
                     case 'h':
-                        GameState.addObstacle(j, i, hardWall.getWidth(), hardWall.getHeight(), "hardWall");
+                        GameState.addObstacle(j, i, hardWall.getWidth(), hardWall.getHeight(), "hardWall", 0);
                         k++;
                         break;
 
                     case '2':
-                        GameState.addObstacle(j, i, enemy2.getWidth(), enemy2.getHeight(), "enemy2");
+                        GameState.addObstacle(j, i, enemy2.getWidth(), enemy2.getHeight(), "enemy2", 0);
                         k++;
                         break;
 
                     case 'k':
-                        GameState.addObstacle(j + 10, i + 10, khengEnemy.getWidth() - 20, khengEnemy.getHeight() - 20, "khengEnemy");
+                        GameState.addObstacle(j + 10, i + 10, khengEnemy.getWidth() - 20, khengEnemy.getHeight() - 20, "khengEnemy", 0);
                         k++;
                         break;
 
                     case 'b':
-                        GameState.addObstacle(j, i, bigEnemy.getWidth(), bigEnemy.getHeight(), "bigEnemy");
+                        GameState.addObstacle(j, i, bigEnemy.getWidth(), bigEnemy.getHeight(), "bigEnemy", 0);
                         k++;
                         break;
 
                     case 'Q':
-                        GameState.addObstacle(j, i, smallEnemy.getWidth(), smallEnemy.getHeight(), "smallEnemy");
+                        GameState.addObstacle(j, i, smallEnemy.getWidth(), smallEnemy.getHeight(), "smallEnemy", 0);
                         k++;
                         break;
 
                     case 'r':
-                        GameState.addObstacle(j, i, repairFood.getWidth(), repairFood.getHeight(), "repairFood");
+                        GameState.addObstacle(j, i, repairFood.getWidth(), repairFood.getHeight(), "repairFood", 0);
                         k++;
                         break;
 
                     case 'm':
-                        GameState.addObstacle(j, i, machinGunFood.getWidth(), machinGunFood.getHeight(), "mashinGunFood");
+                        GameState.addObstacle(j, i, machinGunFood.getWidth(), machinGunFood.getHeight(), "mashinGunFood", 0);
                         k++;
                         break;
 
                     case 'c':
-                        GameState.addObstacle(j, i, cannonFood.getWidth(), cannonFood.getHeight(), "cannonFood");
+                        GameState.addObstacle(j, i, cannonFood.getWidth(), cannonFood.getHeight(), "cannonFood", 0);
+                        k++;
+                        break;
+
+                    case 'u':
+                        GameState.addObstacle(j, i, upgrade.getWidth(), upgrade.getHeight(), "upgrade", 0);
                         k++;
                         break;
 

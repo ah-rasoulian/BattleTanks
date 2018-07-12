@@ -8,8 +8,8 @@ import java.awt.*;
  */
 public class HeavyBullet extends Bullet {
 
-    public HeavyBullet(GameState state) {
-        super(state, 0.50, 180);
+    public HeavyBullet(GameState state , double speed) {
+        super(state, speed, 180);
         bulletRec = new Rectangle(x, y, 23, 9);
     }
 

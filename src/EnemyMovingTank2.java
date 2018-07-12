@@ -11,8 +11,8 @@ public class EnemyMovingTank2 extends EnemyTank {
     private int directionChoosed;
     private Random randomGenerator;
 
-    public EnemyMovingTank2(int locationX, int locationY, double rotationRequired, Point enemyLocation) {
-        super(locationX, locationY, rotationRequired, enemyLocation,400,80,80);
+    public EnemyMovingTank2(int locationX, int locationY, double rotationRequired, Point enemyLocation, int prize) {
+        super(locationX, locationY, rotationRequired, enemyLocation, 400, 80, 80, prize);
         gunIsReloaded = true;
         direction = 'R';
         directionChoosed = 0;
@@ -68,16 +68,16 @@ public class EnemyMovingTank2 extends EnemyTank {
         if (directionChoosed <= 7) {
             switch (direction) {
                 case 'R':
-                    if (GameState.allowToMove("right" , this))
+                    if (GameState.allowToMove("right", this))
                         getObstacleLocation().x += 3;
                     else
-                        directionChoosed = 8 ;
+                        directionChoosed = 8;
                     break;
                 case 'L':
-                    if (GameState.allowToMove("left" , this))
+                    if (GameState.allowToMove("left", this))
                         getObstacleLocation().x -= 3;
                     else
-                        directionChoosed = 8 ;
+                        directionChoosed = 8;
                     break;
             }
             directionChoosed++;

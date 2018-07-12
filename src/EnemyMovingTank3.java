@@ -10,8 +10,8 @@ public class EnemyMovingTank3 extends EnemyTank {
     private char direction;
     private int directionChoosed;
     private Random randomGenerator;
-    public EnemyMovingTank3(int locationX, int locationY, double rotationRequired, Point enemyLocation) {
-        super(locationX, locationY, rotationRequired, enemyLocation, 600, 100, 100);
+    public EnemyMovingTank3(int locationX, int locationY, double rotationRequired, Point enemyLocation, int prize) {
+        super(locationX, locationY, rotationRequired, enemyLocation, 600, 100, 100,prize);
         gunIsReloaded = true ;
         direction = 'R';
         directionChoosed = 0 ;

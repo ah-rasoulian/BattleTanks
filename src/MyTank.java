@@ -8,7 +8,7 @@ public class MyTank extends Tank {
     private Integer numberOfLightBullets;
 
     public MyTank(int locationX, int locationY, double rotationRequired) {
-        super(locationX, locationY, rotationRequired, 1000, 90, 80 , "myTank");
+        super(locationX, locationY, rotationRequired, 1000, 90, 80 , "myTank",0);
         numberOfHeavyBullets = 50;
         numberOfLightBullets = 300;
     }

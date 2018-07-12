@@ -9,8 +9,8 @@ public class Tank extends Obstacle {
     protected AffineTransform affineTransform;
     protected boolean destroy;
 
-    public Tank(int locationX, int locationY, double rotationRequired , int health, int width, int height , String obstacleName) {
-        super(locationX, locationY, width, height,true , obstacleName);
+    public Tank(int locationX, int locationY, double rotationRequired , int health, int width, int height , String obstacleName, int prize) {
+        super(locationX, locationY, width, height,true , obstacleName , prize);
         this.rotationRequired = rotationRequired;
         this.health = health;
     }
