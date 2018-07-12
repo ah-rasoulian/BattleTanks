@@ -180,15 +180,7 @@ public class GameFrame extends JFrame {
      */
     private void doRendering(Graphics2D g2d, GameState state) {
         if (!state.menuIsFinished) {
-            //Draw the menu image
-            g2d.drawImage(menuImage, 0, 0, null);
-            //Draw the chooser menu item
-            g2d.setColor(Color.red);
-            g2d.fillOval(20, state.menuYPosition, 30, 30);
-
-        }
-        else {
-            if ((state.menuChooserPlace == 2 && !state.getServer().isServerConnected()) || (state.menuChooserPlace == 3 && !state.getClient().isClientConnected())) {
+            if (state.isMultiPlay()) {
                 g2d.setColor(Color.CYAN);
                 g2d.fillRect(0, 0, 1280, 720);
                 if (state.menuChooserPlace == 2) {
@@ -196,11 +188,19 @@ public class GameFrame extends JFrame {
                     g2d.setFont(new Font("TimesRoman", Font.PLAIN, 50));
                     g2d.drawString("your IP address is  " + state.getServer().showIp(), 200, 360);
                     g2d.drawString("Waiting for connection ...", 380, 500);
-                }
-                else {
+                } else {
 
                 }
             }
+            else {
+                //Draw the menu image
+                g2d.drawImage(menuImage, 0, 0, null);
+                //Draw the chooser menu item
+                g2d.setColor(Color.red);
+                g2d.fillOval(20, state.menuYPosition, 30, 30);
+            }
+
+        }
             else {
                 if (state.getMyTank().getObstacleLocation().y < 720) {
                     numOfBullLocY = 0;
@@ -553,7 +553,7 @@ public class GameFrame extends JFrame {
                     g2d.drawImage(gameOver, GAME_WIDTH * 2, GAME_HEIGHT * 2, null);
                 }
             }
-        }
+
     }
 
     public ArrayList<Character> readMap(String fileName) {

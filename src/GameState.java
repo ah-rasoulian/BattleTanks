@@ -51,11 +51,12 @@ public class GameState {
 
     private Server server;
     private Client client;
-
+    private boolean multiPlay ;
     public GameState() {
         //
         // Initialize the game state and all elements ...
         //
+        multiPlay = false;
         //create myTank
         heavyGunLevel = 0;
         machineGunLevel = 0;
@@ -106,6 +107,7 @@ public class GameState {
     public void update() {
         // update the menu
         if (!menuIsFinished) {
+            if (!multiPlay){
             if (!menuSoundFinished) {
                 SoundPlayer.playSound("startUp");
                 menuSoundFinished = true;
@@ -131,19 +133,18 @@ public class GameState {
                 SoundPlayer.getStartUp().close();
                 SoundPlayer.playSound("gameSound1");
             }
-            if (menuKeyENTER && menuChooserPlace == 2)
-            {
+            if (menuKeyENTER && menuChooserPlace == 2) {
                 SoundPlayer.playSound("agree");
-                menuIsFinished = true;
                 SoundPlayer.getStartUp().close();
                 server = new Server();
                 ThreadPool.execute(server);
+                multiPlay = true;
             }
-            if (menuKeyENTER && menuChooserPlace == 3){
+            if (menuKeyENTER && menuChooserPlace == 3) {
                 SoundPlayer.playSound("agree");
-                menuIsFinished = true;
                 SoundPlayer.getStartUp().close();
                 client = new Client();
+                multiPlay = true;
             }
             if (menuKeyENTER && menuChooserPlace == 7) {
                 SoundPlayer.playSound("agree");
@@ -157,14 +158,16 @@ public class GameState {
             if (menuChooserPlace == 3)
                 menuYPosition = 475;
             if (menuChooserPlace == 4)
-                menuYPosition = 520 ;
+                menuYPosition = 520;
             if (menuChooserPlace == 5)
-                menuYPosition = 560 ;
+                menuYPosition = 560;
             if (menuChooserPlace == 6)
-                menuYPosition = 600 ;
+                menuYPosition = 600;
             if (menuChooserPlace == 7)
-                menuYPosition = 640 ;
-        } else {
+                menuYPosition = 640;
+        }
+        }
+        else {
 
             if (!enemysAreCreated){
                 enemyTanks.add(new EnemyFixedTank(1100, 0, 0, myTank.getObstacleLocation(), 1));
@@ -347,6 +350,10 @@ public class GameState {
 
     public Client getClient() {
         return client;
+    }
+
+    public boolean isMultiPlay() {
+        return multiPlay;
     }
 
     /**
