@@ -40,7 +40,7 @@ public class Client implements Runnable
     @Override
     public void run() {
         try (Socket server = new Socket(hostIP , 1397)) {
-
+            clientConnected = true ;
         } catch (UnknownHostException e) {
             e.printStackTrace();
         } catch (IOException e) {

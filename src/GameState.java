@@ -17,6 +17,7 @@ import java.util.HashMap;
 public class GameState {
 
     private static MyTank myTank;
+    private static FriendTank friendTank;
     private ArrayList<EnemyTank> enemyTanks;
 
     public boolean gameOver;
@@ -166,40 +167,48 @@ public class GameState {
             if (menuChooserPlace == 7)
                 menuYPosition = 640;
         }
+        else
+            {
+                menuIsFinished = true ;
+            }
         }
         else {
 
             if (!enemysAreCreated){
-                enemyTanks.add(new EnemyFixedTank(1100, 0, 0, myTank.getObstacleLocation(), 1));
-                enemyTanks.add(new EnemyFixedTank(3620, 300, 0, myTank.getObstacleLocation(), 0));
-                enemyTanks.add(new EnemyFixedTank(2700, 1850, 0, myTank.getObstacleLocation(), 2));
-                enemyTanks.add(new EnemyMovingTank(500, 100, 0, myTank.getObstacleLocation(), 0));
-                enemyTanks.add(new EnemyMovingTank(3000, 100, 0, myTank.getObstacleLocation(), 0));
-                enemyTanks.add(new EnemyMovingTank(400, 1200, 0, myTank.getObstacleLocation(), 3));
-                enemyTanks.add(new EnemyMovingTank(3000, 1800, 0, myTank.getObstacleLocation(), 0));
-                enemyTanks.add(new EnemyMovingTank2(3400, 1200, 0, myTank.getObstacleLocation(), 4));
-                enemyTanks.add(new EnemyMovingTank2(800, 1600, 0, myTank.getObstacleLocation(), 0));
-                enemyTanks.add(new EnemyMovingTank2(1400, 1700, 0, myTank.getObstacleLocation(), 4));
-                enemyTanks.add(new EnemyMovingTank3(1500, 500, 0, myTank.getObstacleLocation(), 1));
-                enemyTanks.add(new EnemyMovingTank3(1400, 900, 0, myTank.getObstacleLocation(), 0));
-                enemyTanks.add(new EnemyMovingTank3(1700, 2000, 0, myTank.getObstacleLocation(), 0));
-                enemyTanks.add(new EnemyMovingTank3(3200, 1600, 0, myTank.getObstacleLocation(), 0));
+                if (multiPlay) {
+                    friendTank = new FriendTank(100, 500, 0);
+                    GameFrame.obstacles.add(friendTank);
+                }
+                enemyTanks.add(new EnemyFixedTank(1100, 0, 0, myTank.getObstacleLocation(), 1 , 21));
+                enemyTanks.add(new EnemyFixedTank(3620, 300, 0, myTank.getObstacleLocation(), 0 ,22));
+                enemyTanks.add(new EnemyFixedTank(2700, 1850, 0, myTank.getObstacleLocation(), 2,23));
+                enemyTanks.add(new EnemyMovingTank(500, 100, 0, myTank.getObstacleLocation(), 0 , 1));
+                enemyTanks.add(new EnemyMovingTank(3000, 100, 0, myTank.getObstacleLocation(), 0 , 2));
+                enemyTanks.add(new EnemyMovingTank(400, 1200, 0, myTank.getObstacleLocation(), 3,3));
+                enemyTanks.add(new EnemyMovingTank(3000, 1800, 0, myTank.getObstacleLocation(), 0, 4));
+                enemyTanks.add(new EnemyMovingTank2(3400, 1200, 0, myTank.getObstacleLocation(), 4,5));
+                enemyTanks.add(new EnemyMovingTank2(800, 1600, 0, myTank.getObstacleLocation(), 0,6));
+                enemyTanks.add(new EnemyMovingTank2(1400, 1700, 0, myTank.getObstacleLocation(), 4,7));
+                enemyTanks.add(new EnemyMovingTank3(1500, 500, 0, myTank.getObstacleLocation(), 1,8));
+                enemyTanks.add(new EnemyMovingTank3(1400, 900, 0, myTank.getObstacleLocation(), 0,9));
+                enemyTanks.add(new EnemyMovingTank3(1700, 2000, 0, myTank.getObstacleLocation(), 0,10));
+                enemyTanks.add(new EnemyMovingTank3(3200, 1600, 0, myTank.getObstacleLocation(), 0,11));
                 if (menuChooserPlace >= 5)
                 {
-                    enemyTanks.add(new EnemyFixedTank(1000, 1040, 0, myTank.getObstacleLocation(), 3));
-                    enemyTanks.add(new EnemyMovingTank(2000, 400, 0, myTank.getObstacleLocation(), 2));
-                    enemyTanks.add(new EnemyMovingTank(2800, 1200, 0, myTank.getObstacleLocation(), 0));
-                    enemyTanks.add(new EnemyMovingTank2(2200, 1000, 0, myTank.getObstacleLocation(), 0));
-                    enemyTanks.add(new EnemyMovingTank3(2700, 500, 0, myTank.getObstacleLocation(), 0));
+                    enemyTanks.add(new EnemyFixedTank(1000, 1040, 0, myTank.getObstacleLocation(), 3,24));
+                    enemyTanks.add(new EnemyMovingTank(2000, 400, 0, myTank.getObstacleLocation(), 2,12));
+                    enemyTanks.add(new EnemyMovingTank(2800, 1200, 0, myTank.getObstacleLocation(), 0,13));
+                    enemyTanks.add(new EnemyMovingTank2(2200, 1000, 0, myTank.getObstacleLocation(), 0,14));
+                    enemyTanks.add(new EnemyMovingTank3(2700, 500, 0, myTank.getObstacleLocation(), 0,15));
 
                 }
                 if (menuChooserPlace == 6 ){
-                    enemyTanks.add(new EnemyFixedTank(150, 1550, 0, myTank.getObstacleLocation(), 0));
-                    enemyTanks.add(new EnemyMovingTank(1000, 1800, 0, myTank.getObstacleLocation(), 0));
-                    enemyTanks.add(new EnemyMovingTank2(800, 500, 0, myTank.getObstacleLocation(), 0));
-                    enemyTanks.add(new EnemyMovingTank2(1900, 1600, 0, myTank.getObstacleLocation(), 0));
-                    enemyTanks.add(new EnemyMovingTank3(300, 1000, 0, myTank.getObstacleLocation(), 0));
-                    enemyTanks.add(new EnemyMovingTank3(2300, 1600, 0, myTank.getObstacleLocation(), 0));
+                    enemyTanks.add(new EnemyFixedTank(150, 1550, 0, myTank.getObstacleLocation(), 0,25));
+                    enemyTanks.add(new EnemyMovingTank(1000, 1800, 0, myTank.getObstacleLocation(), 0,16));
+                    enemyTanks.add(new EnemyMovingTank2(800, 500, 0, myTank.getObstacleLocation(), 0,17));
+                    enemyTanks.add(new EnemyMovingTank2(1900, 1600, 0, myTank.getObstacleLocation(), 0,18));
+                    enemyTanks.add(new EnemyMovingTank3(300, 1000, 0, myTank.getObstacleLocation(), 0,19));
+                    enemyTanks.add(new EnemyMovingTank3(2300, 1600, 0, myTank.getObstacleLocation(), 0,20));
 
                 }
                 //add enemy tanks to obstacle
@@ -545,22 +554,6 @@ public class GameState {
             case "hardWall":
                 Obstacle hardWallSwap = new Obstacle(x, y, lengthX, lengthY, true, "hardWall", 0);
                 GameFrame.obstacles.add(hardWallSwap);
-                break;
-            case "khengEnemy":
-                Tank khengEnemySwap = new Tank(x, y, 0, 100, lengthX, lengthY, "enemy", prize);
-                GameFrame.obstacles.add(khengEnemySwap);
-                break;
-            case "enemy2":
-                EnemyMovingTank enemy2Swap = new EnemyMovingTank(x, y, 0, new Point(100, 100), prize);
-                GameFrame.obstacles.add(enemy2Swap);
-                break;
-            case "bigEnemy":
-                EnemyMovingTank3 bigEnemySwap = new EnemyMovingTank3(x, y, 0, new Point(100, 100), prize);
-                GameFrame.obstacles.add(bigEnemySwap);
-                break;
-            case "smallEnemy":
-                EnemyMovingTank2 smallEnemySwap = new EnemyMovingTank2(x, y, 0, new Point(100, 100), prize);
-                GameFrame.obstacles.add(smallEnemySwap);
                 break;
             case "repairFood":
                 Obstacle repairFoodswap = new Obstacle(x, y, lengthX, lengthY, false, "repairFood", 0);

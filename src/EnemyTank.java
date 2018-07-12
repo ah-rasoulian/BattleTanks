@@ -10,10 +10,11 @@ public class EnemyTank extends Tank {
     protected long startTime;
     protected int tankCenterX;
     protected int tankCenterY;
-
-    public EnemyTank(int locationX, int locationY, double rotationRequired, Point enemyLocation, int health, int width, int height, int prize ) {
+    protected int tankNumber ;
+    public EnemyTank(int locationX, int locationY, double rotationRequired, Point enemyLocation, int health, int width, int height, int prize , int tankNumber) {
         super(locationX, locationY, rotationRequired, health, width, height , "enemy",prize);
         this.enemyLocation = new Point(enemyLocation.x + 60, enemyLocation.y + 60);
+        this.tankNumber = tankNumber;
         bullets = new ArrayList<>();
         startTime = System.currentTimeMillis();
     }

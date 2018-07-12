@@ -6,8 +6,8 @@ import java.awt.geom.AffineTransform;
  */
 public class EnemyFixedTank extends EnemyTank {
 
-    public EnemyFixedTank(int locationX, int locationY, double rotationRequired, Point enemyLocation, int prize) {
-        super(locationX, locationY, rotationRequired, enemyLocation, 500, 120, 100, prize);
+    public EnemyFixedTank(int locationX, int locationY, double rotationRequired, Point enemyLocation, int prize , int tankNumber) {
+        super(locationX, locationY, rotationRequired, enemyLocation, 500, 120, 100, prize , tankNumber);
     }
 
     public void updateEnemyLocation(Point enemyLocation) {
