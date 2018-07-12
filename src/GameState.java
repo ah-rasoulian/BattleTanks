@@ -242,20 +242,20 @@ public class GameState {
                 if (tanksGun1Online) {
                     SoundPlayer.playSound("cannon");
                     if (heavyGunLevel == 0)
-                        bullets.add(new HeavyBullet(this, 0.50));
+                        bullets.add(new HeavyBullet(this, 0.50 , 120));
                     else if (heavyGunLevel == 1)
-                        bullets.add(new HeavyBullet(this, 1));
+                        bullets.add(new HeavyBullet(this, 0.75 , 70));
                     else
-                        bullets.add(new HeavyBullet(this, 1.50));
+                        bullets.add(new HeavyBullet(this, 1 , 50));
                     lastShutTime = System.currentTimeMillis();
                     myTank.decreaseHeavyBullets();
                     gunIsReloaded = false;
                 } else {
                     SoundPlayer.playSound("machineGun");
                     if (machineGunLevel == 0)
-                        bullets.add(new LightBullet(this, 0.90));
+                        bullets.add(new LightBullet(this, 0.90 , 80));
                     else
-                        bullets.add(new LightBullet(this, 1.50));
+                        bullets.add(new LightBullet(this, 1.10 , 60));
                     myTank.decreaseLightBullets();
                 }
             }
@@ -602,7 +602,7 @@ public class GameState {
             if (obstacle.equals(tank))
                 continue;
             if (myTank.obstacleRec.intersects(obstacle.obstacleRec) && (obstacle.getObstacleName().equals("repairFood") || obstacle.getObstacleName().equals("cannonFood") || obstacle.getObstacleName().equals("mashinGunFood") || obstacle.getObstacleName().equals("upgrade"))) {
-                coord = obstacle.obstacleRec.y / 91 * 46 + obstacle.obstacleRec.x / 85;
+                coord = obstacle.obstacleRec.y / 91 * 47 + obstacle.obstacleRec.x / 85;
                 GameFrame.obstacles.remove(obstacle);
                 GameFrame.map.set(coord, ' ');
                 if (obstacle.getObstacleName().equals("repairFood")) myTank.relief();
@@ -632,14 +632,14 @@ public class GameState {
             if (obstacle.equals(shoter))
                 continue;
             int coord;
-            if ((bullet.bulletRec.intersects(myTank.obstacleRec))) {
+            if ((bullet.bulletRec.intersects(myTank.obstacleRec)) && !shoter.equals(myTank)) {
                 if (bullet instanceof LightBullet) myTank.decreaseHealth(10);
                 if (bullet instanceof HeavyBullet) myTank.decreaseHealth(100);
 
                 return true;
             }
             if ((bullet.bulletRec.intersects(obstacle.obstacleRec) && obstacle.isImpact())) {
-                coord = obstacle.obstacleRec.y / 91 * 46 + obstacle.obstacleRec.x / 85;
+                coord = obstacle.obstacleRec.y / 91 * 47 + obstacle.obstacleRec.x / 85;
                 System.out.println(obstacle.getObstacleName());
                 switch (obstacle.getObstacleName()) {
                     case "softWall":
@@ -697,7 +697,7 @@ public class GameState {
         }
         int coord;
         for (int i = 0; i < GameFrame.obstacles.size(); i++) {
-            coord = GameFrame.obstacles.get(i).obstacleRec.y / 91 * 46 + GameFrame.obstacles.get(i).obstacleRec.x / 85;
+            coord = GameFrame.obstacles.get(i).obstacleRec.y / 91 * 47 + GameFrame.obstacles.get(i).obstacleRec.x / 85;
             if (GameFrame.obstacles.get(i) instanceof Tank) {
                 if (((Tank) GameFrame.obstacles.get(i)).health <= 0) {
 

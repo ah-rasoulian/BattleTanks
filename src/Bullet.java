@@ -89,6 +89,7 @@ public abstract class Bullet {
     }
 
     public void setSpeed(double speed,int centerOfTankX, int centerOfTankY) {
+
         this.speed = speed;
         speedX = this.speed * ((double) (pointOfShut.x - centerOfTankX)) / distant;
         speedY = this.speed * ((double) (pointOfShut.y - centerOfTankY)) / distant;

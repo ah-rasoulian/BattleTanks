@@ -416,19 +416,27 @@ public class GameFrame extends JFrame {
                 AffineTransform tankGunAffineTransform = new AffineTransform();
                 tankGunAffineTransform.translate(tankCenterX, tankCenterY);
                 tankGunAffineTransform.rotate(rotationRequired);
-                tankGunAffineTransform.translate(-30, -31);
                 if (state.isTanksGun1Online()) {
-                    if (state.getHeavyGunLevel() == 0)
+                    if (state.getHeavyGunLevel() == 0) {
+                        tankGunAffineTransform.translate(-30, -31);
                         g2d.drawImage(tanksGun, tankGunAffineTransform, null);
-                    else if (state.getHeavyGunLevel() == 1)
+                    }
+                    else if (state.getHeavyGunLevel() == 1) {
+                        tankGunAffineTransform.translate(-35, -45);
                         g2d.drawImage(tanksGunUpgrade1, tankGunAffineTransform, null);
-                    else
-                        g2d.drawImage(tanksGunUpgrade2, tankGunAffineTransform, null);
+                    }
+                    else{
+                        tankGunAffineTransform.translate(-35, -50);
+                        g2d.drawImage(tanksGunUpgrade2, tankGunAffineTransform, null);}
                 } else {
-                    if (state.getMachineGunLevel() == 0)
+                    if (state.getMachineGunLevel() == 0) {
+                        tankGunAffineTransform.translate(-30, -31);
                         g2d.drawImage(tanksGun2, tankGunAffineTransform, null);
-                    else
+                    }
+                    else {
+                        tankGunAffineTransform.translate(-30, -50);
                         g2d.drawImage(tanksGun2upgrade, tankGunAffineTransform, null);
+                    }
                 }
 
                 //drawing the enemyTanks
