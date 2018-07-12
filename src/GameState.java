@@ -111,33 +111,48 @@ public class GameState {
                 menuKeyUP = false;
             }
             if (menuKeyDOWN) {
-                if (menuChooserPlace < 5) {
+                if (menuChooserPlace < 7) {
                     SoundPlayer.playSound("select");
                     menuChooserPlace++;
                 }
                 menuKeyDOWN = false;
             }
-            if (menuKeyENTER && (menuChooserPlace == 2 || menuChooserPlace == 3 || menuChooserPlace == 4)) {
+            if (menuKeyENTER && (menuChooserPlace == 4 || menuChooserPlace == 5 || menuChooserPlace == 6)) {
                 SoundPlayer.playSound("agree");
                 menuIsFinished = true;
                 SoundPlayer.getStartUp().close();
                 SoundPlayer.playSound("gameSound1");
             }
-            if (menuKeyENTER && menuChooserPlace == 5) {
+            if (menuKeyENTER && menuChooserPlace == 2)
+            {
+                SoundPlayer.playSound("agree");
+                menuIsFinished = true;
+                SoundPlayer.getStartUp().close();
+            }
+            if (menuKeyENTER && menuChooserPlace == 3){
+                SoundPlayer.playSound("agree");
+                menuIsFinished = true;
+                SoundPlayer.getStartUp().close();
+            }
+            if (menuKeyENTER && menuChooserPlace == 7) {
                 SoundPlayer.playSound("agree");
                 System.exit(0);
             }
             // y positions : exit 530 , play new 485 , play previous 440
             if (menuChooserPlace == 1)
-                menuYPosition = 440;
+                menuYPosition = 400;
             if (menuChooserPlace == 2)
-                menuYPosition = 470;
+                menuYPosition = 430;
             if (menuChooserPlace == 3)
-                menuYPosition = 515;
+                menuYPosition = 475;
             if (menuChooserPlace == 4)
-                menuYPosition = 560 ;
+                menuYPosition = 520 ;
             if (menuChooserPlace == 5)
-                menuYPosition = 605 ;
+                menuYPosition = 560 ;
+            if (menuChooserPlace == 6)
+                menuYPosition = 600 ;
+            if (menuChooserPlace == 7)
+                menuYPosition = 640 ;
         } else {
 
             if (!enemysAreCreated){
@@ -155,7 +170,7 @@ public class GameState {
                 enemyTanks.add(new EnemyMovingTank3(1400, 900, 0, myTank.getObstacleLocation()));
                 enemyTanks.add(new EnemyMovingTank3(1700, 2000, 0, myTank.getObstacleLocation()));
                 enemyTanks.add(new EnemyMovingTank3(3200, 1600, 0, myTank.getObstacleLocation()));
-                if (menuChooserPlace >= 3)
+                if (menuChooserPlace >= 5)
                 {
                     enemyTanks.add(new EnemyFixedTank(1000, 1040, 0, myTank.getObstacleLocation()));
                     enemyTanks.add(new EnemyMovingTank(2000, 400, 0, myTank.getObstacleLocation()));
@@ -164,7 +179,7 @@ public class GameState {
                     enemyTanks.add(new EnemyMovingTank3(2700, 500, 0, myTank.getObstacleLocation()));
 
                 }
-                if (menuChooserPlace == 4 ){
+                if (menuChooserPlace == 6 ){
                     enemyTanks.add(new EnemyFixedTank(150, 1550, 0, myTank.getObstacleLocation()));
                     enemyTanks.add(new EnemyMovingTank(1000, 1800, 0, myTank.getObstacleLocation()));
                     enemyTanks.add(new EnemyMovingTank2(800, 500, 0, myTank.getObstacleLocation()));
