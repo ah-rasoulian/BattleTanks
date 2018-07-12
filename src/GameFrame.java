@@ -180,13 +180,18 @@ public class GameFrame extends JFrame {
 
         }
         else {
-            if (!state.getServer().isServerConnected()) {
+            if ((state.menuChooserPlace == 2 && !state.getServer().isServerConnected()) || (state.menuChooserPlace == 3 && !state.getClient().isClientConnected())) {
                 g2d.setColor(Color.CYAN);
                 g2d.fillRect(0, 0, 1280, 720);
-                g2d.setColor(Color.red);
-                g2d.setFont(new Font("TimesRoman", Font.PLAIN, 50));
-                g2d.drawString("your IP address is  " + state.getServer().showIp() , 200 , 360);
-                g2d.drawString("Waiting for connection ..." , 380 , 500);
+                if (state.menuChooserPlace == 2) {
+                    g2d.setColor(Color.red);
+                    g2d.setFont(new Font("TimesRoman", Font.PLAIN, 50));
+                    g2d.drawString("your IP address is  " + state.getServer().showIp(), 200, 360);
+                    g2d.drawString("Waiting for connection ...", 380, 500);
+                }
+                else {
+
+                }
             }
             else {
                 if (state.getMyTank().getObstacleLocation().y < 720) {

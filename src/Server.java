@@ -15,7 +15,7 @@ public class Server implements Runnable
     }
     public String showIp (){
         try {
-            return InetAddress.getLocalHost().getHostAddress() + ":1397";
+            return InetAddress.getLocalHost().getHostAddress();
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }

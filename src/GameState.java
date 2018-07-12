@@ -47,6 +47,7 @@ public class GameState {
     private boolean enemysAreCreated ;
 
     private Server server;
+    private Client client;
 
     public GameState() {
         //
@@ -137,6 +138,7 @@ public class GameState {
                 SoundPlayer.playSound("agree");
                 menuIsFinished = true;
                 SoundPlayer.getStartUp().close();
+                client = new Client();
             }
             if (menuKeyENTER && menuChooserPlace == 7) {
                 SoundPlayer.playSound("agree");
@@ -321,6 +323,10 @@ public class GameState {
 
     public Server getServer() {
         return server;
+    }
+
+    public Client getClient() {
+        return client;
     }
 
     /**
