@@ -16,8 +16,8 @@ import java.util.HashMap;
  */
 public class GameState {
 
-    private static MyTank myTank;
-    private static FriendTank friendTank;
+    public static MyTank myTank;
+    public static FriendTank friendTank;
     private ArrayList<EnemyTank> enemyTanks;
 
     public boolean gameOver;
@@ -53,15 +53,11 @@ public class GameState {
     private static Server server;
     private Client client;
     private static boolean multiPlay ;
-    public static MultiplayDatas multiplayDatas;
-    public static MultiplayDatas friendMultiPlayDatas ;
 
     public GameState() {
         //
         // Initialize the game state and all elements ...
         //
-        friendMultiPlayDatas = null ;
-        multiplayDatas = new MultiplayDatas();
         multiPlay = false;
         server = null;
         client = null;
@@ -145,7 +141,6 @@ public class GameState {
                 SoundPlayer.playSound("agree");
                 SoundPlayer.getStartUp().close();
                 server = new Server();
-                multiplayDatas = new MultiplayDatas();
                 ThreadPool.execute(server);
                 multiPlay = true;
             }
@@ -153,7 +148,6 @@ public class GameState {
                 SoundPlayer.playSound("agree");
                 SoundPlayer.getStartUp().close();
                 client = new Client();
-                multiplayDatas = new MultiplayDatas();
                 ThreadPool.execute(client);
                 multiPlay = true;
             }
@@ -229,24 +223,32 @@ public class GameState {
                 //
                 enemysAreCreated = true;
             }
-            if (multiPlay && ((server != null && server.isServerConnected()) ||(client != null && client.isClientConnected())))
+            if (multiPlay)
             {
-                multiplayDatas.setMyTankLoc(myTank.obstacleLocation);
-                multiplayDatas.setMyBullets(bullets);
+                try {
+                    Thread.sleep(1);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 if (server != null)
                 {
+                    server.multiplayDatas.setMyTankLoc(myTank.obstacleLocation);
+                    server.multiplayDatas.setMyBullets(bullets);
                     HashMap<Integer , Point> enemyLocations = new HashMap<>();
                     for (EnemyTank enemyTank:
                          enemyTanks) {
                         enemyLocations.put(enemyTank.tankNumber , enemyTank.obstacleLocation);
                     }
-                    multiplayDatas.setEnemysLocations(enemyLocations);
-                    server.updateDatas();
+                   server.multiplayDatas.setEnemysLocations(enemyLocations);
+//                    server.updateDatas();
+                    friendTank.obstacleLocation = server.friendMultiPlayDatas.getMyTankLoc() ;
                 }
                 else {
-                    client.updateDatas();
+                    client.multiplayDatas.setMyTankLoc(myTank.obstacleLocation);
+                    client.multiplayDatas.setMyBullets(bullets);
+//                    client.updateDatas();
+                    friendTank.obstacleLocation = client.friendMultiPlayDatas.getMyTankLoc() ;
                 }
-                friendTank.obstacleLocation = friendMultiPlayDatas.getMyTankLoc();
             }
             if (keyUP && allowToMove("up", myTank)) {
                 myTank.getObstacleLocation().y -= 8;
@@ -672,7 +674,6 @@ public class GameState {
             }
             if ((bullet.bulletRec.intersects(obstacle.obstacleRec) && obstacle.isImpact())) {
                 coord = obstacle.obstacleRec.y / 91 * 47 + obstacle.obstacleRec.x / 85;
-                System.out.println(obstacle.getObstacleName());
                 switch (obstacle.getObstacleName()) {
                     case "softWall":
                         SoundPlayer.playSound("softWall");

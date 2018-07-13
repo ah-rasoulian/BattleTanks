@@ -17,25 +17,30 @@ public class Client implements Runnable
 
     private ObjectOutputStream out;
     private ObjectInputStream in;
+    private Socket server;
 
+    public static MultiplayDatas multiplayDatas;
+    public static MultiplayDatas friendMultiPlayDatas;
     public Client (){
-        Handler handler = new Handler();
+        multiplayDatas = new MultiplayDatas();
+        friendMultiPlayDatas = new MultiplayDatas();
+//        Handler handler = new Handler();
         clientConnected = false;
-        frame = new JFrame("Connection");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
-        frame.setLocationRelativeTo(null);
-        JPanel panel = new JPanel();
-        frame.setContentPane(panel);
-        panel.setLayout(new GridLayout(2,1));
-        textField = new JTextField();
-        textField.addActionListener(handler);
-
-        JLabel label = new JLabel("Enter the Host IP" , SwingConstants.CENTER);
-
-        panel.add(label);
-        panel.add(textField);
-        frame.pack();
+//        frame = new JFrame("Connection");
+//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        frame.setVisible(true);
+//        frame.setLocationRelativeTo(null);
+//        JPanel panel = new JPanel();
+//        frame.setContentPane(panel);
+//        panel.setLayout(new GridLayout(2,1));
+//        textField = new JTextField();
+//        textField.addActionListener(handler);
+//
+//        JLabel label = new JLabel("Enter the Host IP" , SwingConstants.CENTER);
+//
+//        panel.add(label);
+//        panel.add(textField);
+//        frame.pack();
     }
 
     public boolean isClientConnected() {
@@ -43,25 +48,37 @@ public class Client implements Runnable
     }
 
     public void updateDatas (){
-        try {
-            out.writeObject(GameState.multiplayDatas);
-            GameState.friendMultiPlayDatas = (MultiplayDatas) in.readObject();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+        if (!server.isClosed()) {
+            try {
+                out.writeObject(multiplayDatas);
+                friendMultiPlayDatas = (MultiplayDatas) in.readObject();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
         }
     }
     @Override
     public void run() {
-        try (Socket server = new Socket(hostIP , 1397)) {
-            clientConnected = true ;
+        try {
+            server = new Socket(hostIP , 1397);
+            if (!server.isClosed())
+                clientConnected = true ;
             GameState.menuIsFinished = true;
              out = new ObjectOutputStream(server.getOutputStream());
              in = new ObjectInputStream(server.getInputStream());
+             while (true){
+                 friendMultiPlayDatas = (MultiplayDatas) in.readObject();
+                 System.out.println("server loc" + friendMultiPlayDatas.getMyTankLoc());
+                 out.writeObject(multiplayDatas);
+                 System.out.println("client loc " + multiplayDatas.getMyTankLoc());
+             }
         } catch (UnknownHostException e) {
             e.printStackTrace();
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
     }

@@ -1,15 +1,16 @@
 import java.awt.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class MultiplayDatas
+public class MultiplayDatas implements Serializable
 {
     private Point myTankLoc ;
     private ArrayList<Bullet> myBullets;
     private HashMap <Integer , Point > enemysLocations ;
     public MultiplayDatas ()
     {
-        myTankLoc = new Point();
+        this.myTankLoc = new Point();
         myBullets = new ArrayList<>();
         enemysLocations = new HashMap<>();
     }
