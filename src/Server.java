@@ -63,10 +63,10 @@ public class Server implements Runnable
                 out = new ObjectOutputStream(client.getOutputStream());
                 in = new ObjectInputStream(client.getInputStream());
                 while (true){
-                    System.out.println("Server Loc " + multiplayDatas.getMyTankLoc());
                     out.writeObject(multiplayDatas);
+                    out.flush();
+                    out.reset();
                     friendMultiPlayDatas = (MultiplayDatas) in.readObject();
-                    System.out.println("client loc " + friendMultiPlayDatas.getMyTankLoc());
                 }
         } catch (IOException e) {
             e.printStackTrace();

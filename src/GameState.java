@@ -51,7 +51,7 @@ public class GameState {
     private static int machineGunLevel;
 
     private static Server server;
-    private Client client;
+    private static Client client;
     private static boolean multiPlay ;
 
     public GameState() {
@@ -186,7 +186,7 @@ public class GameState {
                 enemyTanks.add(new EnemyFixedTank(1100, 0, 0, myTank.getObstacleLocation(), 1 , 21));
                 enemyTanks.add(new EnemyFixedTank(3620, 300, 0, myTank.getObstacleLocation(), 0 ,22));
                 enemyTanks.add(new EnemyFixedTank(2700, 1850, 0, myTank.getObstacleLocation(), 2,23));
-                enemyTanks.add(new EnemyMovingTank(500, 100, 0, myTank.getObstacleLocation(), 0 , 1));
+//                enemyTanks.add(new EnemyMovingTank(500, 100, 0, myTank.getObstacleLocation(), 0 , 1));
                 enemyTanks.add(new EnemyMovingTank(3000, 100, 0, myTank.getObstacleLocation(), 0 , 2));
                 enemyTanks.add(new EnemyMovingTank(400, 1200, 0, myTank.getObstacleLocation(), 3,3));
                 enemyTanks.add(new EnemyMovingTank(3000, 1800, 0, myTank.getObstacleLocation(), 0, 4));
@@ -234,6 +234,7 @@ public class GameState {
                 {
                     server.multiplayDatas.setMyTankLoc(myTank.obstacleLocation);
                     server.multiplayDatas.setMyBullets(bullets);
+                    server.multiplayDatas.setRotationRequired(getRotationRequired());
                     HashMap<Integer , Point> enemyLocations = new HashMap<>();
                     for (EnemyTank enemyTank:
                          enemyTanks) {
@@ -241,12 +242,15 @@ public class GameState {
                     }
                    server.multiplayDatas.setEnemysLocations(enemyLocations);
 //                    server.updateDatas();
+                    friendTank.setRotationRequired(server.friendMultiPlayDatas.getRotationRequired());
                     friendTank.obstacleLocation = server.friendMultiPlayDatas.getMyTankLoc() ;
                 }
                 else {
                     client.multiplayDatas.setMyTankLoc(myTank.obstacleLocation);
                     client.multiplayDatas.setMyBullets(bullets);
+                    client.multiplayDatas.setRotationRequired(getRotationRequired());
 //                    client.updateDatas();
+                    friendTank.setRotationRequired(client.friendMultiPlayDatas.getRotationRequired());
                     friendTank.obstacleLocation = client.friendMultiPlayDatas.getMyTankLoc() ;
                 }
             }
@@ -391,7 +395,7 @@ public class GameState {
         return server;
     }
 
-    public Client getClient() {
+    public static Client getClient() {
         return client;
     }
 

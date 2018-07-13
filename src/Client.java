@@ -70,9 +70,9 @@ public class Client implements Runnable
              in = new ObjectInputStream(server.getInputStream());
              while (true){
                  friendMultiPlayDatas = (MultiplayDatas) in.readObject();
-                 System.out.println("server loc" + friendMultiPlayDatas.getMyTankLoc());
                  out.writeObject(multiplayDatas);
-                 System.out.println("client loc " + multiplayDatas.getMyTankLoc());
+                 out.flush();
+                 out.reset();
              }
         } catch (UnknownHostException e) {
             e.printStackTrace();

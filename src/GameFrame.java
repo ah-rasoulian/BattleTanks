@@ -441,10 +441,42 @@ public class GameFrame extends JFrame {
                 //drawing the friend tank
                 if(GameState.isMultiPlay())
                 {
-                    if (state.getFriendTank() != null)
-                        g2d.drawImage(tank,state.getFriendTank().getObstacleLocation().x , state.getFriendTank().getObstacleLocation().y ,null);
+                    if (state.getFriendTank() != null) {
+                        g2d.drawImage(tank, state.getFriendTank().getObstacleLocation().x, state.getFriendTank().getObstacleLocation().y, null);
+                        g2d.drawImage(tanksGun, state.friendTank.getAffineTransform(), null);
+                    }
+                    if (GameState.getServer() != null){
+                        AffineTransform bulletAffineTransform;
+                        for (Bullet b :
+                                GameState.getServer().friendMultiPlayDatas.getMyBullets()) {
+                            b.update();
+                            bulletAffineTransform = new AffineTransform();
+                            bulletAffineTransform.translate(b.getX(), b.getY());
+                            bulletAffineTransform.rotate(b.getRotationRequired());
+                            if (b instanceof HeavyBullet)
+                                g2d.drawImage(heavyBullet, bulletAffineTransform, null);
+                            if (b instanceof LightBullet)
+                                g2d.drawImage(lightBullet, bulletAffineTransform, null);
+                        }
+                    }
+                    else {
+                        AffineTransform bulletAffineTransform;
+                        for (Bullet b :
+                                GameState.getClient().friendMultiPlayDatas.getMyBullets()) {
+                            b.update();
+                            bulletAffineTransform = new AffineTransform();
+                            bulletAffineTransform.translate(b.getX(), b.getY());
+                            bulletAffineTransform.rotate(b.getRotationRequired());
+                            if (b instanceof HeavyBullet) {
+                                g2d.drawImage(heavyBullet, bulletAffineTransform, null);
+                            }
+                            if (b instanceof LightBullet)
+                                g2d.drawImage(lightBullet, bulletAffineTransform, null);
+                        }
+                    }
                 }
                 //drawing the enemyTanks
+
                 for (EnemyTank enemyTank :
                         state.getEnemyTanks()) {
                     if (enemyTank instanceof EnemyFixedTank) {

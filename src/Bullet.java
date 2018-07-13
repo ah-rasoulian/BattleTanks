@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.io.Serializable;
 
 /**
  * this is a class that simulates a bullet from 2 kind lightBullet and heavyBullet
@@ -7,7 +8,7 @@ import java.awt.*;
  *
  * @author AmirHosseinRasulian & MohammadHasanRashidi
  */
-public abstract class Bullet {
+public abstract class Bullet implements Serializable {
     protected Point pointOfShut;
     protected Point pointOfGun;
     protected double speed;
