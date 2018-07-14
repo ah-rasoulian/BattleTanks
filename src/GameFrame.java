@@ -558,7 +558,6 @@ public class GameFrame extends JFrame {
                     AffineTransform bulletAffineTransform2;
                     for (Bullet b :
                             GameState.getServer().friendMultiPlayDatas.getMyBullets()) {
-                        b.update();
                         bulletAffineTransform2 = new AffineTransform();
                         bulletAffineTransform2.translate(b.getX(), b.getY());
                         bulletAffineTransform2.rotate(b.getRotationRequired());
@@ -578,7 +577,6 @@ public class GameFrame extends JFrame {
                     AffineTransform bulletAffineTransform2;
                     for (Bullet b :
                             GameState.getClient().friendMultiPlayDatas.getMyBullets()) {
-                        b.update();
                         bulletAffineTransform2 = new AffineTransform();
                         bulletAffineTransform2.translate(b.getX(), b.getY());
                         bulletAffineTransform2.rotate(b.getRotationRequired());
