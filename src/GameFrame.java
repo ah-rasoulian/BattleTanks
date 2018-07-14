@@ -553,7 +553,7 @@ public class GameFrame extends JFrame {
                     AffineTransform bulletAffineTransform2;
                     for (Bullet b :
                             GameState.getServer().friendMultiPlayDatas.getMyBullets()) {
-                        if (state.bulletCollision(b,state.getFriendTank()))
+                        if (state.bulletCollision(b,GameState.friendTank))
                             continue;
                         bulletAffineTransform2 = new AffineTransform();
                         bulletAffineTransform2.translate(b.getX(), b.getY());
@@ -568,7 +568,7 @@ public class GameFrame extends JFrame {
                     AffineTransform bulletAffineTransform2;
                     for (Bullet b :
                             GameState.getClient().friendMultiPlayDatas.getMyBullets()) {
-                        if (state.bulletCollision(b,state.getFriendTank()))
+                        if (state.bulletCollision(b,GameState.friendTank))
                             continue;
                         bulletAffineTransform2 = new AffineTransform();
                         bulletAffineTransform2.translate(b.getX(), b.getY());

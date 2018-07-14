@@ -757,6 +757,7 @@ public class GameState {
     }
 
     public void updateObtacles() {
+
         if (myTank.health <= 0) {
             gameOver = true;
             return;
