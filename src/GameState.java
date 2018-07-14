@@ -18,7 +18,7 @@ public class GameState {
 
     public static MyTank myTank;
     public static FriendTank friendTank;
-    public static ArrayList<EnemyTank> enemyTanks;
+    private   ArrayList<EnemyTank> enemyTanks;
 
     public boolean gameOver;
     public boolean winning;

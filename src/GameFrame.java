@@ -445,7 +445,6 @@ public class GameFrame extends JFrame {
                     if (state.getFriendTank() != null ) {
                         g2d.drawImage(tank, state.getFriendTank().getObstacleLocation().x, state.getFriendTank().getObstacleLocation().y, null);
                         tankGunAffineTransform = GameState.friendTank.getAffineTransform();
-                        System.out.println();
                         if (state.getFriendTank().isTanksGun1Online()) {
                             if (state.getFriendTank().getHeavyGunLevel() == 0) {
                                 g2d.drawImage(tanksGun, tankGunAffineTransform, null);
