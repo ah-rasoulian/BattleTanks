@@ -13,7 +13,7 @@ public class MultiplayDatas implements Serializable
     {
         this.myTankLoc = new Point();
         myBullets = new ArrayList<>();
-        enemysLocations = new HashMap<>();
+        enemysLocations = new HashMap<Integer, Point>();
     }
 
     public Point getMyTankLoc() {

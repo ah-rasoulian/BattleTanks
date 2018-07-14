@@ -453,31 +453,35 @@ public class GameFrame extends JFrame {
                 {
                     EnemyTank enemyTank = iterator.next();
                     if (enemyTank instanceof EnemyFixedTank) {
+                        if (GameState.isMultiPlay() && GameState.getClient() != null)
+                            ((EnemyFixedTank) enemyTank).updateEnemyLocation(state.getFriendTank().getObstacleLocation());
+                        else
                         ((EnemyFixedTank) enemyTank).updateEnemyLocation(state.getMyTank().getObstacleLocation());
                         g2d.drawImage(enemyFixedTank, enemyTank.getObstacleLocation().x, enemyTank.getObstacleLocation().y, null);
                         g2d.drawImage(enemyFixedTankGun, enemyTank.affineTransform, null);
                     }
                     if (enemyTank instanceof EnemyMovingTank) {
-                        ((EnemyMovingTank) enemyTank).updateEnemyLocation(state.getMyTank().getObstacleLocation());
+                        if (GameState.isMultiPlay() && GameState.getClient() != null)
+                            ((EnemyMovingTank) enemyTank).updateEnemyLocation(state.getFriendTank().getObstacleLocation());
+                        else
+                            ((EnemyMovingTank) enemyTank).updateEnemyLocation(state.getMyTank().getObstacleLocation());
                         g2d.drawImage(enemy2, enemyTank.getObstacleLocation().x, enemyTank.getObstacleLocation().y, null);
                         g2d.drawImage(enemy2Gun, enemyTank.affineTransform, null);
-//                    g2d.setColor(Color.MAGENTA);
-//                    g2d.drawOval(((EnemyMovingTank) enemyTank).tankCenterX , ((EnemyMovingTank) enemyTank).tankCenterY , 5 ,5);
-                    }
+                        }
                     if (enemyTank instanceof EnemyMovingTank2) {
-                        ((EnemyMovingTank2) enemyTank).updateEnemyLocation(state.getMyTank().getObstacleLocation());
+                        if (GameState.isMultiPlay() && GameState.getClient() != null)
+                            ((EnemyMovingTank2) enemyTank).updateEnemyLocation(state.getFriendTank().getObstacleLocation());
+                        else
+                            ((EnemyMovingTank2) enemyTank).updateEnemyLocation(state.getMyTank().getObstacleLocation());
                         g2d.drawImage(smallEnemy, ((EnemyMovingTank2) enemyTank).affineTransform, null);
-//                    g2d.setColor(Color.MAGENTA);
-//                    g2d.drawOval(((EnemyMovingTank2) enemyTank).tankCenterX , ((EnemyMovingTank2) enemyTank).tankCenterY , 5 ,5);
-
                     }
                     if (enemyTank instanceof EnemyMovingTank3) {
-                        ((EnemyMovingTank3) enemyTank).updateEnemyLocation(state.getMyTank().getObstacleLocation());
+                        if (GameState.isMultiPlay() && GameState.getClient() != null)
+                            ((EnemyMovingTank3) enemyTank).updateEnemyLocation(state.getFriendTank().getObstacleLocation());
+                        else
+                            ((EnemyMovingTank3) enemyTank).updateEnemyLocation(state.getMyTank().getObstacleLocation());
                         g2d.drawImage(bigEnemy, enemyTank.getObstacleLocation().x, enemyTank.getObstacleLocation().y, null);
                         g2d.drawImage(bigEnemyGun, enemyTank.affineTransform, null);
-                        g2d.setColor(Color.MAGENTA);
-                        g2d.drawOval(((EnemyMovingTank3) enemyTank).tankCenterX, ((EnemyMovingTank3) enemyTank).tankCenterY, 5, 5);
-
                     }
                     AffineTransform bulletAffineTransform;
                     for (int i = 0; i < enemyTank.getBullets().size(); i++) {

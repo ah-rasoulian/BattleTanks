@@ -703,7 +703,6 @@ public class GameState {
                     System.out.println();
                     return true;
                 }
-
             if ((bullet.bulletRec.intersects(obstacle.obstacleRec) && obstacle.isImpact())) {
                 coord = obstacle.obstacleRec.y / 91 * 47 + obstacle.obstacleRec.x / 85;
                 switch (obstacle.getObstacleName()) {
