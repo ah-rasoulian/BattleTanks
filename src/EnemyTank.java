@@ -4,7 +4,7 @@ import java.util.ArrayList;
 /**
  * @author AmirHosseinRasulian & MohammadHasanRashidi
  */
-public abstract class EnemyTank extends Tank {
+public class EnemyTank extends Tank {
     protected Point enemyLocation;
     protected ArrayList<Bullet> bullets;
     protected long startTime;
@@ -22,7 +22,7 @@ public abstract class EnemyTank extends Tank {
     public ArrayList<Bullet> getBullets() {
         return bullets;
     }
-    public abstract boolean isEnemyDead();
+
     protected int checkArea(Point location) {
         int area = 1;
         if (location.y >= 720 && location.y <= 1440)

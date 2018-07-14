@@ -465,16 +465,6 @@ public class GameFrame extends JFrame {
                             }
                     }
                 }
-                //
-            if (GameState.isMultiPlay() && GameState.getClient() != null)
-            {
-                for ( int i = 0 ; i < state.getEnemyTanks().size() ; i ++)
-                {
-                    if (state.getEnemyTanks().get(i).isEnemyDead())
-                        state.getEnemyTanks().remove(i);
-                    i --;
-                }
-            }
                 //drawing the enemyTanks
             Iterator<EnemyTank> iterator = state.getEnemyTanks().iterator();
                 while (iterator.hasNext())
