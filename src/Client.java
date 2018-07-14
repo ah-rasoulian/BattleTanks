@@ -24,23 +24,23 @@ public class Client implements Runnable
     public Client (){
         multiplayDatas = new MultiplayDatas();
         friendMultiPlayDatas = new MultiplayDatas();
-//        Handler handler = new Handler();
+        Handler handler = new Handler();
         clientConnected = false;
-//        frame = new JFrame("Connection");
-//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        frame.setVisible(true);
-//        frame.setLocationRelativeTo(null);
-//        JPanel panel = new JPanel();
-//        frame.setContentPane(panel);
-//        panel.setLayout(new GridLayout(2,1));
-//        textField = new JTextField();
-//        textField.addActionListener(handler);
-//
-//        JLabel label = new JLabel("Enter the Host IP" , SwingConstants.CENTER);
-//
-//        panel.add(label);
-//        panel.add(textField);
-//        frame.pack();
+        frame = new JFrame("Connection");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+        frame.setLocationRelativeTo(null);
+        JPanel panel = new JPanel();
+        frame.setContentPane(panel);
+        panel.setLayout(new GridLayout(2,1));
+        textField = new JTextField();
+        textField.addActionListener(handler);
+
+        JLabel label = new JLabel("Enter the Host IP" , SwingConstants.CENTER);
+
+        panel.add(label);
+        panel.add(textField);
+        frame.pack();
     }
 
     @Override

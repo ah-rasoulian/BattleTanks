@@ -18,7 +18,7 @@ public class GameState {
 
     public static MyTank myTank;
     public static FriendTank friendTank;
-    private   ArrayList<EnemyTank> enemyTanks;
+    public static ArrayList<EnemyTank> enemyTanks;
 
     public boolean gameOver;
     public boolean winning;
@@ -141,7 +141,6 @@ public class GameState {
                 SoundPlayer.playSound("agree");
                 SoundPlayer.getStartUp().close();
                 client = new Client();
-                ThreadPool.execute(client);
                 multiPlay = true;
             }
             if (menuKeyENTER && menuChooserPlace == 7) {

@@ -110,10 +110,10 @@ public class EnemyMovingTank extends EnemyTank {
         }
         else {
             obstacleLocation = GameState.getClient().friendMultiPlayDatas.getEnemysLocations().get(tankNumber);
-            obstacleRec = new Rectangle(obstacleLocation.x , obstacleLocation.y , 90 , 90);
             if (obstacleLocation == null) {
-                obstacleLocation = new Point();
+                obstacleLocation = new Point(4000,4000);
             }
+            obstacleRec = new Rectangle(obstacleLocation.x , obstacleLocation.y , 90 , 90);
 //            obstacleLocation = new Point(500,500);
         }
     }
