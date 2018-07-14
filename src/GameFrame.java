@@ -442,26 +442,27 @@ public class GameFrame extends JFrame {
                 //drawing the friend tank
                 if(GameState.isMultiPlay())
                 {
-                    if (state.getFriendTank() != null && state.getFriendTank().affineTransform != null) {
-                        tankGunAffineTransform = state.getFriendTank().affineTransform;
-                        if (state.getFriendTank().isTanksGun1Online()) {
-                            if (state.getFriendTank().getHeavyGunLevel() == 0) {
-                                g2d.drawImage(tanksGun, tankGunAffineTransform, null);
-                            }
-                            else if (state.getFriendTank().getHeavyGunLevel() == 1) {
-                                tankGunAffineTransform.translate(-5, -14);
-                                g2d.drawImage(tanksGunUpgrade1, tankGunAffineTransform, null);
-                            }
-                            else{
-                                tankGunAffineTransform.translate(-5, -19);
-                                g2d.drawImage(tanksGunUpgrade2, tankGunAffineTransform, null);}
-                        } else {
-                            if (state.getFriendTank().getMachineGunLevel() == 0) {
-                                g2d.drawImage(tanksGun2, tankGunAffineTransform, null);
-                            }
-                            else {
-                                tankGunAffineTransform.translate(0, -19);
-                                g2d.drawImage(tanksGun2upgrade, tankGunAffineTransform, null);
+                    if (state.getFriendTank() != null ) {
+                        g2d.drawImage(tank, state.getFriendTank().getObstacleLocation().x, state.getFriendTank().getObstacleLocation().y, null);
+                        if (state.getFriendTank().affineTransform != null) {
+                            tankGunAffineTransform = state.getFriendTank().affineTransform;
+                            if (state.getFriendTank().isTanksGun1Online()) {
+                                if (state.getFriendTank().getHeavyGunLevel() == 0) {
+                                    g2d.drawImage(tanksGun, tankGunAffineTransform, null);
+                                } else if (state.getFriendTank().getHeavyGunLevel() == 1) {
+                                    tankGunAffineTransform.translate(-5, -14);
+                                    g2d.drawImage(tanksGunUpgrade1, tankGunAffineTransform, null);
+                                } else {
+                                    tankGunAffineTransform.translate(-5, -19);
+                                    g2d.drawImage(tanksGunUpgrade2, tankGunAffineTransform, null);
+                                }
+                            } else {
+                                if (state.getFriendTank().getMachineGunLevel() == 0) {
+                                    g2d.drawImage(tanksGun2, tankGunAffineTransform, null);
+                                } else {
+                                    tankGunAffineTransform.translate(0, -19);
+                                    g2d.drawImage(tanksGun2upgrade, tankGunAffineTransform, null);
+                                }
                             }
                         }
                     }
