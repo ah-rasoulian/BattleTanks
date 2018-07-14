@@ -10,7 +10,6 @@ public class EnemyMovingTank2 extends EnemyTank {
     private char direction;
     private int directionChoosed;
     private Random randomGenerator;
-    private boolean enemyDead;
 
     public EnemyMovingTank2(int locationX, int locationY, double rotationRequired, Point enemyLocation, int prize , int tankNumber) {
         super(locationX, locationY, rotationRequired, enemyLocation, 400, 80, 80, prize , tankNumber);
@@ -18,7 +17,6 @@ public class EnemyMovingTank2 extends EnemyTank {
         direction = 'R';
         directionChoosed = 0;
         randomGenerator = new Random();
-        enemyDead = false;
     }
 
     public void updateEnemyLocation(Point enemyLocation1) {
@@ -100,12 +98,7 @@ public class EnemyMovingTank2 extends EnemyTank {
             obstacleLocation = GameState.getClient().friendMultiPlayDatas.getEnemysLocations().get(tankNumber);
 //            obstacleLocation = new Point(500,500);
             if (obstacleLocation == null)
-                enemyDead = true;
+                GameState.enemyTanks.remove(this);
         }
-    }
-
-    @Override
-    public boolean isEnemyDead() {
-        return enemyDead;
     }
 }
