@@ -446,35 +446,6 @@ public class GameFrame extends JFrame {
                         g2d.drawImage(tank, state.getFriendTank().getObstacleLocation().x, state.getFriendTank().getObstacleLocation().y, null);
                         g2d.drawImage(tanksGun, state.friendTank.getAffineTransform(), null);
                     }
-                    if (GameState.getServer() != null){
-                        AffineTransform bulletAffineTransform;
-                        for (Bullet b :
-                                GameState.getServer().friendMultiPlayDatas.getMyBullets()) {
-                            b.update();
-                            bulletAffineTransform = new AffineTransform();
-                            bulletAffineTransform.translate(b.getX(), b.getY());
-                            bulletAffineTransform.rotate(b.getRotationRequired());
-                            if (b instanceof HeavyBullet)
-                                g2d.drawImage(heavyBullet, bulletAffineTransform, null);
-                            if (b instanceof LightBullet)
-                                g2d.drawImage(lightBullet, bulletAffineTransform, null);
-                        }
-                    }
-                    else {
-                        AffineTransform bulletAffineTransform;
-                        for (Bullet b :
-                                GameState.getClient().friendMultiPlayDatas.getMyBullets()) {
-                            b.update();
-                            bulletAffineTransform = new AffineTransform();
-                            bulletAffineTransform.translate(b.getX(), b.getY());
-                            bulletAffineTransform.rotate(b.getRotationRequired());
-                            if (b instanceof HeavyBullet) {
-                                g2d.drawImage(heavyBullet, bulletAffineTransform, null);
-                            }
-                            if (b instanceof LightBullet)
-                                g2d.drawImage(lightBullet, bulletAffineTransform, null);
-                        }
-                    }
                 }
                 //drawing the enemyTanks
             Iterator<EnemyTank> iterator = state.getEnemyTanks().iterator();
@@ -550,6 +521,45 @@ public class GameFrame extends JFrame {
                     }
                 }
 
+                //drawing friend bullet
+            if (GameState.isMultiPlay())
+            {
+                if (GameState.getServer() != null){
+
+                    for (int i = 0; i < GameState.getServer().friendMultiPlayDatas.getMyBullets().size() ; i++) {
+                        if (GameState.getServer().friendMultiPlayDatas.getMyBullets().get(i).getX() > GAME_WIDTH * 3 || GameState.getServer().friendMultiPlayDatas.getMyBullets().get(i).getX() < 0 || state.getBullets().get(i).getY() < 0 || GameState.getServer().friendMultiPlayDatas.getMyBullets().get(i).getY() > GAME_HEIGHT * 3 || state.bulletCollision(GameState.getServer().friendMultiPlayDatas.getMyBullets().get(i), state.getFriendTank()))
+                            state.getBullets().remove(i);
+                    }
+
+                    AffineTransform bulletAffineTransform2;
+                    for (Bullet b :
+                            GameState.getServer().friendMultiPlayDatas.getMyBullets()) {
+                        b.update();
+                        bulletAffineTransform2 = new AffineTransform();
+                        bulletAffineTransform2.translate(b.getX(), b.getY());
+                        bulletAffineTransform2.rotate(b.getRotationRequired());
+                        if (b instanceof HeavyBullet)
+                            g2d.drawImage(heavyBullet, bulletAffineTransform2, null);
+                        if (b instanceof LightBullet)
+                            g2d.drawImage(lightBullet, bulletAffineTransform2, null);
+                    }
+                }
+                else {
+                    AffineTransform bulletAffineTransform2;
+                    for (Bullet b :
+                            GameState.getClient().friendMultiPlayDatas.getMyBullets()) {
+                        b.update();
+                        bulletAffineTransform2 = new AffineTransform();
+                        bulletAffineTransform2.translate(b.getX(), b.getY());
+                        bulletAffineTransform2.rotate(b.getRotationRequired());
+                        if (b instanceof HeavyBullet) {
+                            g2d.drawImage(heavyBullet, bulletAffineTransform2, null);
+                        }
+                        if (b instanceof LightBullet)
+                            g2d.drawImage(lightBullet, bulletAffineTransform2, null);
+                    }
+                }
+            }
                 //drawing the game info line number of Bullets
                 g2d.drawImage(numOfHeavyBullet, numOfBullLocX + 3, numOfBullLocY + 30, null);
                 g2d.drawImage(numOfMachinGun, numOfBullLocX + 7, numOfBullLocY + 85, null);

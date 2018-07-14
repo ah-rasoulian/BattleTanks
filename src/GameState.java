@@ -696,6 +696,14 @@ public class GameState {
 
                 return true;
             }
+            if (multiPlay)
+                if ((bullet.bulletRec.intersects(friendTank.obstacleRec)) && !shoter.equals(friendTank)) {
+                     if (bullet instanceof LightBullet) friendTank.decreaseHealth(10);
+                    if (bullet instanceof HeavyBullet) friendTank.decreaseHealth(100);
+                    System.out.println();
+                    return true;
+                }
+
             if ((bullet.bulletRec.intersects(obstacle.obstacleRec) && obstacle.isImpact())) {
                 coord = obstacle.obstacleRec.y / 91 * 47 + obstacle.obstacleRec.x / 85;
                 switch (obstacle.getObstacleName()) {

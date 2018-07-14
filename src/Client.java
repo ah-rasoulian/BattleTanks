@@ -13,7 +13,7 @@ public class Client implements Runnable
     private JFrame frame;
     private JTextField textField;
     private boolean clientConnected ;
-    private String hostIP = "192.168.84.1" ;
+    private String hostIP = "192.168.222.1" ;
 
     private ObjectOutputStream out;
     private ObjectInputStream in;
