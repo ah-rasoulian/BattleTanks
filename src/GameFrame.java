@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * The window on which the rendering is performed.
@@ -417,11 +418,11 @@ public class GameFrame extends JFrame {
                 tankGunAffineTransform.translate(tankCenterX, tankCenterY);
                 tankGunAffineTransform.rotate(rotationRequired);
                 if (state.isTanksGun1Online()) {
-                    if (state.getHeavyGunLevel() == 0) {
+                    if (state.getMyTank().getHeavyGunLevel() == 0) {
                         tankGunAffineTransform.translate(-30, -31);
                         g2d.drawImage(tanksGun, tankGunAffineTransform, null);
                     }
-                    else if (state.getHeavyGunLevel() == 1) {
+                    else if (state.getMyTank().getHeavyGunLevel() == 1) {
                         tankGunAffineTransform.translate(-35, -45);
                         g2d.drawImage(tanksGunUpgrade1, tankGunAffineTransform, null);
                     }
@@ -429,7 +430,7 @@ public class GameFrame extends JFrame {
                         tankGunAffineTransform.translate(-35, -50);
                         g2d.drawImage(tanksGunUpgrade2, tankGunAffineTransform, null);}
                 } else {
-                    if (state.getMachineGunLevel() == 0) {
+                    if (state.getMyTank().getMachineGunLevel() == 0) {
                         tankGunAffineTransform.translate(-30, -31);
                         g2d.drawImage(tanksGun2, tankGunAffineTransform, null);
                     }
@@ -476,9 +477,10 @@ public class GameFrame extends JFrame {
                     }
                 }
                 //drawing the enemyTanks
-
-                for (EnemyTank enemyTank :
-                        state.getEnemyTanks()) {
+            Iterator<EnemyTank> iterator = state.getEnemyTanks().iterator();
+                while (iterator.hasNext())
+                {
+                    EnemyTank enemyTank = iterator.next();
                     if (enemyTank instanceof EnemyFixedTank) {
                         ((EnemyFixedTank) enemyTank).updateEnemyLocation(state.getMyTank().getObstacleLocation());
                         g2d.drawImage(enemyFixedTank, enemyTank.getObstacleLocation().x, enemyTank.getObstacleLocation().y, null);

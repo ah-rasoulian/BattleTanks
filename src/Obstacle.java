@@ -22,16 +22,8 @@ public class Obstacle {
         return obstacleLocation;
     }
 
-    public void setObstacleLocation(Point obstacleLocation) {
-        this.obstacleLocation = obstacleLocation;
-    }
-
     public Rectangle getObstacleRec() {
         return obstacleRec;
-    }
-
-    public void setObstacleRec(Rectangle obstacleRec) {
-        this.obstacleRec = obstacleRec;
     }
 
     public boolean isImpact() {

@@ -13,7 +13,7 @@ public class Client implements Runnable
     private JFrame frame;
     private JTextField textField;
     private boolean clientConnected ;
-    private String hostIP ;
+    private String hostIP = "192.168.84.1" ;
 
     private ObjectOutputStream out;
     private ObjectInputStream in;
@@ -43,29 +43,18 @@ public class Client implements Runnable
 //        frame.pack();
     }
 
-    public boolean isClientConnected() {
-        return clientConnected;
-    }
-
-    public void updateDatas (){
-        if (!server.isClosed()) {
-            try {
-                out.writeObject(multiplayDatas);
-                friendMultiPlayDatas = (MultiplayDatas) in.readObject();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
-        }
-    }
     @Override
     public void run() {
         try {
-            server = new Socket(hostIP , 1397);
-            if (!server.isClosed())
-                clientConnected = true ;
-            GameState.menuIsFinished = true;
+            while (!clientConnected) {
+                server = new Socket(hostIP, 1397);
+                if (server.isConnected()) {
+                    clientConnected = true;
+                    GameState.menuIsFinished = true;
+                    System.out.println("conected to" + server.getInetAddress());
+                }
+            }
+            System.out.println("exiting while");
              out = new ObjectOutputStream(server.getOutputStream());
              in = new ObjectInputStream(server.getInputStream());
              while (true){
@@ -92,6 +81,7 @@ public class Client implements Runnable
                 hostIP = textField.getText();
                 frame.setVisible(false);
                 frame = null;
+                ThreadPool.execute(GameState.getClient());
             }
         }
     }

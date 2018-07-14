@@ -47,9 +47,6 @@ public class GameState {
     private boolean menuSoundFinished;
     private boolean enemysAreCreated ;
 
-    private static int heavyGunLevel;
-    private static int machineGunLevel;
-
     private static Server server;
     private static Client client;
     private static boolean multiPlay ;
@@ -62,9 +59,7 @@ public class GameState {
         server = null;
         client = null;
         //create myTank
-        heavyGunLevel = 0;
-        machineGunLevel = 0;
-        myTank = new MyTank(100, 100, 0);
+        myTank = new MyTank(10, 10, 0);
         GameFrame.obstacles.add(myTank);
         enemysAreCreated = false;
         //create enemy Tanks
@@ -180,13 +175,15 @@ public class GameState {
 
             if (!enemysAreCreated){
                 if (multiPlay) {
-                    friendTank = new FriendTank(100, 500, 0);
+                    friendTank = new FriendTank(0, 0, 0);
                     GameFrame.obstacles.add(friendTank);
+                    if (client != null)
+                        myTank.obstacleLocation.x = 100 ;
                 }
                 enemyTanks.add(new EnemyFixedTank(1100, 0, 0, myTank.getObstacleLocation(), 1 , 21));
                 enemyTanks.add(new EnemyFixedTank(3620, 300, 0, myTank.getObstacleLocation(), 0 ,22));
                 enemyTanks.add(new EnemyFixedTank(2700, 1850, 0, myTank.getObstacleLocation(), 2,23));
-//                enemyTanks.add(new EnemyMovingTank(500, 100, 0, myTank.getObstacleLocation(), 0 , 1));
+                enemyTanks.add(new EnemyMovingTank(500, 100, 0, myTank.getObstacleLocation(), 0 , 1));
                 enemyTanks.add(new EnemyMovingTank(3000, 100, 0, myTank.getObstacleLocation(), 0 , 2));
                 enemyTanks.add(new EnemyMovingTank(400, 1200, 0, myTank.getObstacleLocation(), 3,3));
                 enemyTanks.add(new EnemyMovingTank(3000, 1800, 0, myTank.getObstacleLocation(), 0, 4));
@@ -244,6 +241,7 @@ public class GameState {
 //                    server.updateDatas();
                     friendTank.setRotationRequired(server.friendMultiPlayDatas.getRotationRequired());
                     friendTank.obstacleLocation = server.friendMultiPlayDatas.getMyTankLoc() ;
+                    friendTank.obstacleRec = new Rectangle(friendTank.obstacleLocation.x , friendTank.obstacleLocation.y , 90 , 80);
                 }
                 else {
                     client.multiplayDatas.setMyTankLoc(myTank.obstacleLocation);
@@ -251,7 +249,9 @@ public class GameState {
                     client.multiplayDatas.setRotationRequired(getRotationRequired());
 //                    client.updateDatas();
                     friendTank.setRotationRequired(client.friendMultiPlayDatas.getRotationRequired());
-                    friendTank.obstacleLocation = client.friendMultiPlayDatas.getMyTankLoc() ;
+                    friendTank.obstacleLocation = client.friendMultiPlayDatas.getMyTankLoc();
+                    friendTank.obstacleRec = new Rectangle(friendTank.obstacleLocation.x , friendTank.obstacleLocation.y , 90 , 80);
+
                 }
             }
             if (keyUP && allowToMove("up", myTank)) {
@@ -288,9 +288,9 @@ public class GameState {
             if ((mouseLeftPress || mouseDragged) && shootIsValid()) {
                 if (tanksGun1Online) {
                     SoundPlayer.playSound("cannon");
-                    if (heavyGunLevel == 0)
+                    if (myTank.getHeavyGunLevel() == 0)
                         bullets.add(new HeavyBullet(this, 0.50 , 120));
-                    else if (heavyGunLevel == 1)
+                    else if (myTank.getHeavyGunLevel() == 1)
                         bullets.add(new HeavyBullet(this, 0.75 , 70));
                     else
                         bullets.add(new HeavyBullet(this, 1 , 50));
@@ -299,7 +299,7 @@ public class GameState {
                     gunIsReloaded = false;
                 } else {
                     SoundPlayer.playSound("machineGun");
-                    if (machineGunLevel == 0)
+                    if (myTank.getMachineGunLevel() == 0)
                         bullets.add(new LightBullet(this, 0.90 , 80));
                     else
                         bullets.add(new LightBullet(this, 1.10 , 60));
@@ -650,12 +650,32 @@ public class GameState {
                     myTank.setNumberOfLightBullets(myTank.getNumberOfLightBullets() + 300);
                 if (obstacle.getObstacleName().equals("upgrade")) {
                     if (tanksGun1Online)
-                        heavyGunLevel++;
+                        myTank.increaseHeavyGunLevel();
                     else
-                        machineGunLevel++;
+                        myTank.increaseMachineGunLevel();
 
                 }
                 return true;
+            }
+            if (multiPlay){
+                if (friendTank.obstacleRec.intersects(obstacle.obstacleRec) && (obstacle.getObstacleName().equals("repairFood") || obstacle.getObstacleName().equals("cannonFood") || obstacle.getObstacleName().equals("mashinGunFood") || obstacle.getObstacleName().equals("upgrade"))) {
+                    coord = obstacle.obstacleRec.y / 91 * 47 + obstacle.obstacleRec.x / 85;
+                    GameFrame.obstacles.remove(obstacle);
+                    GameFrame.map.set(coord, ' ');
+                    if (obstacle.getObstacleName().equals("repairFood")) friendTank.relief();
+                    if (obstacle.getObstacleName().equals("cannonFood"))
+                        friendTank.setNumberOfHeavyBullets(friendTank.getNumberOfHeavyBullets() + 50);
+                    if (obstacle.getObstacleName().equals("mashinGunFood"))
+                        friendTank.setNumberOfLightBullets(friendTank.getNumberOfLightBullets() + 300);
+                    if (obstacle.getObstacleName().equals("upgrade")) {
+                        if (tanksGun1Online)
+                            friendTank.increaseHeavyGunLevel();
+                        else {
+                            friendTank.increaseMachineGunLevel();
+                        }
+                    }
+                    return true;
+                }
             }
 
             if (obstacle.getObstacleRec().intersects(tank.obstacleRec)) {
@@ -694,15 +714,15 @@ public class GameState {
                 if (obstacle instanceof Tank) {
                     if (shoter.equals(myTank)) {
                         if (bullet instanceof LightBullet) {
-                            if (machineGunLevel == 0)
+                            if (myTank.getMachineGunLevel() == 0)
                                 ((Tank) obstacle).decreaseHealth(10);
                             else
                                 ((Tank) obstacle).decreaseHealth(20);
                         }
                         if (bullet instanceof HeavyBullet) {
-                            if (heavyGunLevel == 0)
+                            if (myTank.getHeavyGunLevel() == 0)
                                 ((Tank) obstacle).decreaseHealth(100);
-                            else if (heavyGunLevel == 1)
+                            else if (myTank.getHeavyGunLevel() == 1)
                                 ((Tank) obstacle).decreaseHealth(200);
                             else
                                 ((Tank) obstacle).decreaseHealth(300);
@@ -791,19 +811,4 @@ public class GameState {
     public static int getHealth() {
         return myTank.health;
     }
-
-    public static int getHeavyGunLevel() {
-        return heavyGunLevel;
-    }
-
-    public void setHeavyGunLevel(int heavyGunLevel) {
-        this.heavyGunLevel = heavyGunLevel;
-    }
-
-    public static int getMachineGunLevel() {
-        return machineGunLevel;
-    }
-
-    public void setMachineGunLevel(int machineGunLevel) {
-        this.machineGunLevel = machineGunLevel;
-    }}
+}

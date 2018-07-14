@@ -7,10 +7,32 @@ public class MyTank extends Tank {
     private Integer numberOfHeavyBullets;
     private Integer numberOfLightBullets;
 
+    private int heavyGunLevel;
+    private int machineGunLevel;
+
     public MyTank(int locationX, int locationY, double rotationRequired) {
         super(locationX, locationY, rotationRequired, 1000, 90, 80 , "myTank",0);
         numberOfHeavyBullets = 50;
         numberOfLightBullets = 300;
+
+        heavyGunLevel = 0;
+        machineGunLevel = 0;
+    }
+
+    public int getHeavyGunLevel() {
+        return heavyGunLevel;
+    }
+
+    public int getMachineGunLevel() {
+        return machineGunLevel;
+    }
+    public void increaseHeavyGunLevel ()
+    {
+        heavyGunLevel ++;
+    }
+    public void increaseMachineGunLevel ()
+    {
+        machineGunLevel ++ ;
     }
 
     public Integer getNumberOfHeavyBullets() {

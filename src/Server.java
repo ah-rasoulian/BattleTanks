@@ -16,50 +16,24 @@ public class Server implements Runnable
         serverConnected = false;
     }
     public String showIp (){
-        String systemIpAddress = "";
-//        try
-//        {
-//            URL url_name = new URL("http://bot.whatismyipaddress.com");
-//
-//            BufferedReader sc =
-//                    new BufferedReader(new InputStreamReader(url_name.openStream()));
-//
-//            // reads system IPAddress
-//            systemIpAddress = sc.readLine().trim();
-//            return systemIpAddress;
-//        }
-//        catch (Exception e)
-//        {
-//            systemIpAddress = "Cannot Execute Properly";
-//        }
-
-//            return InetAddress.getLocalHost().getHostAddress();
+        try {
+            return InetAddress.getLocalHost().getHostAddress();
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
         return "";
     }
 
-    public boolean isServerConnected() {
-        return serverConnected;
-    }
-    public void updateDatas (){
-        if (!client.isClosed()) {
-            try {
-                out.writeObject(multiplayDatas);
-                friendMultiPlayDatas = (MultiplayDatas) in.readObject();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-                System.out.println();
-                }
-        }
-    }
     @Override
     public void run() {
         try (ServerSocket serverSocket = new ServerSocket(1397)){
+            while (!serverConnected) {
                 client = serverSocket.accept();
-                if (!client.isClosed())
+                if (client.isConnected()) {
                     serverConnected = true;
-                GameState.menuIsFinished = true;
+                    GameState.menuIsFinished = true;
+                }
+            }
                 out = new ObjectOutputStream(client.getOutputStream());
                 in = new ObjectInputStream(client.getInputStream());
                 while (true){
