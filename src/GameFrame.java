@@ -531,8 +531,8 @@ public class GameFrame extends JFrame {
                 if (GameState.getServer() != null){
 
                     for (int i = 0; i < GameState.getServer().friendMultiPlayDatas.getMyBullets().size() ; i++) {
-                        if (GameState.getServer().friendMultiPlayDatas.getMyBullets().get(i).getX() > GAME_WIDTH * 3 || GameState.getServer().friendMultiPlayDatas.getMyBullets().get(i).getX() < 0 || state.getBullets().get(i).getY() < 0 || GameState.getServer().friendMultiPlayDatas.getMyBullets().get(i).getY() > GAME_HEIGHT * 3 || state.bulletCollision(GameState.getServer().friendMultiPlayDatas.getMyBullets().get(i), state.getFriendTank()))
-                            state.getBullets().remove(i);
+                        if (GameState.getServer().friendMultiPlayDatas.getMyBullets().get(i).getX() > GAME_WIDTH * 3 || GameState.getServer().friendMultiPlayDatas.getMyBullets().get(i).getX() < 0 || GameState.getServer().friendMultiPlayDatas.getMyBullets().get(i).getY() < 0 || GameState.getServer().friendMultiPlayDatas.getMyBullets().get(i).getY() > GAME_HEIGHT * 3 || state.bulletCollision(GameState.getServer().friendMultiPlayDatas.getMyBullets().get(i), state.getFriendTank()))
+                            GameState.getServer().friendMultiPlayDatas.getMyBullets().remove(i);
                     }
 
                     AffineTransform bulletAffineTransform2;
@@ -549,6 +549,12 @@ public class GameFrame extends JFrame {
                     }
                 }
                 else {
+
+                    for (int i = 0; i < GameState.getClient().friendMultiPlayDatas.getMyBullets().size() ; i++) {
+                        if (GameState.getClient().friendMultiPlayDatas.getMyBullets().get(i).getX() > GAME_WIDTH * 3 || GameState.getClient().friendMultiPlayDatas.getMyBullets().get(i).getX() < 0 || GameState.getClient().friendMultiPlayDatas.getMyBullets().get(i).getY() < 0 || GameState.getClient().friendMultiPlayDatas.getMyBullets().get(i).getY() > GAME_HEIGHT * 3 || state.bulletCollision(GameState.getClient().friendMultiPlayDatas.getMyBullets().get(i), state.getFriendTank()))
+                            GameState.getClient().friendMultiPlayDatas.getMyBullets().remove(i);
+                    }
+
                     AffineTransform bulletAffineTransform2;
                     for (Bullet b :
                             GameState.getClient().friendMultiPlayDatas.getMyBullets()) {
