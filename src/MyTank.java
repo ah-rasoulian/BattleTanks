@@ -10,8 +10,11 @@ public class MyTank extends Tank {
     private int heavyGunLevel;
     private int machineGunLevel;
 
+    private boolean tanksGun1Online;
+
     public MyTank(int locationX, int locationY, double rotationRequired) {
         super(locationX, locationY, rotationRequired, 1000, 90, 80 , "myTank",0);
+        tanksGun1Online = true;
         numberOfHeavyBullets = 50;
         numberOfLightBullets = 300;
 
@@ -63,4 +66,11 @@ public class MyTank extends Tank {
         health = 1000;
     }
 
+    public boolean isTanksGun1Online() {
+        return tanksGun1Online;
+    }
+
+    public void setTanksGun1Online(boolean tanksGun1Online) {
+        this.tanksGun1Online = tanksGun1Online;
+    }
 }

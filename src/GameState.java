@@ -40,7 +40,6 @@ public class GameState {
     private long lastShutTime;
     private Point shootingPoint;
 
-    private static boolean tanksGun1Online;
     private long lastChangeGunTime;
     private AffineTransform affineTransform;
 
@@ -94,7 +93,6 @@ public class GameState {
         bullets = new ArrayList<Bullet>();
         gunIsReloaded = true;
         //
-        tanksGun1Online = true;
         affineTransform = new AffineTransform();
         //
         menuSoundFinished = false;
@@ -232,6 +230,7 @@ public class GameState {
                     server.multiplayDatas.setMyTankLoc(myTank.obstacleLocation);
                     server.multiplayDatas.setMyBullets(bullets);
                     server.multiplayDatas.setRotationRequired(getRotationRequired());
+                    server.multiplayDatas.setMyTankGun1Online(myTank.isTanksGun1Online());
                     HashMap<Integer , Point> enemyLocations = new HashMap<>();
                     for (EnemyTank enemyTank:
                          enemyTanks) {
@@ -239,6 +238,7 @@ public class GameState {
                     }
                    server.multiplayDatas.setEnemysLocations(enemyLocations);
 //                    server.updateDatas();
+                    friendTank.setTanksGun1Online(server.friendMultiPlayDatas.isMyTankGun1Online());
                     friendTank.setRotationRequired(server.friendMultiPlayDatas.getRotationRequired());
                     friendTank.obstacleLocation = server.friendMultiPlayDatas.getMyTankLoc() ;
                     friendTank.obstacleRec = new Rectangle(friendTank.obstacleLocation.x , friendTank.obstacleLocation.y , 90 , 80);
@@ -247,7 +247,9 @@ public class GameState {
                     client.multiplayDatas.setMyTankLoc(myTank.obstacleLocation);
                     client.multiplayDatas.setMyBullets(bullets);
                     client.multiplayDatas.setRotationRequired(getRotationRequired());
+                    client.multiplayDatas.setMyTankGun1Online(myTank.isTanksGun1Online());
 //                    client.updateDatas();
+                    friendTank.setTanksGun1Online(client.friendMultiPlayDatas.isMyTankGun1Online());
                     friendTank.setRotationRequired(client.friendMultiPlayDatas.getRotationRequired());
                     friendTank.obstacleLocation = client.friendMultiPlayDatas.getMyTankLoc();
                     friendTank.obstacleRec = new Rectangle(friendTank.obstacleLocation.x , friendTank.obstacleLocation.y , 90 , 80);
@@ -286,7 +288,7 @@ public class GameState {
             }
 
             if ((mouseLeftPress || mouseDragged) && shootIsValid()) {
-                if (tanksGun1Online) {
+                if (myTank.isTanksGun1Online()) {
                     SoundPlayer.playSound("cannon");
                     if (myTank.getHeavyGunLevel() == 0)
                         bullets.add(new HeavyBullet(this, 0.50 , 120));
@@ -308,10 +310,10 @@ public class GameState {
             }
 
             if (mouseRightPress && (System.currentTimeMillis() - lastChangeGunTime >= 2000)) {
-                if (tanksGun1Online)
-                    tanksGun1Online = false;
+                if (myTank.isTanksGun1Online())
+                    myTank.setTanksGun1Online(false);
                 else
-                    tanksGun1Online = true;
+                    myTank.setTanksGun1Online(true);
                 lastChangeGunTime = System.currentTimeMillis();
             }
             //
@@ -360,24 +362,24 @@ public class GameState {
     }
 
     private boolean shootIsValid() {
-        if (tanksGun1Online && (myTank.getNumberOfHeavyBullets() == 0)) {
+        if (myTank.isTanksGun1Online() && (myTank.getNumberOfHeavyBullets() == 0)) {
             SoundPlayer.playSound("emptyGun");
             return false;
         }
-        if (!tanksGun1Online && (myTank.getNumberOfLightBullets() == 0)) {
+        if (!myTank.isTanksGun1Online() && (myTank.getNumberOfLightBullets() == 0)) {
             SoundPlayer.playSound("emptyGun");
             return false;
         }
         if (shootingPoint.x - myTank.getObstacleLocation().x > 0 && shootingPoint.x - myTank.getObstacleLocation().x < 100 && shootingPoint.y - myTank.getObstacleLocation().y > 0 && shootingPoint.y - myTank.getObstacleLocation().y < 80)
             return false;
-        if (tanksGun1Online && (System.currentTimeMillis() - lastShutTime < 2000))
+        if (myTank.isTanksGun1Online() && (System.currentTimeMillis() - lastShutTime < 2000))
             return false;
 
         return true;
     }
 
     public boolean isTanksGun1Online() {
-        return tanksGun1Online;
+        return myTank.isTanksGun1Online();
     }
 
     public MyTank getMyTank() {
@@ -649,7 +651,7 @@ public class GameState {
                 if (obstacle.getObstacleName().equals("mashinGunFood"))
                     myTank.setNumberOfLightBullets(myTank.getNumberOfLightBullets() + 300);
                 if (obstacle.getObstacleName().equals("upgrade")) {
-                    if (tanksGun1Online)
+                    if (myTank.isTanksGun1Online())
                         myTank.increaseHeavyGunLevel();
                     else
                         myTank.increaseMachineGunLevel();
@@ -668,7 +670,7 @@ public class GameState {
                     if (obstacle.getObstacleName().equals("mashinGunFood"))
                         friendTank.setNumberOfLightBullets(friendTank.getNumberOfLightBullets() + 300);
                     if (obstacle.getObstacleName().equals("upgrade")) {
-                        if (tanksGun1Online)
+                        if (myTank.isTanksGun1Online())
                             friendTank.increaseHeavyGunLevel();
                         else {
                             friendTank.increaseMachineGunLevel();

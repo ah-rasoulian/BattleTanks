@@ -9,11 +9,13 @@ public class MultiplayDatas implements Serializable
     private ArrayList<Bullet> myBullets;
     private HashMap <Integer , Point > enemysLocations ;
     private double rotationRequired ;
+    private boolean myTankGun1Online ;
     public MultiplayDatas ()
     {
         this.myTankLoc = new Point();
         myBullets = new ArrayList<>();
         enemysLocations = new HashMap<Integer, Point>();
+        myTankGun1Online = true;
     }
 
     public Point getMyTankLoc() {
@@ -46,5 +48,13 @@ public class MultiplayDatas implements Serializable
 
     public void setRotationRequired(double rotationRequired) {
         this.rotationRequired = rotationRequired;
+    }
+
+    public boolean isMyTankGun1Online() {
+        return myTankGun1Online;
+    }
+
+    public void setMyTankGun1Online(boolean myTankGun1Online) {
+        this.myTankGun1Online = myTankGun1Online;
     }
 }
