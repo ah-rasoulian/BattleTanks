@@ -442,7 +442,7 @@ public class GameFrame extends JFrame {
                 //drawing the friend tank
                 if(GameState.isMultiPlay())
                 {
-                    if (state.getFriendTank() != null) {
+                    if (state.getFriendTank() != null && state.getFriendTank().affineTransform != null) {
                         tankGunAffineTransform = state.getFriendTank().affineTransform;
                         if (state.getFriendTank().isTanksGun1Online()) {
                             if (state.getFriendTank().getHeavyGunLevel() == 0) {
