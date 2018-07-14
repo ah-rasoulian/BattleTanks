@@ -5,9 +5,10 @@ import java.awt.geom.AffineTransform;
  * @author AmirHosseinRasulian & MohammadHasanRashidi
  */
 public class EnemyFixedTank extends EnemyTank {
-
+    private boolean enemyDead ;
     public EnemyFixedTank(int locationX, int locationY, double rotationRequired, Point enemyLocation, int prize , int tankNumber) {
         super(locationX, locationY, rotationRequired, enemyLocation, 500, 120, 100, prize , tankNumber);
+        enemyDead = false;
     }
 
     public void updateEnemyLocation(Point enemyLocation) {
@@ -53,5 +54,9 @@ public class EnemyFixedTank extends EnemyTank {
             }
             startTime += 2000;
         }
+    }
+
+    public boolean isEnemyDead() {
+        return enemyDead;
     }
 }
