@@ -20,7 +20,7 @@ public class GameState {
     public static FriendTank friendTank;
     public static ArrayList<EnemyTank> enemyTanks;
 
-    public boolean gameOver;
+    public static boolean gameOver;
     public boolean winning;
 
     public static boolean menuIsFinished;
@@ -49,6 +49,8 @@ public class GameState {
     private static Server server;
     private static Client client;
     private static boolean multiPlay ;
+
+    public static double gameStateBeginTime;
 
     public GameState() {
         //
@@ -163,14 +165,12 @@ public class GameState {
             if (menuChooserPlace == 7)
                 menuYPosition = 640;
         }
-        else
-            {
 
-            }
         }
         else {
 
             if (!enemysAreCreated){
+                gameStateBeginTime = System.currentTimeMillis();
                 if (multiPlay) {
                     friendTank = new FriendTank(0, 0, 0);
                     GameFrame.obstacles.add(friendTank);
@@ -217,6 +217,7 @@ public class GameState {
                 //
                 enemysAreCreated = true;
             }
+
             if (multiPlay)
             {
                 try {
@@ -755,7 +756,7 @@ public class GameState {
         return false;
     }
 
-    public void updateObtacles() {
+    public static void updateObtacles() {
 
         if (myTank.health <= 0) {
             gameOver = true;
