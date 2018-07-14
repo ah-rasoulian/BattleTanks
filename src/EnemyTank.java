@@ -1,10 +1,11 @@
 import java.awt.*;
 import java.util.ArrayList;
 
-/**
+/** an abstract class for all enemy tanks
+ * the enemy tank may have prize than releases when is destroyed
  * @author AmirHosseinRasulian & MohammadHasanRashidi
  */
-public class EnemyTank extends Tank {
+public abstract class EnemyTank extends Tank {
     protected Point enemyLocation;
     protected ArrayList<Bullet> bullets;
     protected long startTime;

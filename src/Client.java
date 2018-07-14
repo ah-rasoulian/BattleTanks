@@ -8,6 +8,12 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+/**
+ * a class that executed the connection to a server
+ * it has frame to give the server ip
+ * and it continuesly sends and give an object that have the detail for the game
+ * @author AmirHossein Rasulian
+ */
 public class Client implements Runnable
 {
     private JFrame frame;

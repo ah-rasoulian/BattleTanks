@@ -3,6 +3,7 @@ import java.awt.geom.AffineTransform;
 import java.util.Random;
 
 /**
+ * a class to simulate the moving machine gun that has lower health than other tanks
  * @author AmirHosseinRasulian & MohammadHasanRashidi
  */
 public class EnemyMovingTank2 extends EnemyTank {

@@ -3,6 +3,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * an information class that has the detalis needed for multi play game
+ * object from this class fills and sends to another system
+ */
 public class MultiplayDatas implements Serializable
 {
     private Point myTankLoc ;

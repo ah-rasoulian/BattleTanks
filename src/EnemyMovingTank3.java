@@ -3,6 +3,8 @@ import java.awt.geom.AffineTransform;
 import java.util.Random;
 
 /**
+ * a class to simulate the moving tank from kind big tanks
+ * it has more health and faster gun than small tank
  * @author AmirHosseinRasulian & MohammadHasanRashidi
  */
 public class EnemyMovingTank3 extends EnemyTank {

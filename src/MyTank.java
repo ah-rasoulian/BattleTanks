@@ -1,4 +1,5 @@
 /**
+ * a class to simulate the players tank
  * @author AmirHosseinRasulian & MohammadHasanRashidi
  */
 

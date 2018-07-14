@@ -1,7 +1,12 @@
 
 import java.io.*;
 import java.net.*;
-
+/**
+ * a class that executed the connection to a client
+ * it waits until a client conects to it
+ * it continuesly sends and give an object that have the detail for the game
+ * @author AmirHossein Rasulian
+ */
 public class Server implements Runnable
 {
     private boolean serverConnected ;

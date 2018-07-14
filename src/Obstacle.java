@@ -1,6 +1,8 @@
 import java.awt.*;
 
 /**
+ * a class that all objects that give some spaces are from this kind
+ * it has a rectangle to simulate space that are field by object
  * @author AmirHosseinRasulian & MohammadHasanRashidi
  */
 public class Obstacle {

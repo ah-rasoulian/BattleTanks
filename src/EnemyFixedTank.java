@@ -2,6 +2,8 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 
 /**
+ * a class for simulating the fixed tanks
+ * that have heavy bullet gun and they dont move
  * @author AmirHosseinRasulian & MohammadHasanRashidi
  */
 public class EnemyFixedTank extends EnemyTank {

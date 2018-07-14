@@ -1,5 +1,9 @@
 import java.awt.geom.AffineTransform;
 
+/**
+ * a class for the freind tank in multi play game
+ * @author AmirHossein Rasulian
+ */
 public class FriendTank extends MyTank {
     private AffineTransform affineTransform;
     public FriendTank(int locationX, int locationY, double rotationRequired) {

@@ -3,6 +3,8 @@ import java.awt.geom.AffineTransform;
 import java.util.Random;
 
 /**
+ * a class for simulateing small tanks with heavy guns
+ * thease tanks has lower health than big tanks and slower gun
  * @author AmirHosseinRasulian & MohammadHasanRashidi
  */
 public class EnemyMovingTank extends EnemyTank {
