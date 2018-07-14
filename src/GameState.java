@@ -764,6 +764,24 @@ public class GameState {
         int coord;
         for (int i = 0; i < GameFrame.obstacles.size(); i++) {
             coord = GameFrame.obstacles.get(i).obstacleRec.y / 91 * 47 + GameFrame.obstacles.get(i).obstacleRec.x / 85;
+            if (multiPlay){
+                if (friendTank.obstacleRec.intersects(GameFrame.obstacles.get(i).obstacleRec) && (GameFrame.obstacles.get(i).getObstacleName().equals("repairFood") || GameFrame.obstacles.get(i).getObstacleName().equals("cannonFood") || GameFrame.obstacles.get(i).getObstacleName().equals("mashinGunFood") || GameFrame.obstacles.get(i).getObstacleName().equals("upgrade"))) {
+                    if (GameFrame.obstacles.get(i).getObstacleName().equals("repairFood")) friendTank.relief();
+                    if (GameFrame.obstacles.get(i).getObstacleName().equals("cannonFood"))
+                        friendTank.setNumberOfHeavyBullets(friendTank.getNumberOfHeavyBullets() + 50);
+                    if (GameFrame.obstacles.get(i).getObstacleName().equals("mashinGunFood"))
+                        friendTank.setNumberOfLightBullets(friendTank.getNumberOfLightBullets() + 300);
+                    if (GameFrame.obstacles.get(i).getObstacleName().equals("upgrade")) {
+                        if (myTank.isTanksGun1Online())
+                            friendTank.increaseHeavyGunLevel();
+                        else {
+                            friendTank.increaseMachineGunLevel();
+                        }
+                    }
+                    GameFrame.obstacles.remove(GameFrame.obstacles.get(i));
+                    GameFrame.map.set(coord, ' ');
+                }
+            }
             if (GameFrame.obstacles.get(i) instanceof Tank) {
                 if (((Tank) GameFrame.obstacles.get(i)).health <= 0) {
 
