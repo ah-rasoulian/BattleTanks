@@ -25,7 +25,9 @@ public class GameLoop implements Runnable {
     private GameFrame canvas;
     private GameState state;
 
+    public static boolean pause ;
     public GameLoop(GameFrame frame) {
+        pause = false ;
         canvas = frame;
     }
 
@@ -47,8 +49,10 @@ public class GameLoop implements Runnable {
             try {
                 long start = System.currentTimeMillis();
                 //
-                state.update();
-                canvas.render(state);
+                if (!pause) {
+                    state.update();
+                    canvas.render(state);
+                }
                 gameOver = state.gameOver ;
                 //
                 long delay = (1000 / FPS) - (System.currentTimeMillis() - start);
@@ -58,6 +62,8 @@ public class GameLoop implements Runnable {
                 System.out.println(ex);
             }
         }
+        if (!pause)
         canvas.render(state);
     }
+
 }

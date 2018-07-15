@@ -3,11 +3,11 @@
  u h          hhSS          p              Sc
 h  h          hh                           hh
               hh                  SS         
-  s                                          
- p           s                               
+                                             
+ p                                           
 t t t t t t t t t t t t t t t t t t t t t t  
             p         p p   t             h  
- p     s    h               t       p     h  
+ p          h               t       p     h  
        t    h               S                
         t               S   S       hhh      
          t              S   S        rh      

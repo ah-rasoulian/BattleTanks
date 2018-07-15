@@ -448,6 +448,12 @@ public class GameState {
                         menuKeyENTER = false;
                         keyEsc = true;
                         break;
+                    case KeyEvent.VK_P :
+                        if (GameLoop.pause == false)
+                            GameLoop.pause = true;
+                        else
+                            GameLoop.pause = false;
+                        break;
                 }
             }
         }
@@ -847,4 +853,5 @@ public class GameState {
     public static int getHealth() {
         return myTank.health;
     }
+
 }
