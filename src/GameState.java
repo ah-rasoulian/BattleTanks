@@ -806,6 +806,14 @@ public class GameState {
                         }
 
                     } else {
+                        if (multiPlay)
+                        {
+                            EnemyTank enemy = (EnemyTank) (GameFrame.obstacles.get(i));
+                            if (server != null)
+                                server.multiplayDatas.addEnemysDown(enemy.tankNumber);
+                            else
+                                client.multiplayDatas.addEnemysDown(enemy.tankNumber);
+                        }
                         if (GameFrame.obstacles.get(i).getPrize() == 1) {
                             GameFrame.map.set(coord, 'u');
                             enemyTanks.remove(GameFrame.obstacles.get(i));

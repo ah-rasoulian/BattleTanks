@@ -68,6 +68,14 @@ public class Client implements Runnable
                  out.writeObject(multiplayDatas);
                  out.flush();
                  out.reset();
+                 for (Integer a:
+                         friendMultiPlayDatas.getEnemysDown()) {
+                     for (EnemyTank enemyTank:
+                             GameState.enemyTanks) {
+                         if (a == enemyTank.tankNumber)
+                             enemyTank.health = 0 ;
+                     }
+                 }
              }
         } catch (UnknownHostException e) {
             e.printStackTrace();

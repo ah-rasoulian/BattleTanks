@@ -46,6 +46,14 @@ public class Server implements Runnable
                     out.flush();
                     out.reset();
                     friendMultiPlayDatas = (MultiplayDatas) in.readObject();
+                    for (Integer a:
+                         friendMultiPlayDatas.getEnemysDown()) {
+                        for (EnemyTank enemyTank:
+                             GameState.enemyTanks) {
+                            if (a == enemyTank.tankNumber)
+                                enemyTank.health = 0 ;
+                        }
+                    }
                 }
         } catch (IOException e) {
             e.printStackTrace();
